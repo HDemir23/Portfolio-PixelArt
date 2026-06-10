@@ -100,7 +100,7 @@ export default function InteractiveRoom({
         ))}
       </motion.div>
 
-      <div className="mobile-shortcuts absolute inset-x-0 bottom-3 z-40 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden">
+      <div className="mobile-shortcuts fixed inset-x-0 bottom-3 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden">
         {mobileObjects.map((object) => (
           <button
             type="button"
