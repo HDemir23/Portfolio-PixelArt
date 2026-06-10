@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #120d0b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: #0b080d;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.studio-frame {
+  width: min(100vw, calc(100vh * 2816 / 1536));
+  aspect-ratio: 2816 / 1536;
+  max-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  .studio-frame {
+    width: min(100vw, calc(100dvh * 2816 / 1536));
+    max-height: 100dvh;
+  }
+}
+
+.room-object-image {
+  opacity: 0;
+  filter: brightness(1);
+  transition:
+    opacity 180ms ease,
+    filter 180ms ease;
+}
+
+.room-object-image.is-visible {
+  opacity: 1;
+}
+
+.room-object:hover .room-object-image,
+.room-object:focus-visible .room-object-image,
+.room-object[data-focused="true"] .room-object-image {
+  opacity: 1;
+  filter: brightness(1.16) drop-shadow(0 0 16px rgba(98, 240, 140, 0.42));
+}
+
+.room-object-static .room-object-image,
+.room-object-static:hover .room-object-image,
+.room-object-static:focus-visible .room-object-image {
+  opacity: 1;
+  filter: none;
+}
+
+.object-label {
+  opacity: 0;
+  transform: translate(-50%, 0.45rem);
+  max-width: min(8rem, 38vw);
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.room-object:focus-visible .object-label,
+.room-object:hover .object-label,
+.room-object[data-focused="true"] .object-label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 768px) {
+  .studio-frame {
+    width: min(100vw, calc(58vh * 2816 / 1536));
+    max-height: 58vh;
+  }
+}
