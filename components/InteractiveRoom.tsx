@@ -108,7 +108,7 @@ export default function InteractiveRoom({
             onClick={() => onObjectSelect(object)}
             className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
           >
-            {object.label}
+            {object.mobileLabel ?? object.label}
           </button>
         ))}
       </div>

@@ -35,11 +35,13 @@ export type RoomObjectConfig = {
   hotspotOnly?: boolean;
   cue?: "top" | "right" | "bottom" | "left";
   shortcutGroup?: string;
+  mobileLabel?: string;
 };
 
 export const roomBackgroundImage = "/WB/Background.png";
 
 const layer = (filename: string) => `/WB/layers/${filename}`;
+const asset2Layer = (filename: string) => `/Assets2/layers/${filename}`;
 
 export const decorativeObjects: RoomObjectConfig[] = [];
 
@@ -80,6 +82,18 @@ export const roomObjects: RoomObjectConfig[] = [
     cue: "right"
   },
   {
+    id: "folder",
+    label: "Coming Soon",
+    image: asset2Layer("Folder.png"),
+    position: { left: 14.24, top: 22.33 },
+    targetScene: "comingSoon",
+    width: 2.84,
+    zIndex: 13,
+    zoom: { scale: 1.3, x: "17%", y: "14%" },
+    cue: "right",
+    shortcutGroup: "soon"
+  },
+  {
     id: "portfolio-screen",
     label: "Portfolio & Services",
     image: layer("PC.png"),
@@ -90,6 +104,66 @@ export const roomObjects: RoomObjectConfig[] = [
     zoom: { scale: 1.22, x: "11%", y: "4%" },
     cue: "bottom",
     shortcutGroup: "portfolio"
+  },
+  {
+    id: "ferrari",
+    label: "Coming Soon",
+    image: asset2Layer("Ferrari.png"),
+    position: { left: 69.37, top: 11.95 },
+    targetScene: "comingSoon",
+    width: 10.97,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-8%", y: "15%" },
+    cue: "bottom",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "mercedes",
+    label: "Coming Soon",
+    image: asset2Layer("Mercedes.png"),
+    position: { left: 80.4, top: 11.91 },
+    targetScene: "comingSoon",
+    width: 10.44,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-12%", y: "15%" },
+    cue: "bottom",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "aston-martin",
+    label: "Coming Soon",
+    image: asset2Layer("AstonMartin.png"),
+    position: { left: 69.16, top: 24.19 },
+    targetScene: "comingSoon",
+    width: 10.9,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-8%", y: "10%" },
+    cue: "top",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "redbull",
+    label: "Coming Soon",
+    image: asset2Layer("Redbull.png"),
+    position: { left: 80.45, top: 24.12 },
+    targetScene: "comingSoon",
+    width: 10.76,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-12%", y: "10%" },
+    cue: "top",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "printer",
+    label: "Coming Soon",
+    image: asset2Layer("Printer.png"),
+    position: { left: 69.58, top: 36.13 },
+    targetScene: "comingSoon",
+    width: 9.48,
+    zIndex: 13,
+    zoom: { scale: 1.18, x: "-8%", y: "5%" },
+    cue: "right",
+    shortcutGroup: "soon"
   },
   {
     id: "projects-note",
@@ -126,6 +200,41 @@ export const roomObjects: RoomObjectConfig[] = [
     cue: "left"
   },
   {
+    id: "red-motor",
+    label: "Coming Soon",
+    image: asset2Layer("RedMotor.png"),
+    position: { left: 80.36, top: 48.18 },
+    targetScene: "comingSoon",
+    width: 9.3,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-12%", y: "0%" },
+    cue: "left",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "red-moto-bottom",
+    label: "Coming Soon",
+    image: asset2Layer("RedMotoBottom.png"),
+    position: { left: 68.71, top: 66.8 },
+    targetScene: "comingSoon",
+    width: 8.88,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-7%", y: "-5%" },
+    cue: "bottom",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "box",
+    label: "Coming Soon",
+    image: asset2Layer("Box.png"),
+    position: { left: 66.32, top: 77.02 },
+    targetScene: "comingSoon",
+    width: 4.37,
+    zIndex: 13,
+    cue: "top",
+    shortcutGroup: "soon"
+  },
+  {
     id: "motor",
     label: "Coming Soon",
     image: layer("Motor.png"),
@@ -135,6 +244,19 @@ export const roomObjects: RoomObjectConfig[] = [
     zIndex: 12,
     cue: "top",
     shortcutGroup: "soon"
+  },
+  {
+    id: "books-shelf",
+    label: "Skills",
+    image: asset2Layer("Books.png"),
+    position: { left: 93.54, top: 48.89 },
+    targetScene: "skills",
+    width: 11.51,
+    zIndex: 13,
+    zoom: { scale: 1.2, x: "-15%", y: "0%" },
+    cue: "left",
+    shortcutGroup: "skills",
+    mobileLabel: "Skills"
   },
   {
     id: "code-sign",
@@ -147,25 +269,14 @@ export const roomObjects: RoomObjectConfig[] = [
     cue: "bottom"
   },
   {
-    id: "chair-back",
+    id: "chair",
     label: "YouTube",
-    image: layer("Koltuk1.png"),
-    position: { left: 39.42, top: 67.29 },
+    image: layer("Koltuk.png"),
+    position: { left: 39.42, top: 73.24 },
     externalUrl: "https://www.youtube.com/watch?v=X4VbdwhkE10",
     width: 16.12,
-    zIndex: 9,
-    cue: "right",
-    shortcutGroup: "youtube"
-  },
-  {
-    id: "chair-base",
-    label: "YouTube",
-    image: layer("Koltuk2.png"),
-    position: { left: 38.62, top: 91.11 },
-    externalUrl: "https://www.youtube.com/watch?v=X4VbdwhkE10",
-    width: 13.46,
     zIndex: 12,
-    cue: "top",
+    cue: "right",
     shortcutGroup: "youtube"
   },
   {
@@ -189,6 +300,39 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 3.98,
     zIndex: 12,
     cue: "left",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "home-icon",
+    label: "Coming Soon",
+    image: asset2Layer("Home.png"),
+    position: { left: 47.48, top: 97.88 },
+    targetScene: "comingSoon",
+    width: 1.35,
+    zIndex: 13,
+    cue: "top",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "menu-icon",
+    label: "Coming Soon",
+    image: asset2Layer("Menu.png"),
+    position: { left: 49.98, top: 97.88 },
+    targetScene: "comingSoon",
+    width: 1.38,
+    zIndex: 13,
+    cue: "top",
+    shortcutGroup: "soon"
+  },
+  {
+    id: "mic-icon",
+    label: "Coming Soon",
+    image: asset2Layer("Mic.png"),
+    position: { left: 52.52, top: 97.85 },
+    targetScene: "comingSoon",
+    width: 1.35,
+    zIndex: 13,
+    cue: "top",
     shortcutGroup: "soon"
   },
   {
@@ -271,15 +415,23 @@ export const projects = [
 ];
 
 export const skills = [
-  "React",
-  "Next.js",
   "TypeScript",
+  "JavaScript",
+  "Rust",
+  "Next.js",
+  "React",
   "Node.js",
   "React Native",
   "SwiftUI",
+  "Tailwind CSS",
   "Firebase",
   "MongoDB",
-  "Tailwind CSS"
+  "PostgreSQL",
+  "Supabase",
+  "REST APIs",
+  "Git",
+  "Docker",
+  "Figma"
 ];
 
 export const experience = [
