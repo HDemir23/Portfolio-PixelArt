@@ -4,6 +4,7 @@ import { AnimatePresence, motion, type Variants } from "framer-motion";
 import {
   experience,
   projects,
+  serviceDetails,
   services,
   skills,
   type Scene
@@ -36,7 +37,8 @@ const panelTitles: Record<Exclude<Scene, "room">, string> = {
   experience: "Experience",
   services: "Services",
   contact: "Contact",
-  about: "About"
+  about: "About",
+  comingSoon: "Coming Soon"
 };
 
 export default function PortfolioOverlay({
@@ -88,20 +90,61 @@ export default function PortfolioOverlay({
 function renderPanel(scene: Exclude<Scene, "room">) {
   if (scene === "projects") {
     return (
-      <div className="grid gap-4 sm:grid-cols-3">
-        {projects.map((project) => (
-          <article
-            key={project.title}
-            className="border border-ember/25 bg-black/24 p-4"
-          >
-            <h3 className="font-mono text-base font-black text-ember">
-              {project.title}
-            </h3>
-            <p className="mt-3 text-sm leading-6 text-stone-300">
-              {project.description}
-            </p>
-          </article>
-        ))}
+      <div className="space-y-7">
+        <section>
+          <h3 className="font-mono text-lg font-black uppercase tracking-[0.12em] text-ember">
+            Portfolio
+          </h3>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {projects.map((project) => (
+              <article
+                key={project.title}
+                className="flex min-h-56 flex-col border border-ember/25 bg-black/24 p-4"
+              >
+                <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.16em] text-terminal">
+                  {project.meta}
+                </p>
+                <h4 className="mt-3 font-mono text-base font-black text-ember">
+                  {project.title}
+                </h4>
+                <p className="mt-3 flex-1 text-sm leading-6 text-stone-300">
+                  {project.description}
+                </p>
+                {"href" in project && project.href ? (
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex w-fit border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
+                  >
+                    Open live
+                  </a>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h3 className="font-mono text-lg font-black uppercase tracking-[0.12em] text-ember">
+            Services
+          </h3>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {serviceDetails.map((service) => (
+              <article
+                key={service.title}
+                className="border border-ember/25 bg-black/20 px-4 py-3"
+              >
+                <h4 className="font-mono text-sm font-black text-stone-100">
+                  {service.title}
+                </h4>
+                <p className="mt-2 text-sm leading-6 text-stone-300">
+                  {service.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     );
   }
@@ -155,6 +198,17 @@ function renderPanel(scene: Exclude<Scene, "room">) {
             Start a project
           </ContactButton>
         </div>
+      </div>
+    );
+  }
+
+  if (scene === "comingSoon") {
+    return (
+      <div className="space-y-4 leading-7 text-stone-300">
+        <p>
+          This object is reserved for a future section. The interaction is wired
+          and ready, but the content will be added later.
+        </p>
       </div>
     );
   }

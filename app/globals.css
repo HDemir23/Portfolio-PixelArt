@@ -13,6 +13,7 @@
 
 html,
 body {
+  height: 100%;
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
@@ -33,16 +34,27 @@ a {
   image-rendering: crisp-edges;
 }
 
+.interactive-room {
+  height: 100vh;
+  min-height: 100vh;
+}
+
 .studio-frame {
-  width: min(100vw, calc(100vh * 2816 / 1536));
+  width: max(100vw, calc(100vh * 2816 / 1536));
+  height: max(100vh, calc(100vw * 1536 / 2816));
   aspect-ratio: 2816 / 1536;
-  max-height: 100vh;
+  max-height: none;
 }
 
 @supports (height: 100dvh) {
+  .interactive-room {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
   .studio-frame {
-    width: min(100vw, calc(100dvh * 2816 / 1536));
-    max-height: 100dvh;
+    width: max(100vw, calc(100dvh * 2816 / 1536));
+    height: max(100dvh, calc(100vw * 1536 / 2816));
   }
 }
 
@@ -62,7 +74,7 @@ a {
 .room-object:focus-visible .room-object-image,
 .room-object[data-focused="true"] .room-object-image {
   opacity: 1;
-  filter: brightness(1.16) drop-shadow(0 0 16px rgba(98, 240, 140, 0.42));
+  filter: brightness(1.16) drop-shadow(0 0 16px rgba(98, 240, 140, 0.5));
 }
 
 .room-object-static .room-object-image,
@@ -70,6 +82,19 @@ a {
 .room-object-static:focus-visible .room-object-image {
   opacity: 1;
   filter: none;
+}
+
+.room-hotspot {
+  opacity: 0;
+  border: 1px dashed rgba(117, 244, 255, 0.72);
+  background: rgba(117, 244, 255, 0.08);
+  transition: opacity 180ms ease;
+}
+
+.room-object:hover .room-hotspot,
+.room-object:focus-visible .room-hotspot,
+.room-object[data-focused="true"] .room-hotspot {
+  opacity: 1;
 }
 
 .object-label {
@@ -81,6 +106,65 @@ a {
   line-height: 1.25;
 }
 
+.click-cue {
+  position: absolute;
+  z-index: 3;
+  width: clamp(0.8rem, 1.25vw, 1.3rem);
+  height: clamp(0.8rem, 1.25vw, 1.3rem);
+  pointer-events: none;
+  filter: drop-shadow(0 0 0.45rem rgba(111, 239, 255, 0.7));
+  animation: click-cue-pulse 1.45s ease-in-out infinite;
+}
+
+.click-cue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #75f4ff;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.room-object[data-cue="top"] .click-cue {
+  left: 50%;
+  top: -1.35rem;
+  transform: translateX(-50%);
+}
+
+.room-object[data-cue="bottom"] .click-cue {
+  bottom: -1.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.room-object[data-cue="bottom"] .click-cue::before {
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+.room-object[data-cue="left"] .click-cue {
+  left: -1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.room-object[data-cue="left"] .click-cue::before {
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+
+.room-object[data-cue="right"] .click-cue {
+  right: -1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.room-object[data-cue="right"] .click-cue::before {
+  clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+.room-object:hover .click-cue,
+.room-object:focus-visible .click-cue {
+  opacity: 0;
+}
+
 .room-object:focus-visible .object-label,
 .room-object:hover .object-label,
 .room-object[data-focused="true"] .object-label {
@@ -88,9 +172,32 @@ a {
   transform: translate(-50%, 0);
 }
 
+.mobile-shortcuts {
+  scrollbar-width: none;
+}
+
+.mobile-shortcuts::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes click-cue-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
-  .studio-frame {
-    width: min(100vw, calc(58vh * 2816 / 1536));
-    max-height: 58vh;
+  .click-cue {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .object-label {
+    display: none;
   }
 }

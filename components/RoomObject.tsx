@@ -7,6 +7,7 @@ type RoomObjectProps = {
   object: RoomObjectConfig;
   onSelect?: (object: RoomObjectConfig) => void;
   isFocused?: boolean;
+  showCue?: boolean;
 };
 
 const objectVariants = {
@@ -19,10 +20,12 @@ const objectVariants = {
 export default function RoomObject({
   object,
   onSelect,
-  isFocused = false
+  isFocused = false,
+  showCue = false
 }: RoomObjectProps) {
-  const isInteractive = Boolean(object.targetScene && onSelect);
+  const isInteractive = Boolean((object.targetScene || object.externalUrl) && onSelect);
   const Tag = isInteractive ? motion.button : motion.div;
+  const hasFixedHeight = Boolean(object.height || object.hotspotOnly);
   const imageClasses = [
     "pixel-art room-object-image block w-full select-none",
     object.baseVisible ? "is-visible" : ""
@@ -37,6 +40,7 @@ export default function RoomObject({
         left: `${object.position.left}%`,
         top: `${object.position.top}%`,
         width: `${object.width}%`,
+        height: object.height ? `${object.height}%` : undefined,
         transform: "translate(-50%, -50%)",
         zIndex: object.zIndex ?? 1
       }}
@@ -47,15 +51,21 @@ export default function RoomObject({
         onClick={isInteractive ? () => onSelect?.(object) : undefined}
         className={[
           "room-object group relative block w-full focus:outline-none",
+          hasFixedHeight ? "h-full" : "",
           isInteractive ? "cursor-pointer" : "pointer-events-none",
           object.baseVisible ? "room-object-static" : ""
         ].join(" ")}
         data-focused={isFocused ? "true" : undefined}
         data-static={object.baseVisible ? "true" : undefined}
+        data-cue={object.cue ?? "top"}
         whileHover={isInteractive ? objectVariants.hover : undefined}
         whileTap={isInteractive ? objectVariants.tap : undefined}
       >
-        {object.image ? (
+        {showCue && isInteractive ? <span className="click-cue" aria-hidden="true" /> : null}
+
+        {object.hotspotOnly ? (
+          <span className="room-hotspot block h-full w-full" />
+        ) : object.image ? (
           <img
             src={object.image}
             alt=""

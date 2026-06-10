@@ -12,7 +12,8 @@ import {
 
 type InteractiveRoomProps = {
   scene: Scene;
-  onSceneChange: (scene: Scene) => void;
+  focusedObjectId: string | null;
+  onObjectSelect: (object: RoomObjectConfig) => void;
 };
 
 const roomVariants: Variants = {
@@ -34,17 +35,31 @@ const roomVariants: Variants = {
 
 export default function InteractiveRoom({
   scene,
-  onSceneChange
+  focusedObjectId,
+  onObjectSelect
 }: InteractiveRoomProps) {
-  const focusedObject = roomObjects.find((object) => object.targetScene === scene);
-  const mobileObjects = roomObjects.filter(
-    (object, index) =>
-      object.targetScene &&
-      roomObjects.findIndex((item) => item.targetScene === object.targetScene) === index
-  );
+  const focusedObject =
+    roomObjects.find((object) => object.id === focusedObjectId) ??
+    roomObjects.find((object) => object.targetScene === scene);
+  const shortcutGroups = new Set<string>();
+  const mobileObjects = roomObjects.filter((object) => {
+    if (!object.targetScene && !object.externalUrl) {
+      return false;
+    }
+
+    const shortcutKey =
+      object.shortcutGroup ?? object.externalUrl ?? object.targetScene ?? object.id;
+
+    if (shortcutGroups.has(shortcutKey)) {
+      return false;
+    }
+
+    shortcutGroups.add(shortcutKey);
+    return true;
+  });
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0">
+    <section className="interactive-room relative flex flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0">
 
       <motion.div
         className="studio-frame relative shrink-0 overflow-visible"
@@ -70,6 +85,7 @@ export default function InteractiveRoom({
             key={object.id}
             object={object}
             isFocused={focusedObject?.id === object.id}
+            showCue={scene === "room"}
           />
         ))}
 
@@ -78,26 +94,19 @@ export default function InteractiveRoom({
             key={object.id}
             object={object}
             isFocused={focusedObject?.id === object.id}
-            onSelect={(selected) => {
-              if (selected.targetScene) {
-                onSceneChange(selected.targetScene);
-              }
-            }}
+            showCue={scene === "room"}
+            onSelect={onObjectSelect}
           />
         ))}
       </motion.div>
 
-      <div className="mt-3 flex max-w-3xl flex-wrap justify-center gap-2 px-3 sm:hidden">
+      <div className="mobile-shortcuts absolute inset-x-0 bottom-3 z-40 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden">
         {mobileObjects.map((object) => (
           <button
             type="button"
             key={object.id}
-            onClick={() => {
-              if (object.targetScene) {
-                onSceneChange(object.targetScene);
-              }
-            }}
-            className="border border-ember/35 bg-black/35 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
+            onClick={() => onObjectSelect(object)}
+            className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
           >
             {object.label}
           </button>
