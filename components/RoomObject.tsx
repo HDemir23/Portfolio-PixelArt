@@ -8,6 +8,7 @@ type RoomObjectProps = {
   onSelect?: (object: RoomObjectConfig) => void;
   isFocused?: boolean;
   showCue?: boolean;
+  controlState?: "active" | "on" | "off";
 };
 
 const objectVariants = {
@@ -21,9 +22,12 @@ export default function RoomObject({
   object,
   onSelect,
   isFocused = false,
-  showCue = false
+  showCue = false,
+  controlState
 }: RoomObjectProps) {
-  const isInteractive = Boolean((object.targetScene || object.externalUrl) && onSelect);
+  const isInteractive = Boolean(
+    (object.targetScene || object.externalUrl || object.action) && onSelect
+  );
   const Tag = isInteractive ? motion.button : motion.div;
   const hasFixedHeight = Boolean(object.height || object.hotspotOnly);
   const imageClasses = [
@@ -58,6 +62,7 @@ export default function RoomObject({
         data-focused={isFocused ? "true" : undefined}
         data-static={object.baseVisible ? "true" : undefined}
         data-cue={object.cue ?? "top"}
+        data-control-state={controlState}
         whileHover={isInteractive ? objectVariants.hover : undefined}
         whileTap={isInteractive ? objectVariants.tap : undefined}
       >

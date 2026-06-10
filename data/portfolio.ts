@@ -6,6 +6,7 @@ export type Scene =
   | "services"
   | "contact"
   | "about"
+  | "menu"
   | "comingSoon";
 
 export type RoomPosition = {
@@ -27,6 +28,7 @@ export type RoomObjectConfig = {
   position: RoomPosition;
   targetScene?: Exclude<Scene, "room">;
   externalUrl?: string;
+  action?: "home" | "music";
   width: number;
   height?: number;
   zIndex?: number;
@@ -304,36 +306,39 @@ export const roomObjects: RoomObjectConfig[] = [
   },
   {
     id: "home-icon",
-    label: "Coming Soon",
+    label: "Home",
     image: asset2Layer("Home.png"),
     position: { left: 47.48, top: 97.88 },
-    targetScene: "comingSoon",
+    action: "home",
     width: 1.35,
     zIndex: 13,
     cue: "top",
-    shortcutGroup: "soon"
+    shortcutGroup: "home",
+    mobileLabel: "Home"
   },
   {
     id: "menu-icon",
-    label: "Coming Soon",
+    label: "Menu",
     image: asset2Layer("Menu.png"),
     position: { left: 49.98, top: 97.88 },
-    targetScene: "comingSoon",
+    targetScene: "menu",
     width: 1.38,
     zIndex: 13,
     cue: "top",
-    shortcutGroup: "soon"
+    shortcutGroup: "menu",
+    mobileLabel: "Menu"
   },
   {
     id: "mic-icon",
-    label: "Coming Soon",
+    label: "Music",
     image: asset2Layer("Mic.png"),
     position: { left: 52.52, top: 97.85 },
-    targetScene: "comingSoon",
+    action: "music",
     width: 1.35,
     zIndex: 13,
     cue: "top",
-    shortcutGroup: "soon"
+    shortcutGroup: "music",
+    mobileLabel: "Music"
   },
   {
     id: "mac",

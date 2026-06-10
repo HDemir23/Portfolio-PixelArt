@@ -10,9 +10,12 @@ import {
   type Scene
 } from "@/data/portfolio";
 
+type PanelScene = Exclude<Scene, "room">;
+
 type PortfolioOverlayProps = {
   scene: Scene;
   onBack: () => void;
+  onNavigate: (scene: PanelScene) => void;
 };
 
 const overlayVariants: Variants = {
@@ -31,19 +34,21 @@ const overlayVariants: Variants = {
   }
 };
 
-const panelTitles: Record<Exclude<Scene, "room">, string> = {
+const panelTitles: Record<PanelScene, string> = {
   projects: "Projects",
   skills: "Skills",
   experience: "Experience",
   services: "Services",
   contact: "Contact",
   about: "About",
+  menu: "Menu",
   comingSoon: "Coming Soon"
 };
 
 export default function PortfolioOverlay({
   scene,
-  onBack
+  onBack,
+  onNavigate
 }: PortfolioOverlayProps) {
   const activeScene = scene === "room" ? null : scene;
 
@@ -79,7 +84,7 @@ export default function PortfolioOverlay({
               </button>
             </div>
 
-            {renderPanel(activeScene)}
+            {renderPanel(activeScene, onNavigate)}
           </section>
         </motion.div>
       ) : null}
@@ -87,7 +92,30 @@ export default function PortfolioOverlay({
   );
 }
 
-function renderPanel(scene: Exclude<Scene, "room">) {
+function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void) {
+  if (scene === "menu") {
+    return (
+      <div className="space-y-6">
+        <p className="max-w-2xl leading-7 text-stone-300">
+          Quick access to the main detailed views and external profiles.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <MenuButton onClick={() => onNavigate("projects")}>
+            Portfolio & Services
+          </MenuButton>
+          <MenuButton onClick={() => onNavigate("skills")}>Skills</MenuButton>
+          <MenuButton onClick={() => onNavigate("about")}>About</MenuButton>
+          <MenuButton onClick={() => onNavigate("contact")}>Contact</MenuButton>
+          <MenuLink href="https://evankara.org">Ev Ankara</MenuLink>
+          <MenuLink href="https://github.com/HDemir23">GitHub</MenuLink>
+          <MenuLink href="https://www.youtube.com/watch?v=X4VbdwhkE10">
+            YouTube
+          </MenuLink>
+        </div>
+      </div>
+    );
+  }
+
   if (scene === "projects") {
     return (
       <div className="space-y-7">
@@ -253,6 +281,43 @@ function ContactButton({
     <a
       href={href}
       className="border border-ember/45 bg-ember/12 px-4 py-3 text-center font-mono text-sm font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+    >
+      {children}
+    </a>
+  );
+}
+
+function MenuButton({
+  onClick,
+  children
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="border border-ember/45 bg-black/20 px-4 py-3 text-left font-mono text-sm font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+    >
+      {children}
+    </button>
+  );
+}
+
+function MenuLink({
+  href,
+  children
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="border border-terminal/35 bg-terminal/10 px-4 py-3 font-mono text-sm font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
     >
       {children}
     </a>

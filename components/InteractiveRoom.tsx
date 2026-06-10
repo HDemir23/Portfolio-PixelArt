@@ -13,6 +13,7 @@ import {
 type InteractiveRoomProps = {
   scene: Scene;
   focusedObjectId: string | null;
+  isMusicOn: boolean;
   onObjectSelect: (object: RoomObjectConfig) => void;
 };
 
@@ -36,6 +37,7 @@ const roomVariants: Variants = {
 export default function InteractiveRoom({
   scene,
   focusedObjectId,
+  isMusicOn,
   onObjectSelect
 }: InteractiveRoomProps) {
   const focusedObject =
@@ -43,7 +45,7 @@ export default function InteractiveRoom({
     roomObjects.find((object) => object.targetScene === scene);
   const shortcutGroups = new Set<string>();
   const mobileObjects = roomObjects.filter((object) => {
-    if (!object.targetScene && !object.externalUrl) {
+    if (!object.targetScene && !object.externalUrl && !object.action) {
       return false;
     }
 
@@ -57,6 +59,22 @@ export default function InteractiveRoom({
     shortcutGroups.add(shortcutKey);
     return true;
   });
+
+  const getControlState = (object: RoomObjectConfig) => {
+    if (object.action === "music") {
+      return isMusicOn ? "on" : "off";
+    }
+
+    if (object.action === "home" && scene === "room") {
+      return "active";
+    }
+
+    if (object.targetScene === scene) {
+      return "active";
+    }
+
+    return undefined;
+  };
 
   return (
     <section className="interactive-room relative flex flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0">
@@ -86,6 +104,7 @@ export default function InteractiveRoom({
             object={object}
             isFocused={focusedObject?.id === object.id}
             showCue={scene === "room"}
+            controlState={getControlState(object)}
           />
         ))}
 
@@ -95,6 +114,7 @@ export default function InteractiveRoom({
             object={object}
             isFocused={focusedObject?.id === object.id}
             showCue={scene === "room"}
+            controlState={getControlState(object)}
             onSelect={onObjectSelect}
           />
         ))}
@@ -108,7 +128,11 @@ export default function InteractiveRoom({
             onClick={() => onObjectSelect(object)}
             className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
           >
-            {object.mobileLabel ?? object.label}
+            {object.action === "music"
+              ? isMusicOn
+                ? "Mute"
+                : "Unmute"
+              : object.mobileLabel ?? object.label}
           </button>
         ))}
       </div>

@@ -89,6 +89,17 @@ a {
   filter: brightness(1.16) drop-shadow(0 0 16px rgba(98, 240, 140, 0.5));
 }
 
+.room-object[data-control-state="active"] .room-object-image,
+.room-object[data-control-state="on"] .room-object-image {
+  opacity: 1;
+  filter: brightness(1.32) drop-shadow(0 0 12px rgba(98, 240, 140, 0.76));
+}
+
+.room-object[data-control-state="off"] .room-object-image {
+  opacity: 0.74;
+  filter: grayscale(0.85) brightness(0.74) drop-shadow(0 0 9px rgba(233, 167, 95, 0.46));
+}
+
 .room-object-static .room-object-image,
 .room-object-static:hover .room-object-image,
 .room-object-static:focus-visible .room-object-image {
