@@ -5,6 +5,8 @@
 :root {
   color-scheme: dark;
   background: #120d0b;
+  --cursor-default: url("/cursors/terminal-dot.svg") 6 6, auto;
+  --cursor-pointer: url("/cursors/terminal-dot-active.svg") 15 8, pointer;
 }
 
 * {
@@ -212,6 +214,25 @@ a {
 
   50% {
     opacity: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  main,
+  [role="dialog"],
+  .interactive-room {
+    cursor: var(--cursor-default);
+  }
+
+  a,
+  button,
+  label,
+  summary,
+  [role="button"],
+  [tabindex]:not([tabindex="-1"]) {
+    cursor: var(--cursor-pointer);
   }
 }
 
