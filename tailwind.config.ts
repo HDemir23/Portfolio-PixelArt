@@ -16,7 +16,18 @@ const config: Config = {
         terminal: "#62f08c"
       },
       fontFamily: {
+        display: [
+          "var(--font-display)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "monospace"
+        ],
         mono: [
+          "var(--font-pixel)",
           "ui-monospace",
           "SFMono-Regular",
           "Menlo",
@@ -26,6 +37,7 @@ const config: Config = {
           "monospace"
         ],
         sans: [
+          "var(--font-body)",
           "Inter",
           "ui-sans-serif",
           "system-ui",

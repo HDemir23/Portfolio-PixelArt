@@ -124,7 +124,7 @@ function InteractiveRoom({
             }}
             aria-current={isActive ? "page" : undefined}
             className={[
-              "shrink-0 border px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] shadow-[0_10px_26px_rgba(0,0,0,0.28)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35 sm:px-4 sm:text-[0.72rem]",
+              "shrink-0 border px-3 py-2 font-mono text-[0.72rem] font-black uppercase tracking-[0.1em] shadow-[0_10px_26px_rgba(0,0,0,0.28)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35 sm:px-4 sm:text-[0.78rem]",
               isActive
                 ? "border-terminal bg-terminal text-ink"
                 : "border-ember/35 bg-black/58 text-stone-200 hover:border-terminal/55 hover:text-terminal"
@@ -156,7 +156,7 @@ function InteractiveRoom({
             }}
             aria-current={isActive ? "page" : undefined}
             className={[
-              "shrink-0 border px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35",
+              "shrink-0 border px-2.5 py-1.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.1em] shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35",
               isActive
                 ? "border-terminal bg-terminal text-ink"
                 : "border-ember/35 bg-black/55 text-stone-200 hover:border-terminal/50 hover:text-terminal"
@@ -178,7 +178,7 @@ function InteractiveRoom({
             type="button"
             key={object.id}
             onClick={() => onObjectSelect(object)}
-            className="shrink-0 border border-stone-500/35 bg-black/45 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-300 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
+            className="shrink-0 border border-stone-500/35 bg-black/45 px-2.5 py-1.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.1em] text-stone-300 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
           >
             {object.action === "music"
               ? isMusicOn

@@ -125,12 +125,12 @@ function ObjectDetailOverlay({
           >
             <div className="mb-5 flex items-start justify-between gap-3 border-b border-white/10 pb-4 sm:mb-6">
               <div className="min-w-0">
-                <p className="font-mono text-[0.68rem] font-black uppercase tracking-[0.2em] text-stone-400 sm:text-xs">
+                <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.18em] text-stone-400 sm:text-xs">
                   {modal.eyebrow}
                 </p>
                 <h2
                   id={`object-modal-${object.id}`}
-                  className="mt-2 text-2xl font-black text-stone-50 sm:text-5xl"
+                  className="mt-2 font-display text-2xl font-black text-stone-50 sm:text-5xl"
                 >
                   {modal.title}
                 </h2>
@@ -139,7 +139,7 @@ function ObjectDetailOverlay({
               <button
                 type="button"
                 onClick={onClose}
-                className="shrink-0 border border-stone-400/40 bg-black/30 px-4 py-2 font-mono text-xs font-black uppercase tracking-[0.14em] text-stone-200 transition hover:border-white hover:text-white focus:outline-none focus:ring-4 focus:ring-white/20"
+                className="shrink-0 border border-stone-400/40 bg-black/30 px-4 py-2 font-mono text-[0.78rem] font-black uppercase tracking-[0.12em] text-stone-200 transition hover:border-white hover:text-white focus:outline-none focus:ring-4 focus:ring-white/20"
               >
                 Close
               </button>

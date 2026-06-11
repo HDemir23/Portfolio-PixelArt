@@ -47,13 +47,13 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         transition={{ delay: 0.15, duration: 0.55, ease: "easeOut" }}
         className="relative mx-auto max-w-4xl text-center"
       >
-        <p className="mb-5 font-mono text-sm uppercase tracking-[0.28em] text-ember/85">
+        <p className="mb-5 font-mono text-sm font-black uppercase tracking-[0.22em] text-ember/85">
           Interactive studio
         </p>
-        <h1 className="text-balance text-5xl font-black leading-tight text-stone-50 sm:text-7xl">
+        <h1 className="text-balance font-display text-4xl font-black leading-tight text-stone-50 sm:text-7xl">
           {profile.shortName}
         </h1>
-        <h2 className="mt-5 font-mono text-xl font-semibold text-terminal sm:text-2xl">
+        <h2 className="mt-5 font-mono text-xl font-black text-terminal sm:text-2xl">
           {profile.title}
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-stone-200 sm:text-lg">

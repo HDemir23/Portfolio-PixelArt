@@ -67,7 +67,7 @@ const panelBaseShellClass =
 
 const panelShellClasses: Record<PanelScene, string> = {
   projects: "max-w-6xl border-terminal/55 bg-[#07110e]/88",
-  skills: "max-w-6xl border-terminal/50 bg-[#08130f]/88",
+  skills: "max-w-6xl border-terminal/65 bg-[#030b08]/96",
   experience: "max-w-5xl border-[#ff6b5f]/55 bg-[#160b0a]/88",
   services: "max-w-5xl border-[#f4b158]/60 bg-[#17120b]/88",
   contact: "max-w-4xl border-[#84c5ff]/60 bg-[#08101a]/88",
@@ -111,12 +111,12 @@ function PortfolioOverlay({
           >
             <div className="mb-5 flex items-start justify-between gap-3 border-b border-white/10 pb-4 sm:mb-6">
               <div className="min-w-0">
-                <p className="font-mono text-[0.68rem] font-black uppercase tracking-[0.2em] text-stone-400 sm:text-xs">
+                <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.18em] text-stone-400 sm:text-xs">
                   {panelEyebrows[activeScene]}
                 </p>
                 <h2
                   id={`portfolio-panel-${activeScene}`}
-                  className="mt-2 text-2xl font-black text-stone-50 sm:text-4xl"
+                  className="mt-2 font-display text-2xl font-black text-stone-50 sm:text-4xl"
                 >
                   {panelTitles[activeScene]}
                 </h2>
@@ -124,7 +124,7 @@ function PortfolioOverlay({
               <button
                 type="button"
                 onClick={onBack}
-                className="shrink-0 border border-ember/60 bg-black/30 px-4 py-2 font-mono text-xs font-black uppercase tracking-[0.14em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+                className="shrink-0 border border-ember/60 bg-black/30 px-4 py-2 font-mono text-[0.78rem] font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
               >
                 Back
               </button>
@@ -302,49 +302,49 @@ const skillAccentClasses: Record<
 > = {
   terminal: {
     border: "border-terminal/35",
-    panel: "bg-terminal/10",
+    panel: "bg-[#03120c]",
     text: "text-terminal",
-    soft: "border-terminal/25 bg-terminal/10",
+    soft: "border-terminal/35 bg-black/40",
     line: "border-terminal/70",
     dot: "bg-terminal shadow-[0_0_14px_rgba(98,240,140,0.65)]",
   },
   cyan: {
     border: "border-[#75f4ff]/35",
-    panel: "bg-[#75f4ff]/10",
+    panel: "bg-[#041116]",
     text: "text-[#75f4ff]",
-    soft: "border-[#75f4ff]/25 bg-[#75f4ff]/10",
+    soft: "border-[#75f4ff]/35 bg-black/40",
     line: "border-[#75f4ff]/70",
     dot: "bg-[#75f4ff] shadow-[0_0_14px_rgba(117,244,255,0.62)]",
   },
   amber: {
     border: "border-[#f4b158]/40",
-    panel: "bg-[#f4b158]/10",
+    panel: "bg-[#161006]",
     text: "text-[#f4b158]",
-    soft: "border-[#f4b158]/25 bg-[#f4b158]/10",
+    soft: "border-[#f4b158]/35 bg-black/40",
     line: "border-[#f4b158]/70",
     dot: "bg-[#f4b158] shadow-[0_0_14px_rgba(244,177,88,0.58)]",
   },
   rose: {
     border: "border-[#ff6b8a]/40",
-    panel: "bg-[#ff6b8a]/10",
+    panel: "bg-[#16070c]",
     text: "text-[#ff8aa3]",
-    soft: "border-[#ff6b8a]/25 bg-[#ff6b8a]/10",
+    soft: "border-[#ff6b8a]/35 bg-black/40",
     line: "border-[#ff6b8a]/70",
     dot: "bg-[#ff6b8a] shadow-[0_0_14px_rgba(255,107,138,0.58)]",
   },
   violet: {
     border: "border-[#b59cff]/40",
-    panel: "bg-[#b59cff]/10",
+    panel: "bg-[#100b1a]",
     text: "text-[#c7b7ff]",
-    soft: "border-[#b59cff]/25 bg-[#b59cff]/10",
+    soft: "border-[#b59cff]/35 bg-black/40",
     line: "border-[#b59cff]/70",
     dot: "bg-[#b59cff] shadow-[0_0_14px_rgba(181,156,255,0.56)]",
   },
   steel: {
     border: "border-stone-300/30",
-    panel: "bg-stone-300/10",
+    panel: "bg-[#111111]",
     text: "text-stone-200",
-    soft: "border-stone-300/20 bg-stone-200/10",
+    soft: "border-stone-300/25 bg-black/40",
     line: "border-stone-300/55",
     dot: "bg-stone-200 shadow-[0_0_14px_rgba(231,229,228,0.42)]",
   },
@@ -352,42 +352,44 @@ const skillAccentClasses: Record<
 
 function SkillsPanel() {
   return (
-    <div className="space-y-5">
-      <section className="grid gap-4 lg:grid-cols-[1.18fr_0.82fr]">
-        <div className="relative overflow-hidden border border-terminal/35 bg-black/30 p-4 sm:p-5">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-terminal/70 to-transparent" />
-          <p className="font-mono text-[0.66rem] font-black uppercase tracking-[0.18em] text-terminal">
-            Core profile
-          </p>
-          <h3 className="mt-3 max-w-3xl font-mono text-lg font-black leading-7 text-stone-50 sm:text-2xl sm:leading-9">
-            {skillProfile.title}
-          </h3>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-300 sm:text-base sm:leading-7">
-            {skillProfile.description}
-          </p>
-        </div>
+    <div className="skills-panel-matte relative isolate overflow-hidden border border-terminal/20 p-3 sm:p-4">
+      <div className="relative z-10 space-y-5">
+        <section className="grid gap-4 lg:grid-cols-[1.18fr_0.82fr]">
+          <div className="relative overflow-hidden border border-terminal/40 bg-[#020906]/95 p-4 sm:p-5">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-terminal/70 to-transparent" />
+            <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.16em] text-terminal">
+              Core profile
+            </p>
+            <h3 className="mt-3 max-w-3xl text-xl font-black leading-8 text-stone-50 sm:text-3xl sm:leading-10">
+              {skillProfile.title}
+            </h3>
+            <p className="mt-3 max-w-3xl text-base leading-7 text-stone-200 sm:text-lg sm:leading-8">
+              {skillProfile.description}
+            </p>
+          </div>
 
-        <dl className="grid grid-cols-2 gap-3">
-          {skillProfile.markers.map((marker) => (
-            <div
-              key={marker.label}
-              className="border border-white/10 bg-black/25 px-3 py-3"
-            >
-              <dt className="font-mono text-[0.6rem] font-black uppercase tracking-[0.16em] text-stone-500 sm:text-[0.64rem]">
-                {marker.label}
-              </dt>
-              <dd className="mt-2 text-sm font-black leading-5 text-stone-100 sm:text-base">
-                {marker.value}
-              </dd>
-            </div>
+          <dl className="grid grid-cols-2 gap-3">
+            {skillProfile.markers.map((marker) => (
+              <div
+                key={marker.label}
+                className="border border-white/15 bg-[#020906]/90 px-3 py-3"
+              >
+                <dt className="font-mono text-[0.68rem] font-black uppercase tracking-[0.14em] text-stone-400 sm:text-[0.72rem]">
+                  {marker.label}
+                </dt>
+                <dd className="mt-2 text-base font-black leading-6 text-stone-100 sm:text-lg">
+                  {marker.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <div className="grid gap-3 lg:grid-cols-2">
+          {skillGroups.map((group) => (
+            <SkillGroupCard key={group.title} group={group} />
           ))}
-        </dl>
-      </section>
-
-      <div className="grid gap-3 lg:grid-cols-2">
-        {skillGroups.map((group) => (
-          <SkillGroupCard key={group.title} group={group} />
-        ))}
+        </div>
       </div>
     </div>
   );
@@ -399,7 +401,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
   return (
     <article
       className={[
-        "relative flex min-h-72 flex-col overflow-hidden border bg-black/25 p-4 sm:p-5",
+        "relative flex min-h-72 flex-col overflow-hidden border p-4 shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:p-5",
         accent.border,
         accent.panel,
       ].join(" ")}
@@ -412,21 +414,21 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
             <span className={["h-2 w-2 shrink-0", accent.dot].join(" ")} />
             <p
               className={[
-                "font-mono text-[0.62rem] font-black uppercase tracking-[0.16em]",
+                "font-mono text-[0.7rem] font-black uppercase tracking-[0.14em]",
                 accent.text,
               ].join(" ")}
             >
               {group.level}
             </p>
           </div>
-          <h4 className="mt-3 font-mono text-base font-black leading-6 text-stone-50 sm:text-lg">
+          <h4 className="mt-3 font-display text-lg font-black leading-7 text-stone-50 sm:text-xl">
             {group.title}
           </h4>
         </div>
 
         <span
           className={[
-            "shrink-0 border px-2.5 py-1.5 text-right font-mono text-[0.58rem] font-black uppercase tracking-[0.12em] sm:text-[0.62rem]",
+            "shrink-0 border px-2.5 py-1.5 text-right font-mono text-[0.66rem] font-black uppercase tracking-[0.1em] sm:text-[0.7rem]",
             accent.soft,
             accent.text,
           ].join(" ")}
@@ -435,13 +437,13 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
         </span>
       </div>
 
-      <p className="mt-3 text-sm leading-6 text-stone-300">
+      <p className="mt-3 text-base leading-7 text-stone-200">
         {group.focus}
       </p>
 
       <p
         className={[
-          "mt-4 border-l-2 pl-3 font-mono text-[0.68rem] font-bold leading-5 text-stone-400",
+          "mt-4 border-l-2 pl-3 text-sm font-semibold leading-6 text-stone-300",
           accent.line,
         ].join(" ")}
       >
@@ -452,7 +454,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
         {group.items.map((skill) => (
           <li
             key={skill}
-            className="border border-white/10 bg-black/30 px-2.5 py-1.5 font-mono text-[0.68rem] font-bold text-stone-100"
+            className="border border-white/15 bg-black/55 px-3 py-2 font-mono text-[0.78rem] font-bold leading-5 text-stone-50"
           >
             {skill}
           </li>
