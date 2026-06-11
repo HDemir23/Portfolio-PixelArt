@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import InteractiveRoom from "@/components/InteractiveRoom";
+import ObjectDetailOverlay from "@/components/ObjectDetailOverlay";
 import PortfolioOverlay from "@/components/PortfolioOverlay";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import { roomObjects, type RoomObjectConfig, type Scene } from "@/data/portfolio";
@@ -12,7 +13,16 @@ export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [scene, setScene] = useState<Scene>("room");
   const [focusedObjectId, setFocusedObjectId] = useState<string | null>(null);
+  const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const { isMusicOn, startMusic, toggleMusic } = useBackgroundMusic();
+
+  const selectedObject = useMemo(
+    () =>
+      selectedObjectId
+        ? roomObjects.find((object) => object.id === selectedObjectId) ?? null
+        : null,
+    [selectedObjectId]
+  );
 
   const handleEnter = useCallback(() => {
     setHasEntered(true);
@@ -20,8 +30,14 @@ export default function Home() {
   }, [startMusic]);
 
   const handleBack = useCallback(() => {
+    setSelectedObjectId(null);
     setFocusedObjectId(null);
     setScene("room");
+  }, []);
+
+  const handleObjectDetailClose = useCallback(() => {
+    setSelectedObjectId(null);
+    setFocusedObjectId(null);
   }, []);
 
   const handleObjectSelect = useCallback((object: RoomObjectConfig) => {
@@ -32,6 +48,13 @@ export default function Home() {
 
     if (object.action === "music") {
       toggleMusic();
+      return;
+    }
+
+    if (object.modal) {
+      setSelectedObjectId(object.id);
+      setFocusedObjectId(object.id);
+      setScene("room");
       return;
     }
 
@@ -50,6 +73,7 @@ export default function Home() {
   }, [handleBack, toggleMusic]);
 
   const handleSceneNavigate = useCallback((nextScene: Exclude<Scene, "room">) => {
+    setSelectedObjectId(null);
     const nextObject = roomObjects.find((object) => object.targetScene === nextScene);
     setFocusedObjectId(nextObject?.id ?? null);
     setScene(nextScene);
@@ -81,6 +105,11 @@ export default function Home() {
             <PortfolioOverlay
               scene={scene}
               onBack={handleBack}
+              onNavigate={handleSceneNavigate}
+            />
+            <ObjectDetailOverlay
+              object={selectedObject}
+              onClose={handleObjectDetailClose}
               onNavigate={handleSceneNavigate}
             />
           </motion.section>

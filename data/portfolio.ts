@@ -20,6 +20,29 @@ export type RoomZoom = {
   y: string;
 };
 
+export type ObjectModalKind = "printer" | "computer" | "mac" | "motor";
+
+export type ObjectModalAction = {
+  label: string;
+  href?: string;
+  scene?: Exclude<Scene, "room">;
+  variant?: "primary" | "secondary";
+};
+
+export type ObjectModalConfig = {
+  kind: ObjectModalKind;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  description: string;
+  stats: Array<{
+    label: string;
+    value: string;
+  }>;
+  highlights: string[];
+  actions?: ObjectModalAction[];
+};
+
 export type RoomObjectConfig = {
   id: string;
   label: string;
@@ -38,6 +61,7 @@ export type RoomObjectConfig = {
   cue?: "top" | "right" | "bottom" | "left";
   shortcutGroup?: string;
   mobileLabel?: string;
+  modal?: ObjectModalConfig;
 };
 
 export const roomBackgroundImage = "/WB/Background.png";
@@ -94,15 +118,36 @@ export const roomObjects: RoomObjectConfig[] = [
   },
   {
     id: "portfolio-screen",
-    label: "Work",
+    label: "Computer",
     image: layer("PC.png"),
     position: { left: 14.65, top: 52.64 },
-    targetScene: "projects",
     width: 22.41,
     zIndex: 10,
     zoom: { scale: 1.22, x: "11%", y: "4%" },
     cue: "bottom",
     shortcutGroup: "portfolio",
+    modal: {
+      kind: "computer",
+      eyebrow: "Main workstation",
+      title: "Computer",
+      summary: "The main build station for portfolio work, repo reviews and live product links.",
+      description:
+        "A desktop workspace for shipping web apps, checking repositories and keeping live product demos in reach.",
+      stats: [
+        { label: "Surface", value: "Projects" },
+        { label: "Stack", value: "Next.js" },
+        { label: "Mode", value: "Ship" },
+      ],
+      highlights: [
+        "Selected web, AI and blockchain projects",
+        "Fast access to live demos and repositories",
+        "Terminal-style notes for active engineering work",
+      ],
+      actions: [
+        { label: "Open Work", scene: "projects", variant: "primary" },
+        { label: "GitHub", href: "https://github.com/HDemir23", variant: "secondary" },
+      ],
+    },
   },
   {
     id: "ferrari",
@@ -185,6 +230,33 @@ export const roomObjects: RoomObjectConfig[] = [
     position: { left: 80.36, top: 48.18 },
     width: 9.3,
     zIndex: 13,
+    zoom: { scale: 1.24, x: "-14%", y: "2%" },
+    cue: "left",
+    modal: {
+      kind: "printer",
+      eyebrow: "Prototype bay",
+      title: "3D Printer",
+      summary: "A small fabrication corner for turning product sketches into physical prototypes.",
+      description:
+        "A workshop corner for prototype notes, materials and small physical product experiments.",
+      stats: [
+        { label: "Material", value: "PLA / PETG" },
+        { label: "Layer", value: "0.2 mm" },
+        { label: "Status", value: "Ready" },
+      ],
+      highlights: [
+        "Hardware experiments and product mockups",
+        "Fast iteration space for enclosure and desk objects",
+        "Practical bridge between software ideas and physical form",
+      ],
+      actions: [
+        {
+          label: "Start Build",
+          href: "mailto:a.hakandemir23@gmail.com?subject=Prototype%20project",
+          variant: "primary",
+        },
+      ],
+    },
   },
   {
     id: "red-moto-bottom",
@@ -210,6 +282,26 @@ export const roomObjects: RoomObjectConfig[] = [
     position: { left: 82.6, top: 78.45 },
     width: 31.96,
     zIndex: 12,
+    zoom: { scale: 1.17, x: "-15%", y: "-8%" },
+    cue: "top",
+    modal: {
+      kind: "motor",
+      eyebrow: "Garage file",
+      title: "Motorcycle",
+      summary: "A personal object panel with a more kinetic garage-inspired composition.",
+      description:
+        "A garage-side personal file for travel notes, specs and the faster side of the studio.",
+      stats: [
+        { label: "Class", value: "Urban" },
+        { label: "Mood", value: "Weekend" },
+        { label: "Panel", value: "Garage" },
+      ],
+      highlights: [
+        "A wider media area for vehicle-focused imagery",
+        "Space for route notes, specs or personal story",
+        "Personal context alongside the technical portfolio",
+      ],
+    },
   },
   {
     id: "books-shelf",
@@ -294,11 +386,35 @@ export const roomObjects: RoomObjectConfig[] = [
   },
   {
     id: "mac",
-    label: "Laptop",
+    label: "Mac",
     image: layer("mac.png"),
     position: { left: 30.95, top: 53.42 },
     width: 7.56,
     zIndex: 12,
+    zoom: { scale: 1.28, x: "6%", y: "2%" },
+    cue: "bottom",
+    modal: {
+      kind: "mac",
+      eyebrow: "Portable workspace",
+      title: "Mac",
+      summary: "A focused laptop workspace for mobile builds, writing and remote development sessions.",
+      description:
+        "A lighter workspace for React Native builds, writing, documentation and async collaboration.",
+      stats: [
+        { label: "Focus", value: "Mobile" },
+        { label: "Tools", value: "Expo" },
+        { label: "Flow", value: "Remote" },
+      ],
+      highlights: [
+        "React Native, Expo and Xcode work",
+        "Notes, docs and async collaboration",
+        "Calmer workspace for writing and focused implementation",
+      ],
+      actions: [
+        { label: "Open Skills", scene: "skills", variant: "primary" },
+        { label: "Contact", scene: "contact", variant: "secondary" },
+      ],
+    },
   },
   {
     id: "coffee",

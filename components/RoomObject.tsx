@@ -27,7 +27,8 @@ function RoomObject({
   controlState
 }: RoomObjectProps) {
   const isInteractive = Boolean(
-    (object.targetScene || object.externalUrl || object.action) && onSelect
+    (object.targetScene || object.externalUrl || object.action || object.modal) &&
+      onSelect
   );
   const Tag = isInteractive ? motion.button : motion.div;
   const hasFixedHeight = Boolean(object.height || object.hotspotOnly);

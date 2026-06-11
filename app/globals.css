@@ -206,6 +206,56 @@ a {
   display: none;
 }
 
+.glass-modal-backdrop {
+  -webkit-backdrop-filter: blur(14px) saturate(112%);
+  backdrop-filter: blur(14px) saturate(112%);
+}
+
+.glass-modal-shell {
+  -webkit-backdrop-filter: blur(18px) saturate(118%);
+  backdrop-filter: blur(18px) saturate(118%);
+  scrollbar-gutter: stable;
+}
+
+.object-asset-matte::before {
+  content: "";
+  position: absolute;
+  inset: 0.5rem;
+  pointer-events: none;
+  opacity: 0.24;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.32) 0,
+      rgba(0, 0, 0, 0.32) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+}
+
+.object-preview-image {
+  filter:
+    drop-shadow(0 0.55rem 0 rgba(0, 0, 0, 0.22))
+    drop-shadow(0 0 1.15rem rgba(255, 255, 255, 0.1));
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-modal-backdrop {
+    background: rgba(5, 3, 4, 0.78) !important;
+  }
+
+  .glass-modal-shell {
+    background-color: rgba(14, 10, 10, 0.96) !important;
+  }
+}
+
 @keyframes click-cue-pulse {
   0%,
   100% {

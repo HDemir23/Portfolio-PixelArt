@@ -33,6 +33,8 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         src={roomBackgroundImage}
         alt=""
         draggable={false}
+        fetchPriority="high"
+        decoding="async"
         className="pixel-art absolute inset-0 h-full w-full select-none object-cover opacity-45"
       />
       <div className="absolute inset-0 bg-[#120d0b]/58" />

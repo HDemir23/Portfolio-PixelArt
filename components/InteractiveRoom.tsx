@@ -67,7 +67,8 @@ function InteractiveRoom({
     return undefined;
   }, [isMusicOn, scene]);
 
-  const showCue = scene === "room";
+  const isObjectFocused = Boolean(focusedObjectId);
+  const showCue = scene === "room" && !isObjectFocused;
   const focusedRenderId = focusedObject?.id;
   const roomStyle = useMemo(
     () => ({
@@ -199,7 +200,7 @@ function InteractiveRoom({
         className="studio-frame relative shrink-0 overflow-visible"
         variants={roomVariants}
         initial={false}
-        animate={scene === "room" ? "room" : "focus"}
+        animate={scene === "room" && !isObjectFocused ? "room" : "focus"}
         custom={focusedObject}
         style={roomStyle}
       >
@@ -207,6 +208,8 @@ function InteractiveRoom({
           src={roomBackgroundImage}
           alt="Pixel-art retro technology studio room"
           draggable={false}
+          fetchPriority="high"
+          decoding="async"
           className="pixel-art absolute inset-0 h-full w-full select-none object-contain"
         />
 
