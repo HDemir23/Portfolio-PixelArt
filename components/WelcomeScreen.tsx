@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { roomBackgroundImage } from "@/data/portfolio";
+import { profile, roomBackgroundImage } from "@/data/portfolio";
 
 type WelcomeScreenProps = {
   onEnter: () => void;
@@ -48,14 +48,14 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
           Interactive studio
         </p>
         <h1 className="text-balance text-5xl font-black leading-tight text-stone-50 sm:text-7xl">
-          A.Hakan Demir
+          {profile.shortName}
         </h1>
         <h2 className="mt-5 font-mono text-xl font-semibold text-terminal sm:text-2xl">
-          Full-Stack Web & Mobile Developer
+          {profile.title}
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-stone-200 sm:text-lg">
-          I build modern websites, web applications and mobile apps for
-          businesses.
+          I build web apps, mobile products, blockchain systems and AI-assisted
+          developer workflows.
         </p>
         <motion.button
           type="button"

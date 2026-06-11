@@ -1,8 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { memo, useMemo } from "react";
 import {
+  contactLinks,
   experience,
+  profile,
   projects,
   serviceDetails,
   services,
@@ -45,12 +48,16 @@ const panelTitles: Record<PanelScene, string> = {
   comingSoon: "Coming Soon"
 };
 
-export default function PortfolioOverlay({
+function PortfolioOverlay({
   scene,
   onBack,
   onNavigate
 }: PortfolioOverlayProps) {
-  const activeScene = scene === "room" ? null : scene;
+  const activeScene: PanelScene | null = scene === "room" ? null : scene;
+  const panelContent = useMemo(
+    () => (activeScene ? renderPanel(activeScene, onNavigate) : null),
+    [activeScene, onNavigate]
+  );
 
   return (
     <AnimatePresence>
@@ -84,13 +91,15 @@ export default function PortfolioOverlay({
               </button>
             </div>
 
-            {renderPanel(activeScene, onNavigate)}
+            {panelContent}
           </section>
         </motion.div>
       ) : null}
     </AnimatePresence>
   );
 }
+
+export default memo(PortfolioOverlay);
 
 function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void) {
   if (scene === "menu") {
@@ -104,10 +113,16 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
             Portfolio & Services
           </MenuButton>
           <MenuButton onClick={() => onNavigate("skills")}>Skills</MenuButton>
+          <MenuButton onClick={() => onNavigate("experience")}>
+            Experience
+          </MenuButton>
           <MenuButton onClick={() => onNavigate("about")}>About</MenuButton>
           <MenuButton onClick={() => onNavigate("contact")}>Contact</MenuButton>
+          <MenuButton onClick={() => onNavigate("services")}>Services</MenuButton>
           <MenuLink href="https://evankara.org">Ev Ankara</MenuLink>
-          <MenuLink href="https://github.com/HDemir23">GitHub</MenuLink>
+          <MenuLink href={profile.portfolio}>Portfolio</MenuLink>
+          <MenuLink href={profile.github}>GitHub</MenuLink>
+          <MenuLink href={profile.linkedin}>LinkedIn</MenuLink>
           <MenuLink href="https://www.youtube.com/watch?v=X4VbdwhkE10">
             YouTube
           </MenuLink>
@@ -123,7 +138,7 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
           <h3 className="font-mono text-lg font-black uppercase tracking-[0.12em] text-ember">
             Portfolio
           </h3>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {projects.map((project) => (
               <article
                 key={project.title}
@@ -138,15 +153,20 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
                 <p className="mt-3 flex-1 text-sm leading-6 text-stone-300">
                   {project.description}
                 </p>
-                {"href" in project && project.href ? (
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex w-fit border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
-                  >
-                    Open live
-                  </a>
+                {"links" in project && project.links?.length ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-fit border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
                 ) : null}
               </article>
             ))}
@@ -215,16 +235,36 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
     return (
       <div className="space-y-5">
         <p className="max-w-2xl leading-7 text-stone-300">
-          Ready to plan a website, application or mobile product? Use one of the
-          quick actions below to start the conversation.
+          Based in {profile.location}. I build web apps, mobile products,
+          blockchain systems and AI-integrated workflows for remote and async
+          teams.
         </p>
+        <div className="grid gap-3 text-sm text-stone-300 sm:grid-cols-3">
+          <div className="border border-ember/20 bg-black/18 px-4 py-3">
+            <span className="font-mono text-xs uppercase tracking-[0.12em] text-terminal">
+              Email
+            </span>
+            <p className="mt-1 break-all">{profile.email}</p>
+          </div>
+          <div className="border border-ember/20 bg-black/18 px-4 py-3">
+            <span className="font-mono text-xs uppercase tracking-[0.12em] text-terminal">
+              Phone
+            </span>
+            <p className="mt-1">{profile.phone}</p>
+          </div>
+          <div className="border border-ember/20 bg-black/18 px-4 py-3">
+            <span className="font-mono text-xs uppercase tracking-[0.12em] text-terminal">
+              Location
+            </span>
+            <p className="mt-1">{profile.location}</p>
+          </div>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          <ContactButton href="mailto:hello@example.com">Email</ContactButton>
-          <ContactButton href="#">WhatsApp placeholder</ContactButton>
-          <ContactButton href="#">LinkedIn placeholder</ContactButton>
-          <ContactButton href="mailto:hello@example.com?subject=New%20project%20inquiry">
-            Start a project
-          </ContactButton>
+          {contactLinks.map((link) => (
+            <ContactButton key={link.label} href={link.href}>
+              {link.label}
+            </ContactButton>
+          ))}
         </div>
       </div>
     );
@@ -243,14 +283,19 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
 
   return (
     <div className="space-y-4 leading-7 text-stone-300">
-      <p>
-        I am A.Hakan Demir, a full-stack web and mobile developer focused on
-        practical, polished digital products for businesses.
-      </p>
-      <p>
-        My work covers modern websites, web applications, mobile apps, API
-        integrations and admin dashboards with a strong frontend product focus.
-      </p>
+      {profile.summary.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+      <ul className="space-y-3 pt-2">
+        {profile.highlights.map((item) => (
+          <li
+            key={item}
+            className="border-l-2 border-terminal/70 bg-black/18 px-4 py-3 text-sm leading-6 text-stone-200"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -277,9 +322,13 @@ function ContactButton({
   href: string;
   children: React.ReactNode;
 }) {
+  const opensNewTab = href.startsWith("http");
+
   return (
     <a
       href={href}
+      target={opensNewTab ? "_blank" : undefined}
+      rel={opensNewTab ? "noreferrer" : undefined}
       className="border border-ember/45 bg-ember/12 px-4 py-3 text-center font-mono text-sm font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
     >
       {children}

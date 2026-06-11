@@ -397,83 +397,262 @@ export const roomObjects: RoomObjectConfig[] = [
   }
 ];
 
+export const profile = {
+  name: "Ahmet Hakan Demir",
+  shortName: "A.Hakan Demir",
+  title: "Software Engineer",
+  location: "Ankara, Turkey",
+  phone: "+90 507 586 56 81",
+  email: "a.hakandemir23@gmail.com",
+  github: "https://github.com/HDemir23",
+  linkedin: "https://linkedin.com/in/realhdemir",
+  portfolio: "https://hakandemir.com.tr",
+  summary: [
+    "Frontend and mobile developer with 3+ years of experience across React Native and Next.js, building web apps, mobile apps and blockchain products.",
+    "My strongest work so far is SuiGit, a fully decentralized version control platform built on Sui with Walrus decentralized storage and a Node.js CLI.",
+    "I also run AI-assisted multi-model workflows that route Claude, GPT, Gemini and Z-Ai to different tasks with custom MCP integrations."
+  ],
+  highlights: [
+    "Taught Move programming and smart-contract workshops at 20+ universities across Turkey.",
+    "Comfortable with remote teams, async communication and cross-timezone delivery.",
+    "Prefer creating products with full ownership and control, with architecture and learning potential first.",
+    "Comfortable working solo, and still believe strongly in collaboration.",
+    "Outside work, skiing, walking, swimming, LEGO and coffee rituals help me stay mentally balanced.",
+    "Computer Programming, Hacettepe University, Ankara, 2020 - 2022.",
+    "Languages: Turkish native, English advanced."
+  ]
+};
+
+export const contactLinks = [
+  {
+    label: "Email",
+    href: `mailto:${profile.email}`
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/905075865681"
+  },
+  {
+    label: "LinkedIn",
+    href: profile.linkedin
+  },
+  {
+    label: "GitHub",
+    href: profile.github
+  },
+  {
+    label: "Portfolio",
+    href: profile.portfolio
+  },
+  {
+    label: "Start a project",
+    href: `mailto:${profile.email}?subject=New%20project%20inquiry`
+  }
+];
+
 export const projects = [
+  {
+    title: "SuiGit",
+    description:
+      "First working fully decentralized version control system built on Sui. Repositories, commits, branches and pull requests live on-chain with Walrus decentralized blob storage, wallet-based access control, incremental commits and a TypeScript CLI.",
+    meta: "Flagship project | Move (Sui), TypeScript, Walrus, Node.js CLI",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/SuigitVol2" }]
+  },
+  {
+    title: "AION",
+    description:
+      "Multi-LLM consensus platform where Claude, GPT, Gemini and DeepSeek-style models analyze tasks, debate with weighted voting and record verified decisions on-chain with real-time WebSocket updates.",
+    meta: "AI + blockchain | Next.js, Fastify, Solidity, PostgreSQL, Monad",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/AION-_" }]
+  },
+  {
+    title: "XEngine",
+    description:
+      "Rust-powered DeFi copilot API server with x402 micropayment-gated endpoints, DEX arbitrage scanning across Monad sources and on-chain payment verification.",
+    meta: "Real-time API | Rust, axum, tokio, Monad, x402",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/XEngine" }]
+  },
+  {
+    title: "xSwap V2",
+    description:
+      "Full-stack DEX aggregator on Monad with Kuru DEX token swapping, wallet connect, portfolio views, transaction history, AI-assisted price optimization and a Sakura-themed UI.",
+    meta: "Exchange aggregator | Next.js, Express, Prisma, PostgreSQL, Monad",
+    links: [
+      { label: "Live", href: "https://x-swap-v2-one.vercel.app" },
+      { label: "GitHub", href: "https://github.com/HDemir23/xSwapV2" }
+    ]
+  },
+  {
+    title: "XClaw",
+    description:
+      "Full-stack exchange aggregator with wallet connect, portfolio view, transaction history and AI-powered swap routing.",
+    meta: "Exchange aggregator | Next.js, Express, Prisma, PostgreSQL, Tailwind",
+    links: [{ label: "Live", href: "https://x-claw-v1.vercel.app/" }]
+  },
+  {
+    title: "Clawaifu",
+    description:
+      "Retro-futuristic 3D web experience with character rendering, bone-level animation control, morph targets, x402 micropayment-gated poses and an eDEX-style terminal intro.",
+    meta: "3D interactive web | Next.js, React Three Fiber, Three.js, x402",
+    links: [
+      { label: "Live", href: "https://clawaifu.vercel.app" },
+      { label: "GitHub", href: "https://github.com/HDemir23/Clawaifu" }
+    ]
+  },
+  {
+    title: "Trade Analyzer",
+    description:
+      "Telegram AI trading bot with GPT-4 and Claude analysis, RSI/MACD/ATR indicators, position tracking, backtesting, price alerts and multi-provider market data.",
+    meta: "AI trading bot | TypeScript, grammY, PostgreSQL, Redis, Docker",
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/HDemir23/Telegram-Trade-Analyzer-Advicer"
+      }
+    ]
+  },
+  {
+    title: "Slip.Io",
+    description:
+      "Kitchen display system for a local coffee shop with real-time order tracking and management workflows for baristas.",
+    meta: "Operations app | Next.js, SQL",
+    links: [{ label: "Live", href: "https://slip-io.vercel.app/" }]
+  },
+  {
+    title: "Port6",
+    description:
+      "On-chain lottery protocol on Monad blockchain with verifiable randomness, prize pools and refund logic.",
+    meta: "On-chain lottery | Solidity, React, Monad Testnet",
+    links: [
+      { label: "Live", href: "https://monad-hackhathon2-frontend.vercel.app/" }
+    ]
+  },
+  {
+    title: "Arbitrage",
+    description:
+      "Move smart-contract module for detecting triangular arbitrage opportunities across Cetus CLMM pools with real-time pool data, fee-aware calculations and configurable thresholds.",
+    meta: "Smart contract | Move, Sui",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/Arbitrage" }]
+  },
+  {
+    title: "Sui Move Workshop",
+    description:
+      "Teaching materials, exercises and code examples used for Move and Sui smart-contract workshops at 20+ Turkish universities including Hacettepe, ITU, IYTE and Dokuz Eylul.",
+    meta: "Education | Move, Sui, TypeScript",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/Sui-Workshop" }]
+  },
   {
     title: "Ev Ankara",
     description:
       "A live real-estate focused website with clean property discovery, fast navigation and a business-ready public presence.",
-    href: "https://evankara.org",
-    meta: "Live website"
-  },
-  {
-    title: "Business Website Systems",
-    description:
-      "Responsive company websites with conversion-focused sections, contact flows, SEO-ready structure and maintainable content areas.",
-    meta: "Web design + frontend"
-  },
-  {
-    title: "Product Interfaces",
-    description:
-      "Admin panels, dashboards and app screens built with reusable components, API integration and practical user flows.",
-    meta: "Web apps + mobile"
+    meta: "Live website",
+    links: [{ label: "Live", href: "https://evankara.org" }]
   }
 ];
 
 export const skills = [
+  "React",
+  "Next.js",
   "TypeScript",
   "JavaScript",
-  "Rust",
-  "Next.js",
-  "React",
-  "Node.js",
-  "React Native",
-  "SwiftUI",
+  "HTML",
+  "CSS",
   "Tailwind CSS",
-  "Firebase",
+  "Three.js",
+  "React Three Fiber",
+  "Framer Motion",
+  "React Native",
+  "Expo",
+  "Reanimated",
+  "EAS Build",
+  "Swift",
+  "SwiftUI",
+  "Node.js",
+  "Express",
+  "Fastify",
+  "WebSocket",
   "MongoDB",
+  "Firebase",
   "PostgreSQL",
-  "Supabase",
-  "REST APIs",
-  "Git",
+  "Redis",
+  "Prisma",
   "Docker",
-  "Figma"
+  "Rust",
+  "axum",
+  "tokio",
+  "grammY",
+  "Zod",
+  "Move (Sui)",
+  "Solidity",
+  "Smart Contracts",
+  "Ethers.js",
+  "Foundry",
+  "Wagmi",
+  "RainbowKit",
+  "Monad",
+  "x402",
+  "OpenAI APIs",
+  "Claude APIs",
+  "Gemini APIs",
+  "OpenRouter",
+  "MCP",
+  "Data Pipelines",
+  "Turborepo",
+  "Xcode",
+  "Vercel",
+  "Railway",
+  "Postman",
+  "Git",
+  "CI/CD"
 ];
 
 export const experience = [
-  "Freelance full-stack developer",
-  "Web & mobile application development",
-  "Frontend-focused product development",
-  "API integration and admin dashboards"
+  "Frontend & Mobile Developer, Chick Studio - Remote, 01/2023 - 01/2026. Shipped cross-platform apps and responsive dashboards, built REST API and WebSocket integrations, and implemented JWT + Firebase auth and payment pipelines.",
+  "Freelance Mobile Developer, Contract - Remote, 01/2024 - 01/2026. Delivered pre-release mobile apps under NDA with React Native, Expo, Swift, SwiftUI, Firebase, Railway and REST APIs in agile sprint teams.",
+  "Technical Instructor - Move Language, Turkey, 08/2024 - 01/2026. Ran hands-on Move, Sui and smart-contract workshops at 20+ universities including Hacettepe, ITU, IYTE and Dokuz Eylul.",
+  "AI-Augmented Development - Production multi-model workflows that route Claude, GPT, Gemini and Z-Ai by task with custom MCP integrations and local development tooling."
 ];
 
 export const services = [
-  "Business websites",
   "Web applications",
   "Mobile applications",
+  "Blockchain products",
+  "AI-integrated products",
   "Admin panels",
   "Backend APIs",
-  "Landing pages"
+  "Business websites",
+  "Technical workshops"
 ];
 
 export const serviceDetails = [
   {
-    title: "Websites",
-    description:
-      "Fast landing pages and multi-page business sites with responsive layouts, clear contact paths and polished visuals."
-  },
-  {
     title: "Web Apps",
     description:
-      "Dashboards, admin panels, data views and internal tools with clean React/Next.js component architecture."
+      "React and Next.js applications, dashboards, admin panels and internal tools with reusable components and clean API integration."
   },
   {
     title: "Mobile Apps",
     description:
-      "React Native and SwiftUI product screens, prototypes and production-ready app flows."
+      "React Native, Expo, Swift and SwiftUI product flows with custom animation, offline-first storage and production-oriented build setup."
   },
   {
-    title: "Backend & APIs",
+    title: "AI Systems",
     description:
-      "Practical backend endpoints, integrations, database flows and service wiring for complete products."
+      "LLM-powered workflows using OpenAI, Claude and Gemini APIs, multi-model routing, MCP integrations and data pipelines."
+  },
+  {
+    title: "Blockchain",
+    description:
+      "Sui Move and Solidity products with smart contracts, wallet-connected frontends, on-chain verification and decentralized storage."
+  },
+  {
+    title: "Backend APIs",
+    description:
+      "Node.js, Fastify, Express, Rust and database-backed services with PostgreSQL, MongoDB, Redis, Prisma, Docker and Railway/Vercel deployments."
+  },
+  {
+    title: "Business Websites",
+    description:
+      "Fast public websites and landing pages with responsive layouts, clear contact paths and business-ready presentation."
   }
 ];

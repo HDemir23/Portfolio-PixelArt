@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import InteractiveRoom from "@/components/InteractiveRoom";
 import PortfolioOverlay from "@/components/PortfolioOverlay";
 import WelcomeScreen from "@/components/WelcomeScreen";
@@ -14,7 +14,17 @@ export default function Home() {
   const [focusedObjectId, setFocusedObjectId] = useState<string | null>(null);
   const { isMusicOn, startMusic, toggleMusic } = useBackgroundMusic();
 
-  const handleObjectSelect = (object: RoomObjectConfig) => {
+  const handleEnter = useCallback(() => {
+    setHasEntered(true);
+    void startMusic();
+  }, [startMusic]);
+
+  const handleBack = useCallback(() => {
+    setFocusedObjectId(null);
+    setScene("room");
+  }, []);
+
+  const handleObjectSelect = useCallback((object: RoomObjectConfig) => {
     if (object.action === "home") {
       handleBack();
       return;
@@ -37,18 +47,13 @@ export default function Home() {
       setFocusedObjectId(object.id);
       setScene(object.targetScene);
     }
-  };
+  }, [handleBack, toggleMusic]);
 
-  const handleBack = () => {
-    setFocusedObjectId(null);
-    setScene("room");
-  };
-
-  const handleSceneNavigate = (nextScene: Exclude<Scene, "room">) => {
+  const handleSceneNavigate = useCallback((nextScene: Exclude<Scene, "room">) => {
     const nextObject = roomObjects.find((object) => object.targetScene === nextScene);
     setFocusedObjectId(nextObject?.id ?? null);
     setScene(nextScene);
-  };
+  }, []);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#120d0b] text-stone-100">
@@ -56,10 +61,7 @@ export default function Home() {
         {!hasEntered ? (
           <WelcomeScreen
             key="welcome"
-            onEnter={() => {
-              setHasEntered(true);
-              void startMusic();
-            }}
+            onEnter={handleEnter}
           />
         ) : (
           <motion.section

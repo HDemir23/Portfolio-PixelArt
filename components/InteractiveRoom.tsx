@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { memo, useCallback, useMemo } from "react";
 import RoomObject from "@/components/RoomObject";
 import {
   decorativeObjects,
@@ -16,6 +17,8 @@ type InteractiveRoomProps = {
   isMusicOn: boolean;
   onObjectSelect: (object: RoomObjectConfig) => void;
 };
+
+type ControlState = "active" | "on" | "off";
 
 const roomVariants: Variants = {
   room: {
@@ -34,33 +37,40 @@ const roomVariants: Variants = {
   })
 };
 
-export default function InteractiveRoom({
+function InteractiveRoom({
   scene,
   focusedObjectId,
   isMusicOn,
   onObjectSelect
 }: InteractiveRoomProps) {
-  const focusedObject =
-    roomObjects.find((object) => object.id === focusedObjectId) ??
-    roomObjects.find((object) => object.targetScene === scene);
-  const shortcutGroups = new Set<string>();
-  const mobileObjects = roomObjects.filter((object) => {
-    if (!object.targetScene && !object.externalUrl && !object.action) {
-      return false;
-    }
+  const focusedObject = useMemo(
+    () =>
+      roomObjects.find((object) => object.id === focusedObjectId) ??
+      roomObjects.find((object) => object.targetScene === scene),
+    [focusedObjectId, scene]
+  );
 
-    const shortcutKey =
-      object.shortcutGroup ?? object.externalUrl ?? object.targetScene ?? object.id;
+  const mobileObjects = useMemo(() => {
+    const shortcutGroups = new Set<string>();
 
-    if (shortcutGroups.has(shortcutKey)) {
-      return false;
-    }
+    return roomObjects.filter((object) => {
+      if (!object.targetScene && !object.externalUrl && !object.action) {
+        return false;
+      }
 
-    shortcutGroups.add(shortcutKey);
-    return true;
-  });
+      const shortcutKey =
+        object.shortcutGroup ?? object.externalUrl ?? object.targetScene ?? object.id;
 
-  const getControlState = (object: RoomObjectConfig) => {
+      if (shortcutGroups.has(shortcutKey)) {
+        return false;
+      }
+
+      shortcutGroups.add(shortcutKey);
+      return true;
+    });
+  }, []);
+
+  const getControlState = useCallback((object: RoomObjectConfig): ControlState | undefined => {
     if (object.action === "music") {
       return isMusicOn ? "on" : "off";
     }
@@ -74,7 +84,66 @@ export default function InteractiveRoom({
     }
 
     return undefined;
-  };
+  }, [isMusicOn, scene]);
+
+  const showCue = scene === "room";
+  const focusedRenderId = focusedObject?.id;
+  const roomStyle = useMemo(
+    () => ({
+      transformOrigin: focusedObject
+        ? `${focusedObject.position.left}% ${focusedObject.position.top}%`
+        : "50% 55%"
+    }),
+    [focusedObject]
+  );
+
+  const decorativeObjectNodes = useMemo(
+    () =>
+      decorativeObjects.map((object) => (
+        <RoomObject
+          key={object.id}
+          object={object}
+          isFocused={focusedRenderId === object.id}
+          showCue={showCue}
+          controlState={getControlState(object)}
+        />
+      )),
+    [focusedRenderId, getControlState, showCue]
+  );
+
+  const roomObjectNodes = useMemo(
+    () =>
+      roomObjects.map((object) => (
+        <RoomObject
+          key={object.id}
+          object={object}
+          isFocused={focusedRenderId === object.id}
+          showCue={showCue}
+          controlState={getControlState(object)}
+          onSelect={onObjectSelect}
+        />
+      )),
+    [focusedRenderId, getControlState, onObjectSelect, showCue]
+  );
+
+  const mobileShortcutNodes = useMemo(
+    () =>
+      mobileObjects.map((object) => (
+        <button
+          type="button"
+          key={object.id}
+          onClick={() => onObjectSelect(object)}
+          className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
+        >
+          {object.action === "music"
+            ? isMusicOn
+              ? "Mute"
+              : "Unmute"
+            : object.mobileLabel ?? object.label}
+        </button>
+      )),
+    [isMusicOn, mobileObjects, onObjectSelect]
+  );
 
   return (
     <section className="interactive-room relative flex flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0">
@@ -85,11 +154,7 @@ export default function InteractiveRoom({
         initial={false}
         animate={scene === "room" ? "room" : "focus"}
         custom={focusedObject}
-        style={{
-          transformOrigin: focusedObject
-            ? `${focusedObject.position.left}% ${focusedObject.position.top}%`
-            : "50% 55%"
-        }}
+        style={roomStyle}
       >
         <img
           src={roomBackgroundImage}
@@ -98,44 +163,16 @@ export default function InteractiveRoom({
           className="pixel-art absolute inset-0 h-full w-full select-none object-contain"
         />
 
-        {decorativeObjects.map((object) => (
-          <RoomObject
-            key={object.id}
-            object={object}
-            isFocused={focusedObject?.id === object.id}
-            showCue={scene === "room"}
-            controlState={getControlState(object)}
-          />
-        ))}
+        {decorativeObjectNodes}
 
-        {roomObjects.map((object) => (
-          <RoomObject
-            key={object.id}
-            object={object}
-            isFocused={focusedObject?.id === object.id}
-            showCue={scene === "room"}
-            controlState={getControlState(object)}
-            onSelect={onObjectSelect}
-          />
-        ))}
+        {roomObjectNodes}
       </motion.div>
 
       <div className="mobile-shortcuts fixed inset-x-0 bottom-3 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden">
-        {mobileObjects.map((object) => (
-          <button
-            type="button"
-            key={object.id}
-            onClick={() => onObjectSelect(object)}
-            className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
-          >
-            {object.action === "music"
-              ? isMusicOn
-                ? "Mute"
-                : "Unmute"
-              : object.mobileLabel ?? object.label}
-          </button>
-        ))}
+        {mobileShortcutNodes}
       </div>
     </section>
   );
 }
+
+export default memo(InteractiveRoom);

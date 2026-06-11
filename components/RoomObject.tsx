@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { memo, useCallback, useMemo, type CSSProperties } from "react";
 import type { RoomObjectConfig } from "@/data/portfolio";
 
 type RoomObjectProps = {
@@ -18,7 +19,7 @@ const objectVariants = {
   tap: { scale: 0.985 }
 };
 
-export default function RoomObject({
+function RoomObject({
   object,
   onSelect,
   isFocused = false,
@@ -30,35 +31,57 @@ export default function RoomObject({
   );
   const Tag = isInteractive ? motion.button : motion.div;
   const hasFixedHeight = Boolean(object.height || object.hotspotOnly);
-  const imageClasses = [
-    "pixel-art room-object-image block w-full select-none",
-    object.baseVisible ? "is-visible" : ""
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const containerStyle = useMemo<CSSProperties>(
+    () => ({
+      left: `${object.position.left}%`,
+      top: `${object.position.top}%`,
+      width: `${object.width}%`,
+      height: object.height ? `${object.height}%` : undefined,
+      transform: "translate(-50%, -50%)",
+      zIndex: object.zIndex ?? 1
+    }),
+    [
+      object.height,
+      object.position.left,
+      object.position.top,
+      object.width,
+      object.zIndex
+    ]
+  );
+  const imageClasses = useMemo(
+    () =>
+      [
+        "pixel-art room-object-image block w-full select-none",
+        object.baseVisible ? "is-visible" : ""
+      ]
+        .filter(Boolean)
+        .join(" "),
+    [object.baseVisible]
+  );
+  const objectClasses = useMemo(
+    () =>
+      [
+        "room-object group relative block w-full focus:outline-none",
+        hasFixedHeight ? "h-full" : "",
+        isInteractive ? "cursor-pointer" : "pointer-events-none",
+        object.baseVisible ? "room-object-static" : ""
+      ].join(" "),
+    [hasFixedHeight, isInteractive, object.baseVisible]
+  );
+  const handleSelect = useCallback(() => {
+    onSelect?.(object);
+  }, [object, onSelect]);
 
   return (
     <div
       className="absolute"
-      style={{
-        left: `${object.position.left}%`,
-        top: `${object.position.top}%`,
-        width: `${object.width}%`,
-        height: object.height ? `${object.height}%` : undefined,
-        transform: "translate(-50%, -50%)",
-        zIndex: object.zIndex ?? 1
-      }}
+      style={containerStyle}
     >
       <Tag
         type={isInteractive ? "button" : undefined}
         aria-label={isInteractive ? `Open ${object.label}` : object.label}
-        onClick={isInteractive ? () => onSelect?.(object) : undefined}
-        className={[
-          "room-object group relative block w-full focus:outline-none",
-          hasFixedHeight ? "h-full" : "",
-          isInteractive ? "cursor-pointer" : "pointer-events-none",
-          object.baseVisible ? "room-object-static" : ""
-        ].join(" ")}
+        onClick={isInteractive ? handleSelect : undefined}
+        className={objectClasses}
         data-focused={isFocused ? "true" : undefined}
         data-static={object.baseVisible ? "true" : undefined}
         data-cue={object.cue ?? "top"}
@@ -92,3 +115,5 @@ export default function RoomObject({
     </div>
   );
 }
+
+export default memo(RoomObject);
