@@ -38,14 +38,14 @@ const overlayVariants: Variants = {
 };
 
 const panelTitles: Record<PanelScene, string> = {
-  projects: "Projects",
+  projects: "Selected Work",
   skills: "Skills",
   experience: "Experience",
   services: "Services",
   contact: "Contact",
   about: "About",
   menu: "Menu",
-  comingSoon: "Coming Soon"
+  comingSoon: "Reserved"
 };
 
 function PortfolioOverlay({
@@ -72,7 +72,7 @@ function PortfolioOverlay({
         >
           <div className="absolute inset-0 bg-black/42 backdrop-blur-[2px]" onClick={onBack} />
 
-          <section className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto border-2 border-[#5a3324] bg-panel/95 p-5 text-stone-100 shadow-pixel sm:p-7">
+          <section className="relative max-h-[88vh] w-full max-w-5xl overflow-y-auto border-2 border-[#5a3324] bg-panel/95 p-5 text-stone-100 shadow-pixel sm:p-7">
             <div className="mb-6 flex items-start justify-between gap-4 border-b border-ember/25 pb-4">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.24em] text-terminal">
@@ -110,7 +110,7 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <MenuButton onClick={() => onNavigate("projects")}>
-            Portfolio & Services
+            Selected Work
           </MenuButton>
           <MenuButton onClick={() => onNavigate("skills")}>Skills</MenuButton>
           <MenuButton onClick={() => onNavigate("experience")}>
@@ -136,13 +136,17 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
       <div className="space-y-7">
         <section>
           <h3 className="font-mono text-lg font-black uppercase tracking-[0.12em] text-ember">
-            Portfolio
+            Selected Work
           </h3>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-300">
+            Public and technical projects across Web3, AI tooling, mobile,
+            backend systems and business products.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {projects.map((project) => (
               <article
                 key={project.title}
-                className="flex min-h-56 flex-col border border-ember/25 bg-black/24 p-4"
+                className="flex min-h-52 flex-col border border-ember/25 bg-black/24 p-4"
               >
                 <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.16em] text-terminal">
                   {project.meta}
@@ -172,27 +176,6 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
             ))}
           </div>
         </section>
-
-        <section>
-          <h3 className="font-mono text-lg font-black uppercase tracking-[0.12em] text-ember">
-            Services
-          </h3>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {serviceDetails.map((service) => (
-              <article
-                key={service.title}
-                className="border border-ember/25 bg-black/20 px-4 py-3"
-              >
-                <h4 className="font-mono text-sm font-black text-stone-100">
-                  {service.title}
-                </h4>
-                <p className="mt-2 text-sm leading-6 text-stone-300">
-                  {service.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
       </div>
     );
   }
@@ -218,15 +201,32 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
 
   if (scene === "services") {
     return (
-      <div className="grid gap-3 sm:grid-cols-2">
-        {services.map((service) => (
-          <div
-            key={service}
-            className="border border-ember/25 bg-black/20 px-4 py-3 font-mono text-sm font-bold text-stone-100"
-          >
-            {service}
-          </div>
-        ))}
+      <div className="space-y-5">
+        <div className="flex flex-wrap gap-2">
+          {services.map((service) => (
+            <span
+              key={service}
+              className="border border-terminal/30 bg-terminal/10 px-3 py-2 font-mono text-xs font-bold uppercase tracking-[0.12em] text-stone-100"
+            >
+              {service}
+            </span>
+          ))}
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {serviceDetails.map((service) => (
+            <article
+              key={service.title}
+              className="border border-ember/25 bg-black/20 px-4 py-3"
+            >
+              <h4 className="font-mono text-sm font-black text-stone-100">
+                {service.title}
+              </h4>
+              <p className="mt-2 text-sm leading-6 text-stone-300">
+                {service.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </div>
     );
   }
@@ -274,8 +274,7 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
     return (
       <div className="space-y-4 leading-7 text-stone-300">
         <p>
-          This object is reserved for a future section. The interaction is wired
-          and ready, but the content will be added later.
+          This section is reserved for a later update.
         </p>
       </div>
     );

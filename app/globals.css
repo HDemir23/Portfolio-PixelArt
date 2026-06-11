@@ -198,7 +198,7 @@ a {
 }
 
 .mobile-shortcuts {
-  z-index: 50;
+  z-index: 40;
   scrollbar-width: none;
 }
 

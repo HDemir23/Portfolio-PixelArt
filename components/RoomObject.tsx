@@ -89,7 +89,9 @@ function RoomObject({
         whileHover={isInteractive ? objectVariants.hover : undefined}
         whileTap={isInteractive ? objectVariants.tap : undefined}
       >
-        {showCue && isInteractive ? <span className="click-cue" aria-hidden="true" /> : null}
+        {showCue && isInteractive && object.cue ? (
+          <span className="click-cue" aria-hidden="true" />
+        ) : null}
 
         {object.hotspotOnly ? (
           <span className="room-hotspot block h-full w-full" />

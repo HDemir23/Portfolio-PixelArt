@@ -5,6 +5,7 @@ import { memo, useCallback, useMemo } from "react";
 import RoomObject from "@/components/RoomObject";
 import {
   decorativeObjects,
+  primaryRoomShortcuts,
   roomBackgroundImage,
   roomObjects,
   type RoomObjectConfig,
@@ -49,26 +50,6 @@ function InteractiveRoom({
       roomObjects.find((object) => object.targetScene === scene),
     [focusedObjectId, scene]
   );
-
-  const mobileObjects = useMemo(() => {
-    const shortcutGroups = new Set<string>();
-
-    return roomObjects.filter((object) => {
-      if (!object.targetScene && !object.externalUrl && !object.action) {
-        return false;
-      }
-
-      const shortcutKey =
-        object.shortcutGroup ?? object.externalUrl ?? object.targetScene ?? object.id;
-
-      if (shortcutGroups.has(shortcutKey)) {
-        return false;
-      }
-
-      shortcutGroups.add(shortcutKey);
-      return true;
-    });
-  }, []);
 
   const getControlState = useCallback((object: RoomObjectConfig): ControlState | undefined => {
     if (object.action === "music") {
@@ -126,23 +107,89 @@ function InteractiveRoom({
     [focusedRenderId, getControlState, onObjectSelect, showCue]
   );
 
+  const primaryShortcutNodes = useMemo(
+    () =>
+      primaryRoomShortcuts.map((shortcut) => {
+        const targetObject = roomObjects.find(
+          (object) => object.targetScene === shortcut.scene
+        );
+        const isActive = scene === shortcut.scene;
+
+        return (
+          <button
+            type="button"
+            key={shortcut.scene}
+            onClick={() => {
+              if (targetObject) {
+                onObjectSelect(targetObject);
+              }
+            }}
+            aria-current={isActive ? "page" : undefined}
+            className={[
+              "shrink-0 border px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] shadow-[0_10px_26px_rgba(0,0,0,0.28)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35 sm:px-4 sm:text-[0.72rem]",
+              isActive
+                ? "border-terminal bg-terminal text-ink"
+                : "border-ember/35 bg-black/58 text-stone-200 hover:border-terminal/55 hover:text-terminal"
+            ].join(" ")}
+          >
+            {shortcut.label}
+          </button>
+        );
+      }),
+    [onObjectSelect, scene]
+  );
+
   const mobileShortcutNodes = useMemo(
     () =>
-      mobileObjects.map((object) => (
-        <button
-          type="button"
-          key={object.id}
-          onClick={() => onObjectSelect(object)}
-          className="shrink-0 border border-ember/35 bg-black/55 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-200 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
-        >
-          {object.action === "music"
-            ? isMusicOn
-              ? "Mute"
-              : "Unmute"
-            : object.mobileLabel ?? object.label}
-        </button>
-      )),
-    [isMusicOn, mobileObjects, onObjectSelect]
+      primaryRoomShortcuts.map((shortcut) => {
+        const targetObject = roomObjects.find(
+          (object) => object.targetScene === shortcut.scene
+        );
+        const isActive = scene === shortcut.scene;
+
+        return (
+          <button
+            type="button"
+            key={shortcut.scene}
+            onClick={() => {
+              if (targetObject) {
+                onObjectSelect(targetObject);
+              }
+            }}
+            aria-current={isActive ? "page" : undefined}
+            className={[
+              "shrink-0 border px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35",
+              isActive
+                ? "border-terminal bg-terminal text-ink"
+                : "border-ember/35 bg-black/55 text-stone-200 hover:border-terminal/50 hover:text-terminal"
+            ].join(" ")}
+          >
+            {shortcut.label}
+          </button>
+        );
+      }),
+    [onObjectSelect, scene]
+  );
+
+  const utilityShortcutNodes = useMemo(
+    () =>
+      roomObjects
+        .filter((object) => object.action === "music" || object.targetScene === "menu")
+        .map((object) => (
+          <button
+            type="button"
+            key={object.id}
+            onClick={() => onObjectSelect(object)}
+            className="shrink-0 border border-stone-500/35 bg-black/45 px-2.5 py-1 font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-stone-300 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
+          >
+            {object.action === "music"
+              ? isMusicOn
+                ? "Mute"
+                : "Unmute"
+              : object.mobileLabel ?? object.label}
+          </button>
+        )),
+    [isMusicOn, onObjectSelect]
   );
 
   return (
@@ -168,8 +215,18 @@ function InteractiveRoom({
         {roomObjectNodes}
       </motion.div>
 
-      <div className="mobile-shortcuts fixed inset-x-0 bottom-3 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden">
+      <div className="fixed inset-x-0 top-4 z-40 hidden justify-center px-4 sm:flex">
+        <div className="flex max-w-full gap-2 overflow-x-auto border border-ember/20 bg-black/42 p-2 shadow-[0_14px_36px_rgba(0,0,0,0.28)] backdrop-blur-md">
+          {primaryShortcutNodes}
+        </div>
+      </div>
+
+      <div
+        className="mobile-shortcuts fixed inset-x-0 flex gap-2 overflow-x-auto px-3 pb-1 sm:hidden"
+        style={{ top: "calc(env(safe-area-inset-top) + 0.75rem)" }}
+      >
         {mobileShortcutNodes}
+        {utilityShortcutNodes}
       </div>
     </section>
   );
