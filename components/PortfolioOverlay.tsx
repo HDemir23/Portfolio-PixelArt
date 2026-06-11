@@ -8,7 +8,12 @@ import { profile } from "@/data/portfolio/profile";
 import { projects } from "@/data/portfolio/projects";
 import { serviceDetails } from "@/data/portfolio/service-details";
 import { services } from "@/data/portfolio/services";
-import { skills } from "@/data/portfolio/skills";
+import {
+  skillGroups,
+  skillProfile,
+  type SkillAccent,
+  type SkillGroup,
+} from "@/data/portfolio/skills";
 import type { Scene } from "@/data/portfolio/types";
 
 type PanelScene = Exclude<Scene, "room">;
@@ -62,7 +67,7 @@ const panelBaseShellClass =
 
 const panelShellClasses: Record<PanelScene, string> = {
   projects: "max-w-6xl border-terminal/55 bg-[#07110e]/88",
-  skills: "max-w-5xl border-terminal/50 bg-[#08130f]/88",
+  skills: "max-w-6xl border-terminal/50 bg-[#08130f]/88",
   experience: "max-w-5xl border-[#ff6b5f]/55 bg-[#160b0a]/88",
   services: "max-w-5xl border-[#f4b158]/60 bg-[#17120b]/88",
   contact: "max-w-4xl border-[#84c5ff]/60 bg-[#08101a]/88",
@@ -284,20 +289,176 @@ function ProjectLinks({ project }: { project: (typeof projects)[number] }) {
   );
 }
 
+const skillAccentClasses: Record<
+  SkillAccent,
+  {
+    border: string;
+    panel: string;
+    text: string;
+    soft: string;
+    line: string;
+    dot: string;
+  }
+> = {
+  terminal: {
+    border: "border-terminal/35",
+    panel: "bg-terminal/10",
+    text: "text-terminal",
+    soft: "border-terminal/25 bg-terminal/10",
+    line: "border-terminal/70",
+    dot: "bg-terminal shadow-[0_0_14px_rgba(98,240,140,0.65)]",
+  },
+  cyan: {
+    border: "border-[#75f4ff]/35",
+    panel: "bg-[#75f4ff]/10",
+    text: "text-[#75f4ff]",
+    soft: "border-[#75f4ff]/25 bg-[#75f4ff]/10",
+    line: "border-[#75f4ff]/70",
+    dot: "bg-[#75f4ff] shadow-[0_0_14px_rgba(117,244,255,0.62)]",
+  },
+  amber: {
+    border: "border-[#f4b158]/40",
+    panel: "bg-[#f4b158]/10",
+    text: "text-[#f4b158]",
+    soft: "border-[#f4b158]/25 bg-[#f4b158]/10",
+    line: "border-[#f4b158]/70",
+    dot: "bg-[#f4b158] shadow-[0_0_14px_rgba(244,177,88,0.58)]",
+  },
+  rose: {
+    border: "border-[#ff6b8a]/40",
+    panel: "bg-[#ff6b8a]/10",
+    text: "text-[#ff8aa3]",
+    soft: "border-[#ff6b8a]/25 bg-[#ff6b8a]/10",
+    line: "border-[#ff6b8a]/70",
+    dot: "bg-[#ff6b8a] shadow-[0_0_14px_rgba(255,107,138,0.58)]",
+  },
+  violet: {
+    border: "border-[#b59cff]/40",
+    panel: "bg-[#b59cff]/10",
+    text: "text-[#c7b7ff]",
+    soft: "border-[#b59cff]/25 bg-[#b59cff]/10",
+    line: "border-[#b59cff]/70",
+    dot: "bg-[#b59cff] shadow-[0_0_14px_rgba(181,156,255,0.56)]",
+  },
+  steel: {
+    border: "border-stone-300/30",
+    panel: "bg-stone-300/10",
+    text: "text-stone-200",
+    soft: "border-stone-300/20 bg-stone-200/10",
+    line: "border-stone-300/55",
+    dot: "bg-stone-200 shadow-[0_0_14px_rgba(231,229,228,0.42)]",
+  },
+};
+
 function SkillsPanel() {
   return (
-    <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {skills.map((skill) => (
-          <span
-            key={skill}
-            className="border border-terminal/30 bg-terminal/10 px-4 py-3 font-mono text-sm font-bold text-stone-100"
-          >
-            {skill}
-          </span>
+    <div className="space-y-5">
+      <section className="grid gap-4 lg:grid-cols-[1.18fr_0.82fr]">
+        <div className="relative overflow-hidden border border-terminal/35 bg-black/30 p-4 sm:p-5">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-terminal/70 to-transparent" />
+          <p className="font-mono text-[0.66rem] font-black uppercase tracking-[0.18em] text-terminal">
+            Core profile
+          </p>
+          <h3 className="mt-3 max-w-3xl font-mono text-lg font-black leading-7 text-stone-50 sm:text-2xl sm:leading-9">
+            {skillProfile.title}
+          </h3>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-300 sm:text-base sm:leading-7">
+            {skillProfile.description}
+          </p>
+        </div>
+
+        <dl className="grid grid-cols-2 gap-3">
+          {skillProfile.markers.map((marker) => (
+            <div
+              key={marker.label}
+              className="border border-white/10 bg-black/25 px-3 py-3"
+            >
+              <dt className="font-mono text-[0.6rem] font-black uppercase tracking-[0.16em] text-stone-500 sm:text-[0.64rem]">
+                {marker.label}
+              </dt>
+              <dd className="mt-2 text-sm font-black leading-5 text-stone-100 sm:text-base">
+                {marker.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        {skillGroups.map((group) => (
+          <SkillGroupCard key={group.title} group={group} />
         ))}
       </div>
     </div>
+  );
+}
+
+function SkillGroupCard({ group }: { group: SkillGroup }) {
+  const accent = skillAccentClasses[group.accent];
+
+  return (
+    <article
+      className={[
+        "relative flex min-h-72 flex-col overflow-hidden border bg-black/25 p-4 sm:p-5",
+        accent.border,
+        accent.panel,
+      ].join(" ")}
+    >
+      <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-white/15" />
+
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className={["h-2 w-2 shrink-0", accent.dot].join(" ")} />
+            <p
+              className={[
+                "font-mono text-[0.62rem] font-black uppercase tracking-[0.16em]",
+                accent.text,
+              ].join(" ")}
+            >
+              {group.level}
+            </p>
+          </div>
+          <h4 className="mt-3 font-mono text-base font-black leading-6 text-stone-50 sm:text-lg">
+            {group.title}
+          </h4>
+        </div>
+
+        <span
+          className={[
+            "shrink-0 border px-2.5 py-1.5 text-right font-mono text-[0.58rem] font-black uppercase tracking-[0.12em] sm:text-[0.62rem]",
+            accent.soft,
+            accent.text,
+          ].join(" ")}
+        >
+          {group.items.length} tools
+        </span>
+      </div>
+
+      <p className="mt-3 text-sm leading-6 text-stone-300">
+        {group.focus}
+      </p>
+
+      <p
+        className={[
+          "mt-4 border-l-2 pl-3 font-mono text-[0.68rem] font-bold leading-5 text-stone-400",
+          accent.line,
+        ].join(" ")}
+      >
+        {group.evidence}
+      </p>
+
+      <ul className="mt-4 flex flex-wrap gap-2">
+        {group.items.map((skill) => (
+          <li
+            key={skill}
+            className="border border-white/10 bg-black/30 px-2.5 py-1.5 font-mono text-[0.68rem] font-bold text-stone-100"
+          >
+            {skill}
+          </li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
