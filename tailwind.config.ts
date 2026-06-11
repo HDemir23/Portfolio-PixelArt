@@ -16,36 +16,9 @@ const config: Config = {
         terminal: "#62f08c"
       },
       fontFamily: {
-        display: [
-          "var(--font-display)",
-          "ui-monospace",
-          "SFMono-Regular",
-          "Menlo",
-          "Monaco",
-          "Consolas",
-          "Liberation Mono",
-          "monospace"
-        ],
-        mono: [
-          "var(--font-pixel)",
-          "ui-monospace",
-          "SFMono-Regular",
-          "Menlo",
-          "Monaco",
-          "Consolas",
-          "Liberation Mono",
-          "monospace"
-        ],
-        sans: [
-          "var(--font-body)",
-          "Inter",
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "sans-serif"
-        ]
+        display: ["var(--font-display)"],
+        mono: ["var(--font-pixel)"],
+        sans: ["var(--font-body)"]
       },
       boxShadow: {
         pixel: "0 0 0 2px #3a2018, 0 18px 60px rgba(0, 0, 0, 0.45)"

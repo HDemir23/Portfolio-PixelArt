@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const pixelifySans = localFont({
+  src: "../Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
+  variable: "--font-pixelify-sans",
+  weight: "400 700",
+  style: "normal",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hakandemir.com.tr"),
@@ -55,7 +64,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${pixelifySans.variable} ${pixelifySans.className}`}>
+        {children}
+      </body>
     </html>
   );
 }

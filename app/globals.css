@@ -5,9 +5,9 @@
 :root {
   color-scheme: dark;
   background: #120d0b;
-  --font-body: "Aptos", "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-pixel: "Cascadia Mono", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", monospace;
-  --font-display: "Cascadia Mono", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", monospace;
+  --font-body: var(--font-pixelify-sans);
+  --font-pixel: var(--font-pixelify-sans);
+  --font-display: var(--font-pixelify-sans);
   --cursor-default: url("/cursors/terminal-dot.svg") 6 6, auto;
   --cursor-pointer: url("/cursors/terminal-dot-active.svg") 15 8, pointer;
 }
