@@ -1,0 +1,25 @@
+export const profile = {
+  name: "Ahmet Hakan Demir",
+  shortName: "A.Hakan Demir",
+  title: "Software Engineer",
+  location: "Ankara, Turkey",
+  phone: "+90 507 586 56 81",
+  email: "a.hakandemir23@gmail.com",
+  github: "https://github.com/HDemir23",
+  linkedin: "https://linkedin.com/in/realhdemir",
+  portfolio: "https://hakandemir.com.tr",
+  summary: [
+    "Frontend and mobile developer with 3+ years of experience across React Native and Next.js, building web apps, mobile apps and blockchain products.",
+    "My strongest work so far is SuiGit, a fully decentralized version control platform built on Sui with Walrus decentralized storage and a Node.js CLI.",
+    "I also run AI-assisted multi-model workflows that route Claude, GPT, Gemini and Z-Ai to different tasks with custom MCP integrations.",
+  ],
+  highlights: [
+    "Taught Move programming and smart-contract workshops at 20+ universities across Turkey.",
+    "Comfortable with remote teams, async communication and cross-timezone delivery.",
+    "Prefer creating products with full ownership and control, with architecture and learning potential first.",
+    "Comfortable working solo, and still believe strongly in collaboration.",
+    "Outside work, skiing, walking, swimming, LEGO and coffee rituals help me stay mentally balanced.",
+    "Computer Programming, Hacettepe University, Ankara, 2020 - 2022.",
+    "Languages: Turkish native, English advanced.",
+  ],
+};

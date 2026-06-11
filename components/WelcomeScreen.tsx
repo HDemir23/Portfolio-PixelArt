@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { profile, roomBackgroundImage } from "@/data/portfolio";
+import { profile } from "@/data/portfolio/profile";
+import { roomBackgroundImage } from "@/data/portfolio/room-background";
 
 type WelcomeScreenProps = {
   onEnter: () => void;

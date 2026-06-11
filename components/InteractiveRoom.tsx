@@ -3,14 +3,11 @@
 import { motion, type Variants } from "framer-motion";
 import { memo, useCallback, useMemo } from "react";
 import RoomObject from "@/components/RoomObject";
-import {
-  decorativeObjects,
-  primaryRoomShortcuts,
-  roomBackgroundImage,
-  roomObjects,
-  type RoomObjectConfig,
-  type Scene
-} from "@/data/portfolio";
+import { decorativeObjects } from "@/data/portfolio/decorative-objects";
+import { primaryRoomShortcuts } from "@/data/portfolio/primary-room-shortcuts";
+import { roomBackgroundImage } from "@/data/portfolio/room-background";
+import { roomObjects } from "@/data/portfolio/room-objects";
+import type { RoomObjectConfig, Scene } from "@/data/portfolio/types";
 
 type InteractiveRoomProps = {
   scene: Scene;

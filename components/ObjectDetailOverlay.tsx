@@ -8,7 +8,7 @@ import type {
   ObjectModalKind,
   RoomObjectConfig,
   Scene
-} from "@/data/portfolio";
+} from "@/data/portfolio/types";
 
 type PanelScene = Exclude<Scene, "room">;
 

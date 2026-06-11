@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { memo, useCallback, useMemo, type CSSProperties } from "react";
-import type { RoomObjectConfig } from "@/data/portfolio";
+import type { RoomObjectConfig } from "@/data/portfolio/types";
 
 type RoomObjectProps = {
   object: RoomObjectConfig;

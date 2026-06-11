@@ -6,7 +6,8 @@ import InteractiveRoom from "@/components/InteractiveRoom";
 import ObjectDetailOverlay from "@/components/ObjectDetailOverlay";
 import PortfolioOverlay from "@/components/PortfolioOverlay";
 import WelcomeScreen from "@/components/WelcomeScreen";
-import { roomObjects, type RoomObjectConfig, type Scene } from "@/data/portfolio";
+import { roomObjects } from "@/data/portfolio/room-objects";
+import type { RoomObjectConfig, Scene } from "@/data/portfolio/types";
 import { useBackgroundMusic } from "@/components/useBackgroundMusic";
 
 export default function Home() {

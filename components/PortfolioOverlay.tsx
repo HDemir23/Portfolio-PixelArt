@@ -2,16 +2,14 @@
 
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { memo, useMemo, type ReactNode } from "react";
-import {
-  contactLinks,
-  experience,
-  profile,
-  projects,
-  serviceDetails,
-  services,
-  skills,
-  type Scene
-} from "@/data/portfolio";
+import { contactLinks } from "@/data/portfolio/contact-links";
+import { experience } from "@/data/portfolio/experience";
+import { profile } from "@/data/portfolio/profile";
+import { projects } from "@/data/portfolio/projects";
+import { serviceDetails } from "@/data/portfolio/service-details";
+import { services } from "@/data/portfolio/services";
+import { skills } from "@/data/portfolio/skills";
+import type { Scene } from "@/data/portfolio/types";
 
 type PanelScene = Exclude<Scene, "room">;
 
