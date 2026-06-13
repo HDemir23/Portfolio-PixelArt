@@ -60,7 +60,8 @@ export const roomObjects: RoomObjectConfig[] = [
       kind: "computer",
       eyebrow: "Main workstation",
       title: "Computer",
-      summary: "The main build station for portfolio work, repo reviews and live product links.",
+      summary:
+        "The main build station for portfolio work, repo reviews and live product links.",
       description:
         "A desktop workspace for shipping web apps, checking repositories and keeping live product demos in reach.",
       stats: [
@@ -75,7 +76,11 @@ export const roomObjects: RoomObjectConfig[] = [
       ],
       actions: [
         { label: "Open Work", scene: "projects", variant: "primary" },
-        { label: "GitHub", href: "https://github.com/HDemir23", variant: "secondary" },
+        {
+          label: "GitHub",
+          href: "https://github.com/HDemir23",
+          variant: "secondary",
+        },
       ],
     },
   },
@@ -165,7 +170,8 @@ export const roomObjects: RoomObjectConfig[] = [
       kind: "printer",
       eyebrow: "Prototype bay",
       title: "3D Printer",
-      summary: "A small fabrication corner for turning product sketches into physical prototypes.",
+      summary:
+        "A small fabrication corner for turning product sketches into physical prototypes.",
       description:
         "A workshop corner for prototype notes, materials and small physical product experiments.",
       stats: [
@@ -189,7 +195,7 @@ export const roomObjects: RoomObjectConfig[] = [
   },
   {
     id: "red-moto-bottom",
-    label: "Red bike model",
+    label: "Sui Workshop",
     image: asset2Layer("RedMotoBottom.png"),
     position: { left: 68.71, top: 66.8 },
     externalUrl: "https://github.com/buildermare/Sui-Workshop",
@@ -216,7 +222,8 @@ export const roomObjects: RoomObjectConfig[] = [
       kind: "motor",
       eyebrow: "Garage file",
       title: "Motorcycle",
-      summary: "A personal object panel with a more kinetic garage-inspired composition.",
+      summary:
+        "A personal object panel with a more kinetic garage-inspired composition.",
       description:
         "A garage-side personal file for travel notes, specs and the faster side of the studio.",
       stats: [
@@ -325,7 +332,8 @@ export const roomObjects: RoomObjectConfig[] = [
       kind: "mac",
       eyebrow: "Portable workspace",
       title: "Mac",
-      summary: "A focused laptop workspace for mobile builds, writing and remote development sessions.",
+      summary:
+        "A focused laptop workspace for mobile builds, writing and remote development sessions.",
       description:
         "A lighter workspace for React Native builds, writing, documentation and async collaboration.",
       stats: [
