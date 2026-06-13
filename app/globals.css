@@ -314,6 +314,10 @@ a {
   transform: translateY(-50%);
 }
 
+.room-object[data-object-id="books-shelf"][data-cue="left"] .click-cue {
+  top: 13%;
+}
+
 .room-object[data-cue="left"] .click-cue::before {
   clip-path: polygon(100% 50%, 0 0, 0 100%);
 }

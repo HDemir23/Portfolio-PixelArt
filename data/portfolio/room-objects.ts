@@ -54,7 +54,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 22.41,
     zIndex: 10,
     zoom: { scale: 1.22, x: "11%", y: "4%" },
-    cue: "bottom",
+    cue: "top",
     shortcutGroup: "portfolio",
     modal: {
       kind: "computer",
@@ -161,7 +161,6 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 9.3,
     zIndex: 13,
     zoom: { scale: 1.24, x: "-14%", y: "2%" },
-    cue: "left",
     modal: {
       kind: "printer",
       eyebrow: "Prototype bay",
@@ -213,7 +212,6 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 31.96,
     zIndex: 12,
     zoom: { scale: 1.17, x: "-15%", y: "-8%" },
-    cue: "top",
     modal: {
       kind: "motor",
       eyebrow: "Garage file",
