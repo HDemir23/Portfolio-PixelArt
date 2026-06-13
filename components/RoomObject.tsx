@@ -14,9 +14,9 @@ type RoomObjectProps = {
 
 const objectVariants = {
   hover: {
-    scale: 1.015
+    scale: 1.015,
   },
-  tap: { scale: 0.985 }
+  tap: { scale: 0.985 },
 };
 
 function RoomObject({
@@ -24,11 +24,14 @@ function RoomObject({
   onSelect,
   isFocused = false,
   showCue = false,
-  controlState
+  controlState,
 }: RoomObjectProps) {
   const isInteractive = Boolean(
-    (object.targetScene || object.externalUrl || object.action || object.modal) &&
-      onSelect
+    (object.targetScene ||
+      object.externalUrl ||
+      object.action ||
+      object.modal) &&
+    onSelect,
   );
   const shouldEagerLoad = isInteractive || Boolean(object.baseVisible);
   const Tag = isInteractive ? motion.button : motion.div;
@@ -40,25 +43,25 @@ function RoomObject({
       width: `${object.width}%`,
       height: object.height ? `${object.height}%` : undefined,
       transform: "translate(-50%, -50%)",
-      zIndex: object.zIndex ?? 1
+      zIndex: object.zIndex ?? 1,
     }),
     [
       object.height,
       object.position.left,
       object.position.top,
       object.width,
-      object.zIndex
-    ]
+      object.zIndex,
+    ],
   );
   const imageClasses = useMemo(
     () =>
       [
         "pixel-art room-object-image block w-full select-none",
-        object.baseVisible ? "is-visible" : ""
+        object.baseVisible ? "is-visible" : "",
       ]
         .filter(Boolean)
         .join(" "),
-    [object.baseVisible]
+    [object.baseVisible],
   );
   const objectClasses = useMemo(
     () =>
@@ -66,24 +69,22 @@ function RoomObject({
         "room-object group relative block w-full focus:outline-none",
         hasFixedHeight ? "h-full" : "",
         isInteractive ? "cursor-pointer" : "pointer-events-none",
-        object.baseVisible ? "room-object-static" : ""
+        object.baseVisible ? "room-object-static" : "",
       ].join(" "),
-    [hasFixedHeight, isInteractive, object.baseVisible]
+    [hasFixedHeight, isInteractive, object.baseVisible],
   );
   const handleSelect = useCallback(() => {
     onSelect?.(object);
   }, [object, onSelect]);
 
   return (
-    <div
-      className="absolute"
-      style={containerStyle}
-    >
+    <div className="absolute" style={containerStyle}>
       <Tag
         type={isInteractive ? "button" : undefined}
         aria-label={isInteractive ? `Open ${object.label}` : object.label}
         onClick={isInteractive ? handleSelect : undefined}
         className={objectClasses}
+        data-object-id={object.id}
         data-focused={isFocused ? "true" : undefined}
         data-static={object.baseVisible ? "true" : undefined}
         data-cue={object.cue ?? "top"}

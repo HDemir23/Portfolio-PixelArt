@@ -8,7 +8,9 @@
   --font-body: var(--font-pixelify-sans);
   --font-pixel: var(--font-pixelify-sans);
   --font-display: var(--font-pixelify-sans);
-  --font-readable: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-readable:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   --surface-deep: rgba(12, 8, 10, 0.96);
   --surface-raised: rgba(25, 17, 18, 0.94);
   --surface-card: rgba(8, 7, 8, 0.82);
@@ -88,8 +90,16 @@ a {
   inset: -2rem;
   z-index: 0;
   background:
-    radial-gradient(circle at 22% 20%, rgba(233, 167, 95, 0.1), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(117, 244, 255, 0.08), transparent 30%),
+    radial-gradient(
+      circle at 22% 20%,
+      rgba(233, 167, 95, 0.1),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(117, 244, 255, 0.08),
+      transparent 30%
+    ),
     linear-gradient(180deg, #201720 0%, #0b080d 100%);
   filter: blur(12px);
   pointer-events: none;
@@ -109,7 +119,11 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 50%, transparent 42%, rgba(5, 3, 4, 0.38) 100%),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 42%,
+      rgba(5, 3, 4, 0.38) 100%
+    ),
     rgba(5, 3, 4, 0.34);
 }
 
@@ -168,7 +182,8 @@ a {
 
 .room-object[data-control-state="off"] .room-object-image {
   opacity: 0.74;
-  filter: grayscale(0.85) brightness(0.74) drop-shadow(0 0 9px rgba(233, 167, 95, 0.46));
+  filter: grayscale(0.85) brightness(0.74)
+    drop-shadow(0 0 9px rgba(233, 167, 95, 0.46));
 }
 
 .room-object-static .room-object-image,
@@ -176,6 +191,65 @@ a {
 .room-object-static:focus-visible .room-object-image {
   opacity: 1;
   filter: none;
+}
+
+.room-object[data-object-id="code-sign"] {
+  overflow: visible;
+}
+
+.room-object[data-object-id="code-sign"]::before,
+.room-object[data-object-id="code-sign"]::after {
+  content: "";
+  position: absolute;
+  inset: 3%;
+  z-index: 2;
+  pointer-events: none;
+  --github-led: #a3faff;
+  --github-led-soft: rgba(163, 250, 255, 0.72);
+  --github-led-thickness: clamp(2px, 0.22vw, 4px);
+  --github-led-length: 50%;
+}
+
+.room-object[data-object-id="code-sign"]::before {
+  background:
+    linear-gradient(var(--github-led), var(--github-led)) 0 0 /
+      var(--github-led-length) var(--github-led-thickness) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 0 0 /
+      var(--github-led-thickness) var(--github-led-length) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 100% 0 /
+      var(--github-led-length) var(--github-led-thickness) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 100% 0 /
+      var(--github-led-thickness) var(--github-led-length) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 0 100% /
+      var(--github-led-length) var(--github-led-thickness) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 0 100% /
+      var(--github-led-thickness) var(--github-led-length) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 100% 100% /
+      var(--github-led-length) var(--github-led-thickness) no-repeat,
+    linear-gradient(var(--github-led), var(--github-led)) 100% 100% /
+      var(--github-led-thickness) var(--github-led-length) no-repeat;
+  filter: drop-shadow(0 0 0.18rem var(--github-led-soft))
+    drop-shadow(0 0 0.48rem rgba(163, 250, 255, 0.56));
+  opacity: 0.96;
+  animation: github-corner-led-blink 1.38s steps(2, end) infinite;
+}
+
+.room-object[data-object-id="code-sign"]::after {
+  inset: 0;
+  border: var(--github-led-thickness) solid transparent;
+  border-color: var(--github-led) transparent var(--github-led) transparent;
+  opacity: 0;
+  animation: github-corner-led-afterglow 1.38s steps(2, end) infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) 0 0 / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 100% 0 / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 0 100% / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 100% 100% / 16% 16% no-repeat;
+  mask:
+    linear-gradient(#000 0 0) 0 0 / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 100% 0 / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 0 100% / 16% 16% no-repeat,
+    linear-gradient(#000 0 0) 100% 100% / 16% 16% no-repeat;
 }
 
 .room-hotspot {
@@ -313,10 +387,15 @@ a {
   position: sticky;
   top: 0;
   z-index: 5;
-  margin: calc(var(--modal-gutter) * -1) calc(var(--modal-gutter) * -1) var(--modal-gap);
+  margin: calc(var(--modal-gutter) * -1) calc(var(--modal-gutter) * -1)
+    var(--modal-gap);
   padding: var(--modal-gutter);
   border-bottom: 1px solid var(--line-soft);
-  background: linear-gradient(180deg, rgba(20, 13, 14, 0.98), rgba(20, 13, 14, 0.9));
+  background: linear-gradient(
+    180deg,
+    rgba(20, 13, 14, 0.98),
+    rgba(20, 13, 14, 0.9)
+  );
 }
 
 .retro-modal-title {
@@ -369,8 +448,16 @@ a {
 .skills-panel-matte {
   background:
     linear-gradient(180deg, rgba(2, 9, 6, 0.94), rgba(1, 5, 4, 0.98)),
-    radial-gradient(circle at 14% 0%, rgba(98, 240, 140, 0.18), transparent 34%),
-    radial-gradient(circle at 92% 18%, rgba(117, 244, 255, 0.12), transparent 32%);
+    radial-gradient(
+      circle at 14% 0%,
+      rgba(98, 240, 140, 0.18),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 92% 18%,
+      rgba(117, 244, 255, 0.12),
+      transparent 32%
+    );
 }
 
 .skills-panel-matte::before,
@@ -387,20 +474,23 @@ a {
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 36px 36px;
-  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.88), transparent 82%);
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.88),
+    transparent 82%
+  );
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.88), transparent 82%);
 }
 
 .skills-panel-matte::after {
   opacity: 0.32;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.055) 0,
-      rgba(255, 255, 255, 0.055) 1px,
-      transparent 1px,
-      transparent 7px
-    );
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.055) 0,
+    rgba(255, 255, 255, 0.055) 1px,
+    transparent 1px,
+    transparent 7px
+  );
 }
 
 .object-asset-matte::before {
@@ -427,12 +517,13 @@ a {
 }
 
 .object-preview-image {
-  filter:
-    drop-shadow(0 0.55rem 0 rgba(0, 0, 0, 0.22))
+  filter: drop-shadow(0 0.55rem 0 rgba(0, 0, 0, 0.22))
     drop-shadow(0 0 1.15rem rgba(255, 255, 255, 0.1));
 }
 
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
   .glass-modal-backdrop {
     background: rgba(5, 3, 4, 0.78) !important;
   }
@@ -450,6 +541,32 @@ a {
 
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes github-corner-led-blink {
+  0%,
+  100% {
+    opacity: 0.92;
+    filter: drop-shadow(0 0 0.16rem rgba(163, 250, 255, 0.8))
+      drop-shadow(0 0 0.42rem rgba(163, 250, 255, 0.46));
+  }
+
+  50% {
+    opacity: 0.36;
+    filter: drop-shadow(0 0 0.08rem rgba(163, 250, 255, 0.5))
+      drop-shadow(0 0 0.2rem rgba(163, 250, 255, 0.24));
+  }
+}
+
+@keyframes github-corner-led-afterglow {
+  0%,
+  100% {
+    opacity: 0.24;
+  }
+
+  50% {
+    opacity: 0.04;
   }
 }
 
@@ -490,8 +607,20 @@ a {
     z-index: 3;
     pointer-events: none;
     background:
-      linear-gradient(90deg, rgba(11, 8, 13, 0.72), transparent 11%, transparent 89%, rgba(11, 8, 13, 0.72)),
-      linear-gradient(180deg, rgba(11, 8, 13, 0.42), transparent 18%, transparent 82%, rgba(11, 8, 13, 0.5));
+      linear-gradient(
+        90deg,
+        rgba(11, 8, 13, 0.72),
+        transparent 11%,
+        transparent 89%,
+        rgba(11, 8, 13, 0.72)
+      ),
+      linear-gradient(
+        180deg,
+        rgba(11, 8, 13, 0.42),
+        transparent 18%,
+        transparent 82%,
+        rgba(11, 8, 13, 0.5)
+      );
   }
 
   .studio-frame {
