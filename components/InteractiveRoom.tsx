@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import Image from "next/image";
 import { memo, useCallback, useMemo } from "react";
 import RoomObject from "@/components/RoomObject";
 import { decorativeObjects } from "@/data/portfolio/decorative-objects";
@@ -17,23 +18,33 @@ type InteractiveRoomProps = {
 };
 
 type ControlState = "active" | "on" | "off";
+type PanelScene = Exclude<Scene, "room">;
 
 const roomVariants: Variants = {
   room: {
     scale: 1,
     x: "0%",
     y: "0%",
-    filter: "brightness(1)",
     transition: { duration: 0.45, ease: "easeOut" }
   },
   focus: (object?: RoomObjectConfig) => ({
     scale: object?.zoom?.scale ?? 1.12,
     x: object?.zoom?.x ?? "0%",
     y: object?.zoom?.y ?? "0%",
-    filter: "brightness(0.72)",
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
   })
 };
+
+const roomObjectByScene = new Map<PanelScene, RoomObjectConfig>();
+const roomObjectById = new Map<string, RoomObjectConfig>();
+
+for (const object of roomObjects) {
+  roomObjectById.set(object.id, object);
+
+  if (object.targetScene) {
+    roomObjectByScene.set(object.targetScene, object);
+  }
+}
 
 function InteractiveRoom({
   scene,
@@ -43,8 +54,8 @@ function InteractiveRoom({
 }: InteractiveRoomProps) {
   const focusedObject = useMemo(
     () =>
-      roomObjects.find((object) => object.id === focusedObjectId) ??
-      roomObjects.find((object) => object.targetScene === scene),
+      (focusedObjectId ? roomObjectById.get(focusedObjectId) : undefined) ??
+      (scene === "room" ? undefined : roomObjectByScene.get(scene)),
     [focusedObjectId, scene]
   );
 
@@ -108,9 +119,7 @@ function InteractiveRoom({
   const primaryShortcutNodes = useMemo(
     () =>
       primaryRoomShortcuts.map((shortcut) => {
-        const targetObject = roomObjects.find(
-          (object) => object.targetScene === shortcut.scene
-        );
+        const targetObject = roomObjectByScene.get(shortcut.scene);
         const isActive = scene === shortcut.scene;
 
         return (
@@ -124,7 +133,7 @@ function InteractiveRoom({
             }}
             aria-current={isActive ? "page" : undefined}
             className={[
-              "shrink-0 border px-3 py-2 font-mono text-[0.72rem] font-black uppercase tracking-[0.1em] shadow-[0_10px_26px_rgba(0,0,0,0.28)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35 sm:px-4 sm:text-[0.78rem]",
+              "retro-action shrink-0 border px-3 py-2 font-mono text-[0.72rem] font-black uppercase shadow-[0_10px_26px_rgba(0,0,0,0.28)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35 sm:px-4 sm:text-[0.78rem]",
               isActive
                 ? "border-terminal bg-terminal text-ink"
                 : "border-ember/35 bg-black/58 text-stone-200 hover:border-terminal/55 hover:text-terminal"
@@ -140,9 +149,7 @@ function InteractiveRoom({
   const mobileShortcutNodes = useMemo(
     () =>
       primaryRoomShortcuts.map((shortcut) => {
-        const targetObject = roomObjects.find(
-          (object) => object.targetScene === shortcut.scene
-        );
+        const targetObject = roomObjectByScene.get(shortcut.scene);
         const isActive = scene === shortcut.scene;
 
         return (
@@ -156,7 +163,7 @@ function InteractiveRoom({
             }}
             aria-current={isActive ? "page" : undefined}
             className={[
-              "shrink-0 border px-2.5 py-1.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.1em] shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35",
+              "retro-action shrink-0 border px-3 py-2 font-mono text-[0.7rem] font-bold uppercase shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition focus:outline-none focus:ring-2 focus:ring-terminal/35",
               isActive
                 ? "border-terminal bg-terminal text-ink"
                 : "border-ember/35 bg-black/55 text-stone-200 hover:border-terminal/50 hover:text-terminal"
@@ -178,7 +185,7 @@ function InteractiveRoom({
             type="button"
             key={object.id}
             onClick={() => onObjectSelect(object)}
-            className="shrink-0 border border-stone-500/35 bg-black/45 px-2.5 py-1.5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.1em] text-stone-300 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
+            className="retro-action shrink-0 border border-stone-500/35 bg-black/45 px-3 py-2 font-mono text-[0.7rem] font-bold uppercase text-stone-300 shadow-[0_8px_20px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-terminal/50 hover:text-terminal focus:outline-none focus:ring-2 focus:ring-terminal/35"
           >
             {object.action === "music"
               ? isMusicOn
@@ -201,19 +208,28 @@ function InteractiveRoom({
         custom={focusedObject}
         style={roomStyle}
       >
-        <img
+        <Image
           src={roomBackgroundImage}
           alt="Pixel-art retro technology studio room"
-          draggable={false}
-          fetchPriority="high"
-          decoding="async"
-          className="pixel-art absolute inset-0 h-full w-full select-none object-contain"
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="pixel-art absolute inset-0 select-none object-contain"
         />
 
         {decorativeObjectNodes}
 
         {roomObjectNodes}
       </motion.div>
+
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[2] bg-[#050304]"
+        initial={false}
+        animate={{ opacity: scene === "room" && !isObjectFocused ? 0 : 0.24 }}
+        transition={{ duration: 0.24, ease: "easeOut" }}
+      />
 
       <div className="fixed inset-x-0 top-4 z-40 hidden justify-center px-4 sm:flex">
         <div className="flex max-w-full gap-2 overflow-x-auto border border-ember/20 bg-black/42 p-2 shadow-[0_14px_36px_rgba(0,0,0,0.28)] backdrop-blur-md">

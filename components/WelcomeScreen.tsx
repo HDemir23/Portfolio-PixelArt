@@ -1,11 +1,14 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import Image from "next/image";
 import { profile } from "@/data/portfolio/profile";
 import { roomBackgroundImage } from "@/data/portfolio/room-background";
 
 type WelcomeScreenProps = {
   onEnter: () => void;
+  onPreload: () => void;
+  isEntering: boolean;
 };
 
 const welcomeVariants: Variants = {
@@ -21,7 +24,11 @@ const welcomeVariants: Variants = {
   }
 };
 
-export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
+export default function WelcomeScreen({
+  onEnter,
+  onPreload,
+  isEntering
+}: WelcomeScreenProps) {
   return (
     <motion.section
       variants={welcomeVariants}
@@ -30,13 +37,14 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
       exit="exit"
       className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
     >
-      <img
+      <Image
         src={roomBackgroundImage}
         alt=""
-        draggable={false}
-        fetchPriority="high"
-        decoding="async"
-        className="pixel-art absolute inset-0 h-full w-full select-none object-cover opacity-45"
+        fill
+        priority
+        quality={88}
+        sizes="100vw"
+        className="pixel-art absolute inset-0 select-none object-cover opacity-45"
       />
       <div className="absolute inset-0 bg-[#120d0b]/58" />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/70 to-transparent" />
@@ -56,18 +64,22 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         <h2 className="mt-5 font-mono text-xl font-black text-terminal sm:text-2xl">
           {profile.title}
         </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-stone-200 sm:text-lg">
+        <p className="retro-copy mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-stone-200 sm:text-lg">
           I build web apps, mobile products, blockchain systems and AI-assisted
           developer workflows.
         </p>
         <motion.button
           type="button"
           onClick={onEnter}
+          onFocus={onPreload}
+          onPointerEnter={onPreload}
+          disabled={isEntering}
+          aria-busy={isEntering}
           whileHover={{ scale: 1.04, y: -2 }}
           whileTap={{ scale: 0.97 }}
-          className="mt-10 border-2 border-ember bg-ember px-7 py-4 font-mono text-sm font-black uppercase tracking-[0.18em] text-ink shadow-[0_0_0_4px_rgba(32,22,18,0.8),0_18px_40px_rgba(0,0,0,0.35)] transition-colors hover:bg-[#ffd18a] focus:outline-none focus:ring-4 focus:ring-ember/45"
+          className="retro-action mt-10 border-2 border-ember bg-ember px-7 py-4 font-mono text-sm font-black uppercase text-ink shadow-[0_0_0_4px_rgba(32,22,18,0.8),0_18px_40px_rgba(0,0,0,0.35)] transition-colors hover:bg-[#ffd18a] focus:outline-none focus:ring-4 focus:ring-ember/45 disabled:cursor-wait disabled:opacity-80"
         >
-          Enter Studio
+          {isEntering ? "Loading Studio" : "Enter Studio"}
         </motion.button>
       </motion.div>
     </motion.section>

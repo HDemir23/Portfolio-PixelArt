@@ -42,20 +42,20 @@ const overlayVariants: Variants = {
 };
 
 const baseShellClass =
-  "glass-modal-shell relative max-h-[92vh] w-full overflow-y-auto border-2 p-4 text-stone-100 shadow-pixel sm:max-h-[90vh] sm:p-7";
+  "glass-modal-shell retro-modal-shell relative max-h-[92vh] w-full overflow-y-auto border-2 p-4 text-stone-100 sm:max-h-[90vh] sm:p-7";
 
 const modalShellClasses: Record<ObjectModalKind, string> = {
-  computer: "max-w-6xl border-terminal/55 bg-[#07110e]/88",
-  printer: "max-w-5xl border-[#f4b158]/65 bg-[#17120b]/88",
-  mac: "max-w-5xl border-[#84c5ff]/60 bg-[#0b101a]/88",
-  motor: "max-w-6xl border-[#ff6b5f]/60 bg-[#160b0a]/88",
+  computer: "max-w-6xl border-terminal/70",
+  printer: "max-w-6xl border-[#f4b158]/75",
+  mac: "max-w-6xl border-[#84c5ff]/72",
+  motor: "max-w-6xl border-[#ff6b5f]/72",
 };
 
 const actionClasses = {
   primary:
     "border-terminal bg-terminal px-4 py-3 text-ink hover:bg-stone-100 hover:text-ink focus:ring-terminal/30",
   secondary:
-    "border-stone-400/35 bg-black/28 px-4 py-3 text-stone-100 hover:border-stone-100 hover:text-white focus:ring-stone-400/25",
+    "border-stone-400/45 bg-black/45 px-4 py-3 text-stone-100 hover:border-stone-100 hover:text-white focus:ring-stone-400/25",
 };
 
 const computerRows = [72, 48, 86, 64, 38, 78, 54];
@@ -82,6 +82,46 @@ const assetBarClasses: Record<ObjectModalKind, string> = {
   printer: "bg-[#f4b158]/30",
   mac: "bg-[#84c5ff]/30",
   motor: "bg-[#ff6b5f]/30",
+};
+
+const objectToneClasses: Record<
+  ObjectModalKind,
+  {
+    accentText: string;
+    accentBorder: string;
+    accentBg: string;
+    dot: string;
+    tone: "terminal" | "amber" | "blue" | "red";
+  }
+> = {
+  computer: {
+    accentText: "text-terminal",
+    accentBorder: "border-terminal/35",
+    accentBg: "bg-terminal/10",
+    dot: "bg-terminal",
+    tone: "terminal",
+  },
+  printer: {
+    accentText: "text-[#f4b158]",
+    accentBorder: "border-[#f4b158]/35",
+    accentBg: "bg-[#f4b158]/10",
+    dot: "bg-[#f4b158]",
+    tone: "amber",
+  },
+  mac: {
+    accentText: "text-[#84c5ff]",
+    accentBorder: "border-[#84c5ff]/35",
+    accentBg: "bg-[#84c5ff]/10",
+    dot: "bg-[#84c5ff]",
+    tone: "blue",
+  },
+  motor: {
+    accentText: "text-[#ff8a80]",
+    accentBorder: "border-[#ff6b5f]/35",
+    accentBg: "bg-[#ff6b5f]/10",
+    dot: "bg-[#ff6b5f]",
+    tone: "red",
+  },
 };
 
 function ObjectDetailOverlay({
@@ -123,14 +163,14 @@ function ObjectDetailOverlay({
             aria-labelledby={`object-modal-${object.id}`}
             className={[baseShellClass, modalShellClasses[modal.kind]].join(" ")}
           >
-            <div className="mb-5 flex items-start justify-between gap-3 border-b border-white/10 pb-4 sm:mb-6">
+            <div className="retro-modal-header flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.18em] text-stone-400 sm:text-xs">
+                <p className="retro-label text-[0.68rem] font-black text-stone-400 sm:text-[0.72rem]">
                   {modal.eyebrow}
                 </p>
                 <h2
                   id={`object-modal-${object.id}`}
-                  className="mt-2 font-display text-2xl font-black text-stone-50 sm:text-5xl"
+                  className="retro-modal-title mt-2 font-display text-2xl font-black sm:text-5xl"
                 >
                   {modal.title}
                 </h2>
@@ -139,7 +179,7 @@ function ObjectDetailOverlay({
               <button
                 type="button"
                 onClick={onClose}
-                className="shrink-0 border border-stone-400/40 bg-black/30 px-4 py-2 font-mono text-[0.78rem] font-black uppercase tracking-[0.12em] text-stone-200 transition hover:border-white hover:text-white focus:outline-none focus:ring-4 focus:ring-white/20"
+                className="retro-action shrink-0 border border-stone-400/45 bg-black/45 px-4 py-2 font-mono text-[0.72rem] font-black uppercase text-stone-200 transition hover:border-white hover:text-white focus:outline-none focus:ring-4 focus:ring-white/20"
               >
                 Close
               </button>
@@ -161,41 +201,8 @@ function renderObjectModal(
   objectLabel: string,
   onNavigate: (scene: PanelScene) => void
 ) {
-  if (modal.kind === "printer") {
-    return (
-      <PrinterModal
-        modal={modal}
-        objectImage={objectImage}
-        objectLabel={objectLabel}
-        onNavigate={onNavigate}
-      />
-    );
-  }
-
-  if (modal.kind === "mac") {
-    return (
-      <MacModal
-        modal={modal}
-        objectImage={objectImage}
-        objectLabel={objectLabel}
-        onNavigate={onNavigate}
-      />
-    );
-  }
-
-  if (modal.kind === "motor") {
-    return (
-      <MotorModal
-        modal={modal}
-        objectImage={objectImage}
-        objectLabel={objectLabel}
-        onNavigate={onNavigate}
-      />
-    );
-  }
-
   return (
-    <ComputerModal
+    <ObjectModalLayout
       modal={modal}
       objectImage={objectImage}
       objectLabel={objectLabel}
@@ -204,134 +211,66 @@ function renderObjectModal(
   );
 }
 
-function ComputerModal({
+function ObjectModalLayout({
   modal,
   objectImage,
   objectLabel,
   onNavigate
 }: ObjectModalContentProps) {
+  const tone = objectToneClasses[modal.kind];
+  const statusLabel = modal.kind === "computer" ? "localhost:3000" : modal.eyebrow;
+
   return (
-    <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-      <div className="border border-terminal/25 bg-black/28 p-4 shadow-[0_0_34px_rgba(98,240,140,0.08)]">
-        <div className="mb-4 flex items-center justify-between gap-3 border-b border-terminal/20 pb-3 font-mono text-[0.66rem] font-black uppercase tracking-[0.14em] text-terminal">
-          <span>localhost:3000</span>
+    <div className="relative z-10 grid gap-5 lg:grid-cols-[0.94fr_1.06fr]">
+      <section className={["retro-card-strong p-4 sm:p-5", tone.accentBorder].join(" ")}>
+        <div
+          className={[
+            "mb-4 flex items-center justify-between gap-3 border-b pb-3 font-mono text-[0.66rem] font-black uppercase tracking-[0.14em]",
+            tone.accentText,
+            tone.accentBorder,
+          ].join(" ")}
+        >
+          <span>{statusLabel}</span>
           <span>online</span>
         </div>
-        <div className="grid gap-4 sm:grid-cols-[0.78fr_1.22fr]">
-          <PixelObjectPanel
-            kind="computer"
-            image={objectImage}
-            label={objectLabel}
-          />
-          <div className="space-y-4">
-            <p className="text-base leading-7 text-stone-200">{modal.summary}</p>
-            <HighlightList items={modal.highlights} tone="terminal" />
-          </div>
-        </div>
-      </div>
-
-      <aside className="space-y-4">
-        <StatGrid stats={modal.stats} tone="terminal" />
-        <div className="border border-terminal/20 bg-terminal/10 p-4">
-          <p className="text-sm leading-6 text-stone-300">{modal.description}</p>
-          <ModalActions actions={modal.actions} onNavigate={onNavigate} />
-        </div>
-      </aside>
-    </div>
-  );
-}
-
-function PrinterModal({
-  modal,
-  objectImage,
-  objectLabel,
-  onNavigate
-}: ObjectModalContentProps) {
-  return (
-    <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-      <div className="border border-[#f4b158]/30 bg-[#100a05] p-4">
         <PixelObjectPanel
-          kind="printer"
+          kind={modal.kind}
           image={objectImage}
           label={objectLabel}
         />
-      </div>
+      </section>
 
-      <div className="space-y-4">
-        <div className="border-l-4 border-[#f4b158] bg-[#f4b158]/10 px-5 py-4">
-          <p className="text-lg leading-8 text-stone-100">{modal.summary}</p>
+      <section className="grid gap-4">
+        <div
+          className={[
+            "retro-card-strong p-4 sm:p-5",
+            tone.accentBorder,
+            tone.accentBg,
+          ].join(" ")}
+        >
+          <div className="flex items-start gap-3">
+            <span
+              aria-hidden="true"
+              className={["mt-2 h-2.5 w-2.5 shrink-0", tone.dot].join(" ")}
+            />
+            <p className="retro-copy text-base font-semibold leading-7 text-stone-100 sm:text-lg sm:leading-8">
+              {modal.summary}
+            </p>
+          </div>
         </div>
-        <StatGrid stats={modal.stats} tone="amber" />
-        <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
-          <HighlightList items={modal.highlights} tone="amber" />
-          <div className="border border-[#f4b158]/24 bg-black/24 p-4">
-            <p className="text-sm leading-6 text-stone-300">{modal.description}</p>
+
+        <StatGrid stats={modal.stats} tone={tone.tone} />
+
+        <div className="grid gap-4 xl:grid-cols-[1fr_0.86fr]">
+          <HighlightList items={modal.highlights} tone={tone.tone} />
+          <div className={["retro-card p-4 sm:p-5", tone.accentBorder].join(" ")}>
+            <p className="retro-copy text-sm leading-7 text-stone-300 sm:text-[0.95rem]">
+              {modal.description}
+            </p>
             <ModalActions actions={modal.actions} onNavigate={onNavigate} />
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function MacModal({
-  modal,
-  objectImage,
-  objectLabel,
-  onNavigate
-}: ObjectModalContentProps) {
-  return (
-    <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-      <div className="border border-[#84c5ff]/28 bg-[#060b14] p-4">
-        <div className="mb-4 flex gap-2 border-b border-[#84c5ff]/16 pb-3">
-          <span className="h-2.5 w-2.5 bg-[#ff6b5f]" />
-          <span className="h-2.5 w-2.5 bg-[#f4b158]" />
-          <span className="h-2.5 w-2.5 bg-terminal" />
-        </div>
-        <PixelObjectPanel kind="mac" image={objectImage} label={objectLabel} />
-      </div>
-
-      <div className="space-y-4">
-        <p className="border border-[#84c5ff]/22 bg-[#84c5ff]/10 p-4 text-base leading-7 text-stone-200">
-          {modal.summary}
-        </p>
-        <StatGrid stats={modal.stats} tone="blue" />
-        <HighlightList items={modal.highlights} tone="blue" />
-        <div className="border border-[#84c5ff]/18 bg-black/22 p-4">
-          <p className="text-sm leading-6 text-stone-300">{modal.description}</p>
-          <ModalActions actions={modal.actions} onNavigate={onNavigate} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MotorModal({
-  modal,
-  objectImage,
-  objectLabel,
-  onNavigate
-}: ObjectModalContentProps) {
-  return (
-    <div className="space-y-5">
-      <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="border border-[#ff6b5f]/30 bg-[#0e0504] p-4">
-          <PixelObjectPanel
-            kind="motor"
-            image={objectImage}
-            label={objectLabel}
-          />
-        </div>
-        <div className="flex flex-col justify-between gap-4 border border-[#ff6b5f]/22 bg-[#ff6b5f]/10 p-5">
-          <p className="text-xl leading-8 text-stone-100">{modal.summary}</p>
-          <p className="text-sm leading-6 text-stone-300">{modal.description}</p>
-          <ModalActions actions={modal.actions} onNavigate={onNavigate} />
-        </div>
-      </div>
-      <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <StatGrid stats={modal.stats} tone="red" />
-        <HighlightList items={modal.highlights} tone="red" />
-      </div>
+      </section>
     </div>
   );
 }
@@ -484,7 +423,7 @@ function ImageBackedPixelPanel({
   return (
     <div
       className={[
-        "relative min-h-64 border p-4 sm:min-h-72",
+        "relative min-h-64 overflow-hidden border p-4 sm:min-h-72",
         assetPanelClasses[kind],
       ].join(" ")}
     >
@@ -543,11 +482,11 @@ function StatGrid({
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       {stats.map((stat) => (
-        <div key={stat.label} className={["border p-4", className].join(" ")}>
-          <p className="font-mono text-[0.62rem] font-black uppercase tracking-[0.16em] text-stone-400">
+        <div key={stat.label} className={["retro-card border p-4", className].join(" ")}>
+          <p className="retro-label text-[0.62rem] font-black text-stone-400">
             {stat.label}
           </p>
-          <p className="mt-2 font-mono text-lg font-black">{stat.value}</p>
+          <p className="mt-2 font-mono text-lg font-black leading-6">{stat.value}</p>
         </div>
       ))}
     </div>
@@ -573,13 +512,15 @@ function HighlightList({
       {items.map((item) => (
         <li
           key={item}
-          className="flex gap-3 border border-white/10 bg-black/20 px-4 py-3 text-sm leading-6 text-stone-200"
+          className="retro-card flex gap-3 px-4 py-3"
         >
           <span
             aria-hidden="true"
             className={["mt-2 h-2 w-2 shrink-0", bulletClassName].join(" ")}
           />
-          <span>{item}</span>
+          <span className="retro-copy text-sm leading-6 text-stone-200 sm:text-[0.95rem]">
+            {item}
+          </span>
         </li>
       ))}
     </ul>
@@ -618,7 +559,7 @@ function ActionControl({
   children: ReactNode;
 }) {
   const className = [
-    "inline-flex min-h-11 w-full items-center justify-center font-mono text-xs font-black uppercase tracking-[0.12em] transition focus:outline-none focus:ring-4 sm:w-auto",
+    "retro-action inline-flex w-full items-center justify-center font-mono text-xs font-black uppercase transition focus:outline-none focus:ring-4 sm:w-auto",
     actionClasses[action.variant ?? "secondary"],
   ].join(" ");
   const scene = action.scene;

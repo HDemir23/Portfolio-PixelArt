@@ -63,17 +63,17 @@ const panelEyebrows: Record<PanelScene, string> = {
 };
 
 const panelBaseShellClass =
-  "glass-modal-shell relative max-h-[92vh] w-full overflow-y-auto border-2 p-4 text-stone-100 shadow-pixel sm:max-h-[88vh] sm:p-7";
+  "glass-modal-shell retro-modal-shell relative max-h-[92vh] w-full overflow-y-auto border-2 p-4 text-stone-100 sm:max-h-[88vh] sm:p-7";
 
 const panelShellClasses: Record<PanelScene, string> = {
-  projects: "max-w-6xl border-terminal/55 bg-[#07110e]/88",
-  skills: "max-w-6xl border-terminal/65 bg-[#030b08]/96",
-  experience: "max-w-5xl border-[#ff6b5f]/55 bg-[#160b0a]/88",
-  services: "max-w-5xl border-[#f4b158]/60 bg-[#17120b]/88",
-  contact: "max-w-4xl border-[#84c5ff]/60 bg-[#08101a]/88",
-  about: "max-w-5xl border-ember/55 bg-panel/88",
-  menu: "max-w-4xl border-stone-400/45 bg-[#111010]/88",
-  comingSoon: "max-w-3xl border-stone-500/55 bg-[#111010]/88"
+  projects: "max-w-6xl border-terminal/70",
+  skills: "max-w-6xl border-terminal/75",
+  experience: "max-w-5xl border-[#ff6b5f]/70",
+  services: "max-w-5xl border-[#f4b158]/75",
+  contact: "max-w-4xl border-[#84c5ff]/72",
+  about: "max-w-5xl border-ember/70",
+  menu: "max-w-4xl border-stone-400/55",
+  comingSoon: "max-w-3xl border-stone-500/60"
 };
 
 function PortfolioOverlay({
@@ -109,14 +109,14 @@ function PortfolioOverlay({
             aria-labelledby={`portfolio-panel-${activeScene}`}
             className={[panelBaseShellClass, panelShellClasses[activeScene]].join(" ")}
           >
-            <div className="mb-5 flex items-start justify-between gap-3 border-b border-white/10 pb-4 sm:mb-6">
+            <div className="retro-modal-header flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.18em] text-stone-400 sm:text-xs">
+                <p className="retro-label text-[0.68rem] font-black text-stone-400 sm:text-[0.72rem]">
                   {panelEyebrows[activeScene]}
                 </p>
                 <h2
                   id={`portfolio-panel-${activeScene}`}
-                  className="mt-2 font-display text-2xl font-black text-stone-50 sm:text-4xl"
+                  className="retro-modal-title mt-2 font-display text-2xl font-black sm:text-4xl"
                 >
                   {panelTitles[activeScene]}
                 </h2>
@@ -124,7 +124,7 @@ function PortfolioOverlay({
               <button
                 type="button"
                 onClick={onBack}
-                className="shrink-0 border border-ember/60 bg-black/30 px-4 py-2 font-mono text-[0.78rem] font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+                className="retro-action shrink-0 border border-ember/60 bg-black/45 px-4 py-2 font-mono text-[0.72rem] font-black uppercase text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
               >
                 Back
               </button>
@@ -167,8 +167,8 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
 
   if (scene === "comingSoon") {
     return (
-      <div className="space-y-4 leading-7 text-stone-300">
-        <p>
+      <div className="relative z-10 space-y-4 leading-7 text-stone-300">
+        <p className="retro-copy">
           This section is reserved for a later update.
         </p>
       </div>
@@ -180,8 +180,8 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
 
 function MenuPanel({ onNavigate }: { onNavigate: (scene: PanelScene) => void }) {
   return (
-    <div className="space-y-5">
-      <p className="max-w-2xl text-sm leading-6 text-stone-300 sm:text-base sm:leading-7">
+    <div className="relative z-10 space-y-5">
+      <p className="retro-copy max-w-2xl text-sm leading-7 text-stone-300 sm:text-base">
         {profile.shortName} studio index for work, skills, services and contact links.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -208,16 +208,16 @@ function ProjectsPanel() {
   const secondaryProjects = projects.slice(1);
 
   return (
-    <div className="space-y-5">
+    <div className="relative z-10 space-y-5">
       <div className="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-        <article className="border border-terminal/30 bg-black/28 p-4 sm:p-5">
-          <p className="font-mono text-[0.66rem] font-black uppercase tracking-[0.16em] text-terminal">
+        <article className="retro-card-strong border-terminal/35 p-4 sm:p-5">
+          <p className="retro-label text-[0.66rem] font-black text-terminal">
             Featured build
           </p>
           <h3 className="mt-3 font-mono text-xl font-black text-stone-50">
             {featuredProject.title}
           </h3>
-          <p className="mt-3 text-sm leading-6 text-stone-300">
+          <p className="retro-copy mt-3 text-sm leading-7 text-stone-300">
             {featuredProject.description}
           </p>
           <ProjectLinks project={featuredProject} />
@@ -249,17 +249,17 @@ function ProjectTile({
   return (
     <article
       className={[
-        "flex flex-col border border-terminal/18 bg-black/22 p-4",
+        "retro-card flex flex-col border-terminal/20 p-4",
         compact ? "min-h-44" : "min-h-52",
       ].join(" ")}
     >
-      <p className="font-mono text-[0.62rem] font-bold uppercase tracking-[0.14em] text-terminal/90">
+      <p className="retro-label text-[0.62rem] font-bold text-terminal/90">
         {project.meta}
       </p>
       <h4 className="mt-3 font-mono text-base font-black text-stone-50">
         {project.title}
       </h4>
-      <p className="mt-3 flex-1 text-sm leading-6 text-stone-300">
+      <p className="retro-copy mt-3 flex-1 text-sm leading-7 text-stone-300">
         {project.description}
       </p>
       <ProjectLinks project={project} />
@@ -280,7 +280,7 @@ function ProjectLinks({ project }: { project: (typeof projects)[number] }) {
           href={link.href}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex min-h-10 items-center border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
+          className="retro-action inline-flex items-center border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
         >
           {link.label}
         </a>
@@ -352,18 +352,18 @@ const skillAccentClasses: Record<
 
 function SkillsPanel() {
   return (
-    <div className="skills-panel-matte relative isolate overflow-hidden border border-terminal/20 p-3 sm:p-4">
+    <div className="skills-panel-matte retro-scroll-panel relative isolate overflow-hidden border border-terminal/20 p-3 sm:p-4">
       <div className="relative z-10 space-y-5">
         <section className="grid gap-4 lg:grid-cols-[1.18fr_0.82fr]">
-          <div className="relative overflow-hidden border border-terminal/40 bg-[#020906]/95 p-4 sm:p-5">
+          <div className="retro-card-strong relative overflow-hidden border-terminal/40 p-4 sm:p-5">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-terminal/70 to-transparent" />
-            <p className="font-mono text-[0.72rem] font-black uppercase tracking-[0.16em] text-terminal">
+            <p className="retro-label text-[0.72rem] font-black text-terminal">
               Core profile
             </p>
             <h3 className="mt-3 max-w-3xl text-xl font-black leading-8 text-stone-50 sm:text-3xl sm:leading-10">
               {skillProfile.title}
             </h3>
-            <p className="mt-3 max-w-3xl text-base leading-7 text-stone-200 sm:text-lg sm:leading-8">
+            <p className="retro-copy mt-3 max-w-3xl text-base leading-7 text-stone-200 sm:text-lg sm:leading-8">
               {skillProfile.description}
             </p>
           </div>
@@ -372,9 +372,9 @@ function SkillsPanel() {
             {skillProfile.markers.map((marker) => (
               <div
                 key={marker.label}
-                className="border border-white/15 bg-[#020906]/90 px-3 py-3"
+                className="retro-card px-3 py-3"
               >
-                <dt className="font-mono text-[0.68rem] font-black uppercase tracking-[0.14em] text-stone-400 sm:text-[0.72rem]">
+                <dt className="retro-label text-[0.68rem] font-black text-stone-400 sm:text-[0.72rem]">
                   {marker.label}
                 </dt>
                 <dd className="mt-2 text-base font-black leading-6 text-stone-100 sm:text-lg">
@@ -401,7 +401,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
   return (
     <article
       className={[
-        "relative flex min-h-72 flex-col overflow-hidden border p-4 shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:p-5",
+        "retro-card relative flex min-h-72 flex-col overflow-hidden border p-4 shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:p-5",
         accent.border,
         accent.panel,
       ].join(" ")}
@@ -414,7 +414,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
             <span className={["h-2 w-2 shrink-0", accent.dot].join(" ")} />
             <p
               className={[
-                "font-mono text-[0.7rem] font-black uppercase tracking-[0.14em]",
+                "retro-label text-[0.7rem] font-black",
                 accent.text,
               ].join(" ")}
             >
@@ -428,7 +428,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
 
         <span
           className={[
-            "shrink-0 border px-2.5 py-1.5 text-right font-mono text-[0.66rem] font-black uppercase tracking-[0.1em] sm:text-[0.7rem]",
+            "retro-label shrink-0 border px-2.5 py-1.5 text-right text-[0.66rem] font-black sm:text-[0.7rem]",
             accent.soft,
             accent.text,
           ].join(" ")}
@@ -437,13 +437,13 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
         </span>
       </div>
 
-      <p className="mt-3 text-base leading-7 text-stone-200">
+      <p className="retro-copy mt-3 text-base leading-7 text-stone-200">
         {group.focus}
       </p>
 
       <p
         className={[
-          "mt-4 border-l-2 pl-3 text-sm font-semibold leading-6 text-stone-300",
+          "retro-copy mt-4 border-l-2 pl-3 text-sm font-semibold leading-6 text-stone-300",
           accent.line,
         ].join(" ")}
       >
@@ -454,7 +454,7 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
         {group.items.map((skill) => (
           <li
             key={skill}
-            className="border border-white/15 bg-black/55 px-3 py-2 font-mono text-[0.78rem] font-bold leading-5 text-stone-50"
+            className="border border-white/15 bg-black/55 px-3 py-2 font-mono text-[0.72rem] font-bold leading-5 text-stone-50"
           >
             {skill}
           </li>
@@ -465,17 +465,21 @@ function SkillGroupCard({ group }: { group: SkillGroup }) {
 }
 
 function ExperiencePanel() {
-  return <BulletList items={experience} tone="red" />;
+  return (
+    <div className="relative z-10">
+      <BulletList items={experience} tone="red" />
+    </div>
+  );
 }
 
 function ServicesPanel() {
   return (
-    <div className="space-y-5">
+    <div className="relative z-10 space-y-5">
       <div className="flex flex-wrap gap-2">
         {services.map((service) => (
           <span
             key={service}
-            className="border border-[#f4b158]/32 bg-[#f4b158]/10 px-3 py-2 font-mono text-xs font-bold uppercase tracking-[0.12em] text-stone-100"
+            className="retro-label border border-[#f4b158]/32 bg-[#f4b158]/10 px-3 py-2 text-xs font-bold text-stone-100"
           >
             {service}
           </span>
@@ -485,12 +489,12 @@ function ServicesPanel() {
         {serviceDetails.map((service) => (
           <article
             key={service.title}
-            className="border border-[#f4b158]/24 bg-black/22 px-4 py-3"
+            className="retro-card border-[#f4b158]/24 px-4 py-3"
           >
             <h4 className="font-mono text-sm font-black text-stone-100">
               {service.title}
             </h4>
-            <p className="mt-2 text-sm leading-6 text-stone-300">
+            <p className="retro-copy mt-2 text-sm leading-7 text-stone-300">
               {service.description}
             </p>
           </article>
@@ -502,7 +506,7 @@ function ServicesPanel() {
 
 function ContactPanel() {
   return (
-    <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+    <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
       <div className="space-y-3">
         <ContactInfo label="Email">{profile.email}</ContactInfo>
         <ContactInfo label="Phone">{profile.phone}</ContactInfo>
@@ -510,7 +514,7 @@ function ContactPanel() {
       </div>
 
       <div className="space-y-4">
-        <p className="border border-[#84c5ff]/24 bg-[#84c5ff]/10 p-4 text-sm leading-6 text-stone-300 sm:text-base sm:leading-7">
+        <p className="retro-card-strong retro-copy border-[#84c5ff]/24 bg-[#84c5ff]/10 p-4 text-sm leading-7 text-stone-300 sm:text-base">
           Based in {profile.location}. I build web apps, mobile products,
           blockchain systems and AI-integrated workflows for remote and async
           teams.
@@ -535,21 +539,21 @@ function ContactInfo({
   children: ReactNode;
 }) {
   return (
-    <div className="border border-[#84c5ff]/22 bg-black/24 px-4 py-3 text-sm text-stone-300">
-      <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#84c5ff]">
+    <div className="retro-card border-[#84c5ff]/22 px-4 py-3 text-sm text-stone-300">
+      <span className="retro-label text-xs text-[#84c5ff]">
         {label}
       </span>
-      <p className="mt-1 break-words">{children}</p>
+      <p className="retro-copy mt-1 break-words">{children}</p>
     </div>
   );
 }
 
 function AboutPanel() {
   return (
-    <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-      <div className="space-y-4 border border-ember/22 bg-black/22 p-4 leading-7 text-stone-300">
+    <div className="relative z-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="retro-card space-y-4 border-ember/22 p-4 text-stone-300">
         {profile.summary.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph} className="retro-copy leading-7">{paragraph}</p>
         ))}
       </div>
       <BulletList items={profile.highlights} tone="terminal" />
@@ -573,7 +577,7 @@ function BulletList({
         <li
           key={item}
           className={[
-            "border-l-2 bg-black/22 px-4 py-3 text-sm leading-6 text-stone-200",
+            "retro-card retro-copy border-l-2 px-4 py-3 text-sm leading-7 text-stone-200",
             borderClassName,
           ].join(" ")}
         >
@@ -598,7 +602,7 @@ function ContactButton({
       href={href}
       target={opensNewTab ? "_blank" : undefined}
       rel={opensNewTab ? "noreferrer" : undefined}
-      className="border border-ember/45 bg-ember/12 px-4 py-3 text-center font-mono text-sm font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+      className="retro-action border border-ember/45 bg-ember/12 px-4 py-3 text-center font-mono text-sm font-black uppercase text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
     >
       {children}
     </a>
@@ -616,7 +620,7 @@ function MenuButton({
     <button
       type="button"
       onClick={onClick}
-      className="border border-ember/45 bg-black/20 px-4 py-3 text-left font-mono text-sm font-black uppercase tracking-[0.12em] text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
+      className="retro-action border border-ember/45 bg-black/35 px-4 py-3 text-left font-mono text-sm font-black uppercase text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
     >
       {children}
     </button>
@@ -635,7 +639,7 @@ function MenuLink({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="border border-terminal/35 bg-terminal/10 px-4 py-3 font-mono text-sm font-black uppercase tracking-[0.12em] text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
+      className="retro-action border border-terminal/35 bg-terminal/10 px-4 py-3 font-mono text-sm font-black uppercase text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
     >
       {children}
     </a>

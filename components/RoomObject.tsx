@@ -30,6 +30,7 @@ function RoomObject({
     (object.targetScene || object.externalUrl || object.action || object.modal) &&
       onSelect
   );
+  const shouldEagerLoad = isInteractive || Boolean(object.baseVisible);
   const Tag = isInteractive ? motion.button : motion.div;
   const hasFixedHeight = Boolean(object.height || object.hotspotOnly);
   const containerStyle = useMemo<CSSProperties>(
@@ -101,6 +102,8 @@ function RoomObject({
             src={object.image}
             alt=""
             draggable={false}
+            loading={shouldEagerLoad ? "eager" : "lazy"}
+            decoding="async"
             className={imageClasses}
           />
         ) : (
