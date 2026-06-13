@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import { roomObjects } from "@/data/portfolio/room-objects";
 import type { RoomObjectConfig, Scene } from "@/data/portfolio/types";
@@ -36,6 +36,9 @@ type IdleWindow = Window &
     requestIdleCallback?: (callback: IdleRequestCallback) => number;
     cancelIdleCallback?: (handle: number) => void;
   };
+type StudioHistoryState = {
+  studioModalId?: string;
+};
 
 function preloadStudioModules() {
   studioPreloadPromise ??= Promise.all([
@@ -59,6 +62,7 @@ function StudioModuleFallback() {
 }
 
 export default function Home() {
+  const selectedObjectIdRef = useRef<string | null>(null);
   const [hasEntered, setHasEntered] = useState(false);
   const [isEntering, setIsEntering] = useState(false);
   const [scene, setScene] = useState<Scene>("room");
@@ -96,6 +100,31 @@ export default function Home() {
     return () => globalThis.clearTimeout(timeoutId);
   }, [hasEntered]);
 
+  useEffect(() => {
+    selectedObjectIdRef.current = selectedObjectId;
+  }, [selectedObjectId]);
+
+  const closeObjectDetail = useCallback(() => {
+    selectedObjectIdRef.current = null;
+    setSelectedObjectId(null);
+    setFocusedObjectId(null);
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (!selectedObjectIdRef.current) {
+        return;
+      }
+
+      closeObjectDetail();
+      setScene("room");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [closeObjectDetail]);
+
   const handlePreloadStudio = useCallback(() => {
     void preloadStudioModules();
   }, []);
@@ -117,15 +146,24 @@ export default function Home() {
   }, [isEntering, startMusic]);
 
   const handleBack = useCallback(() => {
-    setSelectedObjectId(null);
+    closeObjectDetail();
     setFocusedObjectId(null);
     setScene("room");
-  }, []);
+  }, [closeObjectDetail]);
 
   const handleObjectDetailClose = useCallback(() => {
-    setSelectedObjectId(null);
-    setFocusedObjectId(null);
-  }, []);
+    const historyState = window.history.state as StudioHistoryState | null;
+
+    if (
+      selectedObjectIdRef.current &&
+      historyState?.studioModalId === selectedObjectIdRef.current
+    ) {
+      window.history.back();
+      return;
+    }
+
+    closeObjectDetail();
+  }, [closeObjectDetail]);
 
   const handleObjectSelect = useCallback((object: RoomObjectConfig) => {
     if (object.action === "home") {
@@ -139,6 +177,18 @@ export default function Home() {
     }
 
     if (object.modal) {
+      const historyState = (window.history.state ?? {}) as StudioHistoryState;
+
+      window.history.pushState(
+        {
+          ...historyState,
+          studioModalId: object.id,
+        },
+        "",
+        window.location.href
+      );
+
+      selectedObjectIdRef.current = object.id;
       setSelectedObjectId(object.id);
       setFocusedObjectId(object.id);
       setScene("room");
@@ -160,14 +210,27 @@ export default function Home() {
   }, [handleBack, toggleMusic]);
 
   const handleSceneNavigate = useCallback((nextScene: Exclude<Scene, "room">) => {
-    setSelectedObjectId(null);
+    const historyState = window.history.state as StudioHistoryState | null;
+
+    if (selectedObjectIdRef.current && historyState?.studioModalId) {
+      window.history.replaceState(
+        {
+          ...historyState,
+          studioModalId: undefined,
+        },
+        "",
+        window.location.href
+      );
+    }
+
+    closeObjectDetail();
     const nextObject = roomObjectByScene.get(nextScene);
     setFocusedObjectId(nextObject?.id ?? null);
     setScene(nextScene);
-  }, []);
+  }, [closeObjectDetail]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#120d0b] text-stone-100">
+    <main className="app-shell bg-[#120d0b] text-stone-100">
       <AnimatePresence mode="wait">
         {!hasEntered ? (
           <WelcomeScreen
@@ -183,7 +246,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="relative min-h-screen overflow-hidden"
+            className="studio-shell relative overflow-hidden"
           >
             <InteractiveRoom
               scene={scene}

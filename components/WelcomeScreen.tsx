@@ -35,7 +35,7 @@ export default function WelcomeScreen({
       initial="initial"
       animate="animate"
       exit="exit"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
+      className="relative flex h-full min-h-full items-center justify-center overflow-hidden px-6"
     >
       <Image
         src={roomBackgroundImage}
