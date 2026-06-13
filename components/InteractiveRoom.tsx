@@ -2,7 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import RoomObject from "@/components/RoomObject";
 import { decorativeObjects } from "@/data/portfolio/decorative-objects";
 import { primaryRoomShortcuts } from "@/data/portfolio/primary-room-shortcuts";
@@ -19,6 +19,19 @@ type InteractiveRoomProps = {
 
 type ControlState = "active" | "on" | "off";
 type PanelScene = Exclude<Scene, "room">;
+type RoomMetrics = {
+  viewportWidth: number;
+  viewportHeight: number;
+  frameWidth: number;
+  frameHeight: number;
+  frameLeft: number;
+  frameTop: number;
+};
+type RoomTransform = {
+  scale: number;
+  x: string;
+  y: string;
+};
 
 const roomVariants: Variants = {
   room: {
@@ -27,13 +40,84 @@ const roomVariants: Variants = {
     y: "0%",
     transition: { duration: 0.45, ease: "easeOut" }
   },
-  focus: (object?: RoomObjectConfig) => ({
-    scale: object?.zoom?.scale ?? 1.12,
-    x: object?.zoom?.x ?? "0%",
-    y: object?.zoom?.y ?? "0%",
+  focus: (transform?: RoomTransform) => ({
+    scale: transform?.scale ?? 1.12,
+    x: transform?.x ?? "0%",
+    y: transform?.y ?? "0%",
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
   })
 };
+
+function parsePercent(value: string | undefined) {
+  const parsedValue = Number.parseFloat(value ?? "0");
+
+  return Number.isFinite(parsedValue) ? parsedValue / 100 : 0;
+}
+
+function formatPercent(value: number) {
+  return `${Number((value * 100).toFixed(3))}%`;
+}
+
+function clampValue(value: number, min: number, max: number) {
+  if (min > max) {
+    return value;
+  }
+
+  return Math.min(Math.max(value, min), max);
+}
+
+function areRoomMetricsEqual(first: RoomMetrics | null, second: RoomMetrics) {
+  return (
+    first?.viewportWidth === second.viewportWidth &&
+    first.viewportHeight === second.viewportHeight &&
+    first.frameWidth === second.frameWidth &&
+    first.frameHeight === second.frameHeight &&
+    first.frameLeft === second.frameLeft &&
+    first.frameTop === second.frameTop
+  );
+}
+
+function getConstrainedRoomTransform(
+  object: RoomObjectConfig | undefined,
+  metrics: RoomMetrics | null
+): RoomTransform {
+  const scale = object?.zoom?.scale ?? 1.12;
+  const desiredX = parsePercent(object?.zoom?.x);
+  const desiredY = parsePercent(object?.zoom?.y);
+
+  if (!object || !metrics || scale <= 1) {
+    return {
+      scale,
+      x: formatPercent(desiredX),
+      y: formatPercent(desiredY),
+    };
+  }
+
+  const originX = (object.position.left / 100) * metrics.frameWidth;
+  const originY = (object.position.top / 100) * metrics.frameHeight;
+  const desiredXInPixels = desiredX * metrics.frameWidth;
+  const desiredYInPixels = desiredY * metrics.frameHeight;
+  const scaleDelta = scale - 1;
+
+  const minX =
+    metrics.viewportWidth -
+    metrics.frameLeft -
+    metrics.frameWidth -
+    scaleDelta * (metrics.frameWidth - originX);
+  const maxX = -metrics.frameLeft + scaleDelta * originX;
+  const minY =
+    metrics.viewportHeight -
+    metrics.frameTop -
+    metrics.frameHeight -
+    scaleDelta * (metrics.frameHeight - originY);
+  const maxY = -metrics.frameTop + scaleDelta * originY;
+
+  return {
+    scale,
+    x: formatPercent(clampValue(desiredXInPixels, minX, maxX) / metrics.frameWidth),
+    y: formatPercent(clampValue(desiredYInPixels, minY, maxY) / metrics.frameHeight),
+  };
+}
 
 const roomObjectByScene = new Map<PanelScene, RoomObjectConfig>();
 const roomObjectById = new Map<string, RoomObjectConfig>();
@@ -52,11 +136,73 @@ function InteractiveRoom({
   isMusicOn,
   onObjectSelect
 }: InteractiveRoomProps) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const [roomMetrics, setRoomMetrics] = useState<RoomMetrics | null>(null);
+
+  useLayoutEffect(() => {
+    const sectionElement = sectionRef.current;
+    const frameElement = frameRef.current;
+
+    if (!sectionElement || !frameElement) {
+      return;
+    }
+
+    let animationFrameId: number | null = null;
+
+    const readMetrics = () => {
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = window.requestAnimationFrame(() => {
+        const nextMetrics: RoomMetrics = {
+          viewportWidth: sectionElement.clientWidth,
+          viewportHeight: sectionElement.clientHeight,
+          frameWidth: frameElement.offsetWidth,
+          frameHeight: frameElement.offsetHeight,
+          frameLeft: frameElement.offsetLeft,
+          frameTop: frameElement.offsetTop,
+        };
+
+        setRoomMetrics((currentMetrics) =>
+          areRoomMetricsEqual(currentMetrics, nextMetrics)
+            ? currentMetrics
+            : nextMetrics
+        );
+      });
+    };
+
+    readMetrics();
+
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(readMetrics);
+
+    resizeObserver?.observe(sectionElement);
+    resizeObserver?.observe(frameElement);
+    window.addEventListener("resize", readMetrics);
+
+    return () => {
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", readMetrics);
+    };
+  }, []);
+
   const focusedObject = useMemo(
     () =>
       (focusedObjectId ? roomObjectById.get(focusedObjectId) : undefined) ??
       (scene === "room" ? undefined : roomObjectByScene.get(scene)),
     [focusedObjectId, scene]
+  );
+  const focusedTransform = useMemo(
+    () => getConstrainedRoomTransform(focusedObject, roomMetrics),
+    [focusedObject, roomMetrics]
   );
 
   const getControlState = useCallback((object: RoomObjectConfig): ControlState | undefined => {
@@ -198,14 +344,28 @@ function InteractiveRoom({
   );
 
   return (
-    <section className="interactive-room relative flex flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0">
+    <section
+      ref={sectionRef}
+      className="interactive-room relative flex flex-col items-center justify-center overflow-hidden bg-[#0b080d] px-0 py-0"
+    >
+      <div aria-hidden="true" className="room-ambient-backdrop">
+        <Image
+          src={roomBackgroundImage}
+          alt=""
+          fill
+          quality={65}
+          sizes="100vw"
+          className="room-ambient-image select-none object-cover"
+        />
+      </div>
 
       <motion.div
+        ref={frameRef}
         className="studio-frame relative shrink-0 overflow-visible"
         variants={roomVariants}
         initial={false}
         animate={scene === "room" && !isObjectFocused ? "room" : "focus"}
-        custom={focusedObject}
+        custom={focusedTransform}
         style={roomStyle}
       >
         <Image

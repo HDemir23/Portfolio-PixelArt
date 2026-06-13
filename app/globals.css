@@ -66,12 +66,37 @@ a {
   content: "";
   position: absolute;
   inset: -2rem;
+  z-index: 0;
   background:
     radial-gradient(circle at 22% 20%, rgba(233, 167, 95, 0.1), transparent 28%),
     radial-gradient(circle at 78% 18%, rgba(117, 244, 255, 0.08), transparent 30%),
     linear-gradient(180deg, #201720 0%, #0b080d 100%);
   filter: blur(12px);
   pointer-events: none;
+}
+
+.room-ambient-backdrop {
+  position: absolute;
+  inset: -1.5rem;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0b080d;
+}
+
+.room-ambient-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(5, 3, 4, 0.38) 100%),
+    rgba(5, 3, 4, 0.34);
+}
+
+.room-ambient-image {
+  opacity: 0.5;
+  filter: blur(22px) saturate(1.12) brightness(0.76);
+  transform: scale(1.08);
 }
 
 .studio-frame {
