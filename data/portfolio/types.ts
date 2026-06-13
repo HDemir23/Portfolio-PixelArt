@@ -6,8 +6,7 @@ export type Scene =
   | "services"
   | "contact"
   | "about"
-  | "menu"
-  | "comingSoon";
+  | "menu";
 
 export type RoomPosition = {
   left: number;

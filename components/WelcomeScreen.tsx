@@ -65,8 +65,8 @@ export default function WelcomeScreen({
           {profile.title}
         </h2>
         <p className="retro-copy mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-stone-200 sm:text-lg">
-          I build web apps, mobile products, blockchain systems and AI-assisted
-          developer workflows.
+          I build frontend-focused web apps, full-stack products and React
+          Native screens, using AI tools pragmatically to move faster.
         </p>
         <motion.button
           type="button"

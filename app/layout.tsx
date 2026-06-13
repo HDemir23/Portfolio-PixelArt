@@ -13,7 +13,7 @@ const pixelifySans = localFont({
 
 const siteUrl = "https://hakandemir.com.tr";
 const siteDescription =
-  "Interactive pixel-art portfolio for A.Hakan Demir, a software engineer building Next.js, React Native, blockchain systems and AI-assisted developer workflows.";
+  "Interactive pixel-art portfolio for A.Hakan Demir, a frontend-focused software engineer building React, Next.js, TypeScript and full-stack web apps.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hakandemir.com.tr"),
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
     "Next.js",
     "React",
     "React Native",
-    "Blockchain",
-    "Sui",
-    "Monad",
-    "AI workflows",
     "Full-stack engineer",
+    "Freelance web developer",
+    "Technical instructor",
+    "Sui Move",
+    "AI-assisted workflows",
   ],
   authors: [{ name: profile.name, url: siteUrl }],
   creator: "A.Hakan Demir",
@@ -111,11 +111,15 @@ const structuredData = {
       url: siteUrl,
       sameAs: [profile.github, profile.linkedin],
       knowsAbout: [
+        "Frontend engineering",
         "Next.js",
+        "React",
+        "TypeScript",
+        "Full-stack web apps",
         "React Native",
-        "Blockchain systems",
+        "Technical workshops",
         "Sui Move",
-        "AI-assisted developer workflows",
+        "AI-assisted workflows",
       ],
     },
     {

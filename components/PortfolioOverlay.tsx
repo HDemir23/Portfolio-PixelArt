@@ -47,8 +47,7 @@ const panelTitles: Record<PanelScene, string> = {
   services: "Services",
   contact: "Contact",
   about: "About",
-  menu: "Menu",
-  comingSoon: "Reserved"
+  menu: "Menu"
 };
 
 const panelEyebrows: Record<PanelScene, string> = {
@@ -58,8 +57,7 @@ const panelEyebrows: Record<PanelScene, string> = {
   services: "Build menu",
   contact: "Signal room",
   about: "Profile file",
-  menu: "Quick switch",
-  comingSoon: "Reserved slot"
+  menu: "Quick switch"
 };
 
 const panelBaseShellClass =
@@ -72,8 +70,7 @@ const panelShellClasses: Record<PanelScene, string> = {
   services: "max-w-5xl border-[#f4b158]/75",
   contact: "max-w-4xl border-[#84c5ff]/72",
   about: "max-w-5xl border-ember/70",
-  menu: "max-w-4xl border-stone-400/55",
-  comingSoon: "max-w-3xl border-stone-500/60"
+  menu: "max-w-4xl border-stone-400/55"
 };
 
 function PortfolioOverlay({
@@ -163,16 +160,6 @@ function renderPanel(scene: PanelScene, onNavigate: (scene: PanelScene) => void)
 
   if (scene === "contact") {
     return <ContactPanel />;
-  }
-
-  if (scene === "comingSoon") {
-    return (
-      <div className="relative z-10 space-y-4 leading-7 text-stone-300">
-        <p className="retro-copy">
-          This section is reserved for a later update.
-        </p>
-      </div>
-    );
   }
 
   return <AboutPanel />;
@@ -515,9 +502,9 @@ function ContactPanel() {
 
       <div className="space-y-4">
         <p className="retro-card-strong retro-copy border-[#84c5ff]/24 bg-[#84c5ff]/10 p-4 text-sm leading-7 text-stone-300 sm:text-base">
-          Based in {profile.location}. I build web apps, mobile products,
-          blockchain systems and AI-integrated workflows for remote and async
-          teams.
+          Based in {profile.location}. I build frontend-focused web apps,
+          full-stack product interfaces and React Native screens for remote and
+          async teams, using AI tools pragmatically where they help delivery.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {contactLinks.map((link) => (

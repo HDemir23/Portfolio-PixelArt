@@ -16,14 +16,14 @@ export type SkillGroup = {
 };
 
 export const skillProfile = {
-  title: "Full-stack product engineering across web, mobile, AI and on-chain systems.",
+  title: "Frontend-focused product engineering across web, mobile and full-stack apps.",
   description:
-    "I mainly ship Next.js and React Native products, then back them with Node/Rust APIs, PostgreSQL, real-time updates, Sui/Monad integrations and multi-model AI tooling.",
+    "I mainly ship React, Next.js and TypeScript interfaces, then connect them to Node.js APIs, databases, auth flows, real-time updates and practical AI-assisted developer workflows.",
   markers: [
-    { label: "Core lane", value: "Product apps" },
-    { label: "Chain focus", value: "Sui + Monad" },
-    { label: "AI stack", value: "Multi-LLM + MCP" },
-    { label: "Delivery", value: "Vercel + Railway" },
+    { label: "Core lane", value: "Frontend" },
+    { label: "Delivery", value: "Full-stack web" },
+    { label: "Mobile", value: "React Native" },
+    { label: "Deploy", value: "Vercel + Railway" },
   ],
 } as const;
 
@@ -32,8 +32,8 @@ export const skillGroups = [
     title: "Frontend Product",
     level: "Primary stack",
     focus:
-      "Interactive web apps, dashboards, wallet-connected flows and 3D product interfaces.",
-    evidence: "Used across xSwap V2, XClaw, AION and Clawaifu.",
+      "Responsive web apps, dashboards, admin panels, landing pages and interactive product interfaces.",
+    evidence: "Used across freelance web apps, Ev Ankara, Slip.Io, xSwap V2, AION and Clawaifu.",
     accent: "terminal",
     items: [
       "TypeScript",
@@ -43,15 +43,14 @@ export const skillGroups = [
       "Framer Motion",
       "Three.js",
       "React Three Fiber",
-      "Zod",
     ],
   },
   {
     title: "Mobile Product",
-    level: "Shipped apps",
+    level: "Pre-release product work",
     focus:
-      "Cross-platform mobile flows, custom animation, Firebase-backed features and native iOS surfaces.",
-    evidence: "React Native, Expo and Swift work from remote product teams.",
+      "Cross-platform mobile screens, custom animation, Firebase-backed features and native iOS surfaces.",
+    evidence: "React Native, Expo and Swift work on company products that have not been publicly released yet.",
     accent: "cyan",
     items: [
       "React Native",
@@ -69,7 +68,7 @@ export const skillGroups = [
     level: "Backend layer",
     focus:
       "REST and WebSocket services, database-backed workflows, auth and real-time product infrastructure.",
-    evidence: "AION, xSwap V2, Trade Analyzer and XEngine backends.",
+    evidence: "Used for full-stack web apps, dashboards, AION, xSwap V2 and Trade Analyzer.",
     accent: "amber",
     items: [
       "Node.js",
@@ -82,16 +81,13 @@ export const skillGroups = [
       "Redis",
       "MongoDB",
       "JWT Auth",
-      "Rust",
-      "axum",
-      "tokio",
     ],
   },
   {
-    title: "Blockchain Systems",
-    level: "Protocol work",
+    title: "Blockchain Experience",
+    level: "Secondary experience",
     focus:
-      "Sui Move modules, Solidity contracts, wallet UX, on-chain verification and decentralized storage.",
+      "Sui Move modules, Solidity contracts, wallet-connected frontends and decentralized storage.",
     evidence: "SuiGit, Port6, Arbitrage, xSwap V2 and Move workshops.",
     accent: "rose",
     items: [
@@ -108,19 +104,18 @@ export const skillGroups = [
     ],
   },
   {
-    title: "AI & Automation",
-    level: "Workflow layer",
+    title: "AI Tooling & Automation",
+    level: "Developer workflow",
     focus:
-      "Multi-model routing, LLM-assisted decision flows, market analysis bots and custom MCP integrations.",
-    evidence: "AION, Trade Analyzer and local AI-augmented development tooling.",
+      "Using LLM APIs and AI tools to speed up implementation, prototyping, analysis and automation workflows.",
+    evidence: "AION, Trade Analyzer and local AI-assisted development tooling. Not model training or AI research.",
     accent: "violet",
     items: [
       "OpenAI APIs",
       "Claude APIs",
       "Gemini APIs",
-      "Multi-LLM Workflows",
+      "LLM API Integration",
       "MCP",
-      "Data Pipelines",
       "Telegram Bots",
       "grammY",
     ],
@@ -139,6 +134,7 @@ export const skillGroups = [
       "Vercel",
       "Git",
       "CI/CD",
+      "Rust (learning)",
     ],
   },
 ] satisfies readonly SkillGroup[];

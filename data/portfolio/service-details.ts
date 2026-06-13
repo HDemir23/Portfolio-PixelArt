@@ -2,27 +2,27 @@ export const serviceDetails = [
   {
     title: "Web Apps",
     description:
-      "React and Next.js applications, dashboards, admin panels and internal tools with reusable components and clean API integration.",
+      "React and Next.js applications, dashboards, admin panels and internal tools with reusable UI, responsive layouts and clean API integration.",
   },
   {
-    title: "Mobile Apps",
+    title: "Mobile App Work",
     description:
-      "React Native, Expo, Swift and SwiftUI product flows with custom animation, offline-first storage and production-oriented build setup.",
+      "React Native, Expo, Swift and SwiftUI product screens, custom animation, Firebase-backed flows and pre-release mobile app implementation.",
   },
   {
-    title: "AI Systems",
+    title: "AI-Assisted Features",
     description:
-      "LLM-powered workflows using OpenAI, Claude and Gemini APIs, multi-model routing, MCP integrations and data pipelines.",
+      "Practical LLM API integrations, AI-assisted product flows, automation helpers and developer workflow tooling without claiming model training or AI research.",
   },
   {
-    title: "Blockchain",
+    title: "Blockchain Integrations",
     description:
-      "Sui Move and Solidity products with smart contracts, wallet-connected frontends, on-chain verification and decentralized storage.",
+      "Secondary experience with Sui Move, Solidity, wallet-connected frontends, smart contracts, on-chain verification and decentralized storage.",
   },
   {
     title: "Backend APIs",
     description:
-      "Node.js, Fastify, Express, Rust and database-backed services with PostgreSQL, MongoDB, Redis, Prisma, Docker and Railway/Vercel deployments.",
+      "Node.js, Fastify, Express and database-backed services with PostgreSQL, MongoDB, Redis, Prisma, Docker and Railway/Vercel deployments.",
   },
   {
     title: "Business Websites",

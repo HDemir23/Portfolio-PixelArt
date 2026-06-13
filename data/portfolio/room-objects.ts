@@ -61,16 +61,16 @@ export const roomObjects: RoomObjectConfig[] = [
       eyebrow: "Main workstation",
       title: "Computer",
       summary:
-        "The main build station for portfolio work, repo reviews and live product links.",
+        "The main build station for frontend work, repo reviews and live product links.",
       description:
-        "A desktop workspace for shipping web apps, checking repositories and keeping live product demos in reach.",
+        "A desktop workspace for shipping React and Next.js web apps, checking repositories and keeping live product demos in reach.",
       stats: [
         { label: "Surface", value: "Projects" },
         { label: "Stack", value: "Next.js" },
         { label: "Mode", value: "Ship" },
       ],
       highlights: [
-        "Selected web, AI and blockchain projects",
+        "Selected frontend, full-stack and web projects",
         "Fast access to live demos and repositories",
         "Terminal-style notes for active engineering work",
       ],
@@ -335,7 +335,7 @@ export const roomObjects: RoomObjectConfig[] = [
       summary:
         "A focused laptop workspace for mobile builds, writing and remote development sessions.",
       description:
-        "A lighter workspace for React Native builds, writing, documentation and async collaboration.",
+        "A lighter workspace for React Native product work, writing, documentation and async collaboration.",
       stats: [
         { label: "Focus", value: "Mobile" },
         { label: "Tools", value: "Expo" },

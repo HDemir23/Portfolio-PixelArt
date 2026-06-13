@@ -1,32 +1,32 @@
 export const projects = [
   {
+    title: "Ev Ankara",
+    description:
+      "Live real-estate website with clean property discovery, responsive pages, fast navigation and a business-ready public presence.",
+    meta: "Business website | Frontend, responsive UI, live deployment",
+    links: [{ label: "Live", href: "https://evankara.org" }],
+  },
+  {
+    title: "Slip.Io",
+    description:
+      "Kitchen display and operations app for a local coffee shop with real-time order tracking and management workflows for baristas.",
+    meta: "Operations app | Next.js, SQL, real-time workflow",
+    links: [{ label: "Live", href: "https://slip-io.vercel.app/" }],
+  },
+  {
     title: "SuiGit",
     description:
-      "First working fully decentralized version control system built on Sui. Repositories, commits, branches and pull requests live on-chain with Walrus decentralized blob storage, wallet-based access control, incremental commits and a TypeScript CLI.",
-    meta: "Flagship project | Move (Sui), TypeScript, Walrus, Node.js CLI",
+      "Fully decentralized version control platform built on Sui. Repositories, commits, branches and pull requests live on-chain with Walrus decentralized storage, wallet-based access control and a TypeScript CLI.",
+    meta: "Blockchain experience | Move (Sui), TypeScript, Walrus, Node.js CLI",
     links: [
       { label: "GitHub", href: "https://github.com/HDemir23/SuigitVol2" },
     ],
   },
   {
-    title: "AION",
-    description:
-      "Multi-LLM consensus platform where Claude, GPT, Gemini and DeepSeek-style models analyze tasks, debate with weighted voting and record verified decisions on-chain with real-time WebSocket updates.",
-    meta: "AI + blockchain | Next.js, Fastify, Solidity, PostgreSQL, Monad",
-    links: [{ label: "GitHub", href: "https://github.com/HDemir23/AION-_" }],
-  },
-  {
-    title: "XEngine",
-    description:
-      "Rust-powered DeFi copilot API server with x402 micropayment-gated endpoints, DEX arbitrage scanning across Monad sources and on-chain payment verification.",
-    meta: "Real-time API | Rust, axum, tokio, Monad, x402",
-    links: [{ label: "GitHub", href: "https://github.com/HDemir23/XEngine" }],
-  },
-  {
     title: "xSwap V2",
     description:
-      "Full-stack DEX aggregator on Monad with Kuru DEX token swapping, wallet connect, portfolio views, transaction history, AI-assisted price optimization and a Sakura-themed UI.",
-    meta: "Exchange aggregator | Next.js, Express, Prisma, PostgreSQL, Monad",
+      "Full-stack exchange aggregator with wallet connect, portfolio views, transaction history, API-backed data flows and a polished Sakura-themed UI.",
+    meta: "Full-stack web app | Next.js, Express, Prisma, PostgreSQL",
     links: [
       { label: "Live", href: "https://x-swap-v2-one.vercel.app" },
       { label: "GitHub", href: "https://github.com/HDemir23/xSwapV2" },
@@ -35,15 +35,15 @@ export const projects = [
   {
     title: "XClaw",
     description:
-      "Full-stack exchange aggregator with wallet connect, portfolio view, transaction history and AI-powered swap routing.",
+      "Full-stack exchange aggregator with wallet connect, portfolio view, transaction history and clean frontend flows.",
     meta: "Exchange aggregator | Next.js, Express, Prisma, PostgreSQL, Tailwind",
     links: [{ label: "Live", href: "https://x-claw-v1.vercel.app/" }],
   },
   {
     title: "Clawaifu",
     description:
-      "Retro-futuristic 3D web experience with character rendering, bone-level animation control, morph targets, x402 micropayment-gated poses and an eDEX-style terminal intro.",
-    meta: "3D interactive web | Next.js, React Three Fiber, Three.js, x402",
+      "Retro-futuristic 3D web experience with character rendering, bone-level animation control, morph targets and an eDEX-style terminal intro.",
+    meta: "3D interactive web | Next.js, React Three Fiber, Three.js",
     links: [
       { label: "Live", href: "https://clawaifu.vercel.app" },
       { label: "GitHub", href: "https://github.com/HDemir23/Clawaifu" },
@@ -52,8 +52,8 @@ export const projects = [
   {
     title: "Trade Analyzer",
     description:
-      "Telegram AI trading bot with GPT-4 and Claude analysis, RSI/MACD/ATR indicators, position tracking, backtesting, price alerts and multi-provider market data.",
-    meta: "AI trading bot | TypeScript, grammY, PostgreSQL, Redis, Docker",
+      "Telegram trading assistant using LLM APIs for analysis support, RSI/MACD/ATR indicators, position tracking, backtesting, price alerts and multi-provider market data.",
+    meta: "Automation bot | TypeScript, grammY, PostgreSQL, Redis, Docker",
     links: [
       {
         label: "GitHub",
@@ -62,11 +62,11 @@ export const projects = [
     ],
   },
   {
-    title: "Slip.Io",
+    title: "AION",
     description:
-      "Kitchen display system for a local coffee shop with real-time order tracking and management workflows for baristas.",
-    meta: "Operations app | Next.js, SQL",
-    links: [{ label: "Live", href: "https://slip-io.vercel.app/" }],
+      "AI-assisted web app prototype that uses multiple LLM APIs for structured task analysis and decision support, with a Next.js frontend and backend services.",
+    meta: "LLM API integration | Next.js, Fastify, PostgreSQL",
+    links: [{ label: "GitHub", href: "https://github.com/HDemir23/AION-_" }],
   },
   {
     title: "Port6",
@@ -92,12 +92,5 @@ export const projects = [
     links: [
       { label: "GitHub", href: "https://github.com/HDemir23/Sui-Workshop" },
     ],
-  },
-  {
-    title: "Ev Ankara",
-    description:
-      "A live real-estate focused website with clean property discovery, fast navigation and a business-ready public presence.",
-    meta: "Live website",
-    links: [{ label: "Live", href: "https://evankara.org" }],
   },
 ];
