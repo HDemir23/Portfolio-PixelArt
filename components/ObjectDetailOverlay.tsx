@@ -9,6 +9,7 @@ import type {
   RoomObjectConfig,
   Scene
 } from "@/data/portfolio/types";
+import { trackEvent } from "@/lib/analytics";
 
 type PanelScene = Exclude<Scene, "room">;
 
@@ -123,6 +124,37 @@ const objectToneClasses: Record<
     tone: "red",
   },
 };
+
+function isContactHref(href: string) {
+  return href.startsWith("mailto:") || href.startsWith("tel:") || href.includes("wa.me/");
+}
+
+function trackModalActionClick({
+  action,
+  href,
+  objectLabel,
+}: {
+  action: string;
+  href: string;
+  objectLabel: string;
+}) {
+  if (isContactHref(href)) {
+    trackEvent("contact_click", {
+      href,
+      method: action,
+      object_label: objectLabel,
+      source: "object_modal",
+    });
+    return;
+  }
+
+  trackEvent("external_link_click", {
+    href,
+    label: action,
+    object_label: objectLabel,
+    source: "object_modal",
+  });
+}
 
 function ObjectDetailOverlay({
   object,
@@ -267,7 +299,11 @@ function ObjectModalLayout({
             <p className="retro-copy text-sm leading-7 text-stone-300 sm:text-[0.95rem]">
               {modal.description}
             </p>
-            <ModalActions actions={modal.actions} onNavigate={onNavigate} />
+            <ModalActions
+              actions={modal.actions}
+              objectLabel={objectLabel}
+              onNavigate={onNavigate}
+            />
           </div>
         </div>
       </section>
@@ -529,9 +565,11 @@ function HighlightList({
 
 function ModalActions({
   actions,
+  objectLabel,
   onNavigate
 }: {
   actions?: ObjectModalAction[];
+  objectLabel: string;
   onNavigate: (scene: PanelScene) => void;
 }) {
   if (!actions?.length) {
@@ -541,7 +579,12 @@ function ModalActions({
   return (
     <div className="mt-4 flex flex-wrap gap-3">
       {actions.map((action) => (
-        <ActionControl key={action.label} action={action} onNavigate={onNavigate}>
+        <ActionControl
+          key={action.label}
+          action={action}
+          objectLabel={objectLabel}
+          onNavigate={onNavigate}
+        >
           {action.label}
         </ActionControl>
       ))}
@@ -551,10 +594,12 @@ function ModalActions({
 
 function ActionControl({
   action,
+  objectLabel,
   onNavigate,
   children
 }: {
   action: ObjectModalAction;
+  objectLabel: string;
   onNavigate: (scene: PanelScene) => void;
   children: ReactNode;
 }) {
@@ -576,13 +621,19 @@ function ActionControl({
     return null;
   }
 
-  const opensNewTab = action.href.startsWith("http");
+  const href = action.href;
+  const opensNewTab = href.startsWith("http");
 
   return (
     <a
-      href={action.href}
+      href={href}
       target={opensNewTab ? "_blank" : undefined}
       rel={opensNewTab ? "noreferrer" : undefined}
+      onClick={() => trackModalActionClick({
+        action: action.label,
+        href,
+        objectLabel,
+      })}
       className={className}
     >
       {children}

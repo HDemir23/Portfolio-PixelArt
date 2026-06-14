@@ -7,6 +7,7 @@ import WelcomeScreen from "@/components/WelcomeScreen";
 import { roomObjects } from "@/data/portfolio/room-objects";
 import type { RoomObjectConfig, Scene } from "@/data/portfolio/types";
 import { useBackgroundMusic } from "@/components/useBackgroundMusic";
+import { trackEvent } from "@/lib/analytics";
 
 const InteractiveRoom = dynamic(() => import("@/components/InteractiveRoom"), {
   ssr: false,
@@ -134,6 +135,9 @@ export default function Home() {
       return;
     }
 
+    trackEvent("studio_enter", {
+      source: "welcome",
+    });
     void startMusic();
     setIsEntering(true);
 
@@ -177,6 +181,13 @@ export default function Home() {
     }
 
     if (object.modal) {
+      trackEvent("object_open", {
+        object_id: object.id,
+        object_label: object.label,
+        object_kind: object.modal.kind,
+        source: "room_object",
+      });
+
       const historyState = (window.history.state ?? {}) as StudioHistoryState;
 
       window.history.pushState(
@@ -196,6 +207,13 @@ export default function Home() {
     }
 
     if (object.externalUrl) {
+      trackEvent("external_link_click", {
+        href: object.externalUrl,
+        label: object.label,
+        object_id: object.id,
+        source: "room_object",
+      });
+
       const openedWindow = window.open(object.externalUrl, "_blank", "noopener,noreferrer");
       if (openedWindow) {
         openedWindow.opener = null;
@@ -204,12 +222,27 @@ export default function Home() {
     }
 
     if (object.targetScene) {
+      trackEvent("scene_open", {
+        scene: object.targetScene,
+        object_id: object.id,
+        object_label: object.label,
+        source: "room_object",
+      });
       setFocusedObjectId(object.id);
       setScene(object.targetScene);
     }
   }, [handleBack, toggleMusic]);
 
   const handleSceneNavigate = useCallback((nextScene: Exclude<Scene, "room">) => {
+    trackEvent("scene_open", {
+      scene: nextScene,
+      source: selectedObjectIdRef.current
+        ? "object_modal"
+        : scene === "menu"
+          ? "menu"
+          : "panel_navigation",
+    });
+
     const historyState = window.history.state as StudioHistoryState | null;
 
     if (selectedObjectIdRef.current && historyState?.studioModalId) {
@@ -227,7 +260,7 @@ export default function Home() {
     const nextObject = roomObjectByScene.get(nextScene);
     setFocusedObjectId(nextObject?.id ?? null);
     setScene(nextScene);
-  }, [closeObjectDetail]);
+  }, [closeObjectDetail, scene]);
 
   return (
     <main className="app-shell bg-[#120d0b] text-stone-100">

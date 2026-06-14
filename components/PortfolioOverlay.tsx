@@ -15,6 +15,7 @@ import {
   type SkillGroup,
 } from "@/data/portfolio/skills";
 import type { Scene } from "@/data/portfolio/types";
+import { trackEvent } from "@/lib/analytics";
 
 type PanelScene = Exclude<Scene, "room">;
 
@@ -72,6 +73,62 @@ const panelShellClasses: Record<PanelScene, string> = {
   about: "max-w-5xl border-ember/70",
   menu: "max-w-4xl border-stone-400/55"
 };
+
+function trackExternalLinkClick({
+  href,
+  label,
+  source,
+  project,
+}: {
+  href: string;
+  label: string;
+  source: string;
+  project?: string;
+}) {
+  trackEvent("external_link_click", {
+    href,
+    label,
+    project,
+    source,
+  });
+}
+
+function trackProjectLinkClick({
+  href,
+  label,
+  project,
+}: {
+  href: string;
+  label: string;
+  project: string;
+}) {
+  trackEvent("portfolio_project_click", {
+    href,
+    label,
+    project,
+    source: "projects_panel",
+  });
+  trackExternalLinkClick({
+    href,
+    label,
+    project,
+    source: "projects_panel",
+  });
+}
+
+function trackContactLinkClick({
+  href,
+  method,
+}: {
+  href: string;
+  method: string;
+}) {
+  trackEvent("contact_click", {
+    href,
+    method,
+    source: "contact_panel",
+  });
+}
 
 function PortfolioOverlay({
   scene,
@@ -178,11 +235,14 @@ function MenuPanel({ onNavigate }: { onNavigate: (scene: PanelScene) => void }) 
         <MenuButton onClick={() => onNavigate("about")}>About</MenuButton>
         <MenuButton onClick={() => onNavigate("contact")}>Contact</MenuButton>
         <MenuButton onClick={() => onNavigate("services")}>Services</MenuButton>
-        <MenuLink href="https://evankara.org">Ev Ankara</MenuLink>
-        <MenuLink href={profile.portfolio}>Portfolio</MenuLink>
-        <MenuLink href={profile.github}>GitHub</MenuLink>
-        <MenuLink href={profile.linkedin}>LinkedIn</MenuLink>
-        <MenuLink href="https://www.youtube.com/watch?v=X4VbdwhkE10">
+        <MenuLink href="https://evankara.org" label="Ev Ankara">Ev Ankara</MenuLink>
+        <MenuLink href={profile.portfolio} label="Portfolio">Portfolio</MenuLink>
+        <MenuLink href={profile.github} label="GitHub">GitHub</MenuLink>
+        <MenuLink href={profile.linkedin} label="LinkedIn">LinkedIn</MenuLink>
+        <MenuLink
+          href="https://www.youtube.com/watch?v=X4VbdwhkE10"
+          label="YouTube"
+        >
           YouTube
         </MenuLink>
       </div>
@@ -267,6 +327,11 @@ function ProjectLinks({ project }: { project: (typeof projects)[number] }) {
           href={link.href}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackProjectLinkClick({
+            href: link.href,
+            label: link.label,
+            project: project.title,
+          })}
           className="retro-action inline-flex items-center border border-terminal/35 bg-terminal/10 px-3 py-2 font-mono text-[0.68rem] font-black uppercase text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
         >
           {link.label}
@@ -508,7 +573,7 @@ function ContactPanel() {
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {contactLinks.map((link) => (
-            <ContactButton key={link.label} href={link.href}>
+            <ContactButton key={link.label} href={link.href} label={link.label}>
               {link.label}
             </ContactButton>
           ))}
@@ -577,9 +642,11 @@ function BulletList({
 
 function ContactButton({
   href,
+  label,
   children
 }: {
   href: string;
+  label: string;
   children: React.ReactNode;
 }) {
   const opensNewTab = href.startsWith("http");
@@ -589,6 +656,10 @@ function ContactButton({
       href={href}
       target={opensNewTab ? "_blank" : undefined}
       rel={opensNewTab ? "noreferrer" : undefined}
+      onClick={() => trackContactLinkClick({
+        href,
+        method: label,
+      })}
       className="retro-action border border-ember/45 bg-ember/12 px-4 py-3 text-center font-mono text-sm font-black uppercase text-ember transition hover:bg-ember hover:text-ink focus:outline-none focus:ring-4 focus:ring-ember/35"
     >
       {children}
@@ -616,9 +687,11 @@ function MenuButton({
 
 function MenuLink({
   href,
+  label,
   children
 }: {
   href: string;
+  label: string;
   children: React.ReactNode;
 }) {
   return (
@@ -626,6 +699,11 @@ function MenuLink({
       href={href}
       target="_blank"
       rel="noreferrer"
+      onClick={() => trackExternalLinkClick({
+        href,
+        label,
+        source: "menu_panel",
+      })}
       className="retro-action border border-terminal/35 bg-terminal/10 px-4 py-3 font-mono text-sm font-black uppercase text-terminal transition hover:bg-terminal hover:text-ink focus:outline-none focus:ring-4 focus:ring-terminal/25"
     >
       {children}
