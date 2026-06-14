@@ -1,4 +1,5 @@
 import { asset2Layer, layer } from "./assets";
+import { profile } from "./profile";
 import type { RoomObjectConfig } from "./types";
 
 export const roomObjects: RoomObjectConfig[] = [
@@ -237,6 +238,16 @@ export const roomObjects: RoomObjectConfig[] = [
         "Personal context alongside the technical portfolio",
       ],
     },
+  },
+  {
+    id: "profile-head",
+    label: "LinkedIn",
+    image: "/head.png",
+    position: { left: 96, top: 91.6 },
+    externalUrl: profile.linkedin,
+    width: 8,
+    zIndex: 15,
+    baseVisible: true,
   },
   {
     id: "books-shelf",
