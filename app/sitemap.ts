@@ -10,5 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: `${siteUrl}/vitadraft/privacy`,
+      lastModified: new Date("2026-07-13"),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
   ];
 }
