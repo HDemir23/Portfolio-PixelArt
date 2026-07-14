@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import CookieNotice from "@/components/CookieNotice";
 import { profile } from "@/data/portfolio/profile";
+import { siteConfig } from "@/data/portfolio/site";
 import "./globals.css";
 
 const pixelifySans = localFont({
@@ -13,19 +14,16 @@ const pixelifySans = localFont({
   display: "swap",
 });
 
-const siteUrl = "https://hakandemir.com.tr";
-const siteDescription =
-  "Interactive pixel-art portfolio for A.Hakan Demir, a frontend-focused software engineer building React, Next.js, TypeScript and full-stack web apps.";
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hakandemir.com.tr"),
-  applicationName: "A.Hakan Demir Portfolio",
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
   title: {
-    default: "A.Hakan Demir | Software Engineer",
+    default: siteConfig.title,
     template: "%s | A.Hakan Demir"
   },
-  description: siteDescription,
+  description: siteConfig.description,
   keywords: [
     "A.Hakan Demir",
     "Ahmet Hakan Demir",
@@ -41,33 +39,49 @@ export const metadata: Metadata = {
     "Sui Move",
     "AI-assisted workflows",
   ],
-  authors: [{ name: profile.name, url: siteUrl }],
+  authors: [{ name: profile.name, url: siteConfig.url }],
   creator: "A.Hakan Demir",
   publisher: "A.Hakan Demir",
+  manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/brand/hd-logo-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/brand/hd-logo-180.png", type: "image/png", sizes: "180x180" },
+    ],
+  },
   openGraph: {
-    title: "A.Hakan Demir | Software Engineer",
-    description: siteDescription,
-    url: siteUrl,
-    siteName: "A.Hakan Demir Portfolio",
-    locale: "en_US",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
     type: "website",
     images: [
       {
-        url: "/WB/Background.png",
-        width: 2816,
-        height: 1536,
-        alt: "A.Hakan Demir interactive pixel-art studio portfolio",
+        url: siteConfig.socialImage,
+        width: 1200,
+        height: 630,
+        alt: "A.Hakan Demir — frontend-focused software engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "A.Hakan Demir | Software Engineer",
-    description: siteDescription,
-    images: ["/WB/Background.png"],
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.socialImage],
+  },
+  appleWebApp: {
+    capable: true,
+    title: siteConfig.shortName,
+    statusBarStyle: "black-translucent",
   },
   category: "portfolio",
   robots: {
@@ -100,18 +114,19 @@ const structuredData = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": `${siteUrl}/#person`,
+      "@id": `${siteConfig.url}/#person`,
       name: profile.name,
       alternateName: profile.shortName,
       jobTitle: profile.title,
       email: profile.email,
       telephone: profile.phone,
+      image: `${siteConfig.url}/brand/hd-logo-512.png`,
       address: {
         "@type": "PostalAddress",
         addressLocality: "Ankara",
         addressCountry: "TR",
       },
-      url: siteUrl,
+      url: siteConfig.url,
       sameAs: [profile.github, profile.linkedin],
       knowsAbout: [
         "Frontend engineering",
@@ -127,12 +142,33 @@ const structuredData = {
     },
     {
       "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: "A.Hakan Demir Portfolio",
-      description: siteDescription,
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      description: siteConfig.description,
+      inLanguage: siteConfig.language,
       publisher: {
-        "@id": `${siteUrl}/#person`,
+        "@id": `${siteConfig.url}/#person`,
+      },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${siteConfig.url}/#webpage`,
+      url: siteConfig.url,
+      name: siteConfig.title,
+      description: siteConfig.description,
+      inLanguage: siteConfig.language,
+      isPartOf: {
+        "@id": `${siteConfig.url}/#website`,
+      },
+      mainEntity: {
+        "@id": `${siteConfig.url}/#person`,
+      },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/opengraph-image`,
+        width: 1200,
+        height: 630,
       },
     },
   ],
@@ -144,7 +180,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang={siteConfig.language}>
       <body className={`${pixelifySans.variable} ${pixelifySans.className}`}>
         {gtmId ? (
           <>

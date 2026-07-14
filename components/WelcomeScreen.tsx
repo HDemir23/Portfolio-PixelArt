@@ -15,19 +15,19 @@ const welcomeVariants: Variants = {
   initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.6, ease: "easeOut" },
   },
   exit: {
     opacity: 0,
     scale: 0.98,
-    transition: { duration: 0.45, ease: "easeInOut" }
-  }
+    transition: { duration: 0.45, ease: "easeInOut" },
+  },
 };
 
 export default function WelcomeScreen({
   onEnter,
   onPreload,
-  isEntering
+  isEntering,
 }: WelcomeScreenProps) {
   return (
     <motion.section
