@@ -222,7 +222,7 @@ function InteractiveRoom({
   }, [isMusicOn, scene]);
 
   const isObjectFocused = Boolean(focusedObjectId);
-  const showCue = scene === "room" && !isObjectFocused;
+  const showHighlights = scene === "room" && !isObjectFocused;
   const focusedRenderId = focusedObject?.id;
   const roomStyle = useMemo(
     () => ({
@@ -240,11 +240,11 @@ function InteractiveRoom({
           key={object.id}
           object={object}
           isFocused={focusedRenderId === object.id}
-          showCue={showCue}
+          showHighlight={showHighlights}
           controlState={getControlState(object)}
         />
       )),
-    [focusedRenderId, getControlState, showCue]
+    [focusedRenderId, getControlState, showHighlights]
   );
 
   const roomObjectNodes = useMemo(
@@ -254,12 +254,12 @@ function InteractiveRoom({
           key={object.id}
           object={object}
           isFocused={focusedRenderId === object.id}
-          showCue={showCue}
+          showHighlight={showHighlights}
           controlState={getControlState(object)}
           onSelect={onObjectSelect}
         />
       )),
-    [focusedRenderId, getControlState, onObjectSelect, showCue]
+    [focusedRenderId, getControlState, onObjectSelect, showHighlights]
   );
 
   return (

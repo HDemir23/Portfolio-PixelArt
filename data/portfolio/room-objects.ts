@@ -21,7 +21,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 3.44,
     zIndex: 12,
     zoom: { scale: 1.3, x: "19%", y: "9%" },
-    cue: "left",
+    highlight: "default",
     shortcutGroup: "contact",
   },
   {
@@ -33,7 +33,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 3.3,
     zIndex: 12,
     zoom: { scale: 1.3, x: "16%", y: "9%" },
-    cue: "right",
+    highlight: "default",
   },
   {
     id: "folder",
@@ -44,7 +44,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 2.84,
     zIndex: 13,
     zoom: { scale: 1.3, x: "17%", y: "14%" },
-    cue: "right",
+    highlight: "default",
     shortcutGroup: "experience",
   },
   {
@@ -55,7 +55,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 22.41,
     zIndex: 10,
     zoom: { scale: 1.22, x: "11%", y: "4%" },
-    cue: "top",
+    highlight: "default",
     shortcutGroup: "portfolio",
     modal: {
       kind: "computer",
@@ -135,7 +135,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 4.23,
     zIndex: 12,
     zoom: { scale: 1.28, x: "18%", y: "12%" },
-    cue: "bottom",
+    highlight: "default",
     shortcutGroup: "portfolio",
   },
   {
@@ -147,7 +147,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 15.16,
     zIndex: 12,
     zoom: { scale: 1.18, x: "-2%", y: "-7%" },
-    cue: "top",
+    highlight: "default",
     shortcutGroup: "services",
   },
   {
@@ -258,7 +258,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 11.51,
     zIndex: 13,
     zoom: { scale: 1.2, x: "-15%", y: "0%" },
-    cue: "left",
+    highlight: "subtle",
     shortcutGroup: "skills",
     mobileLabel: "Skills",
   },
@@ -338,7 +338,7 @@ export const roomObjects: RoomObjectConfig[] = [
     width: 7.56,
     zIndex: 12,
     zoom: { scale: 1.28, x: "6%", y: "2%" },
-    cue: "bottom",
+    highlight: "default",
     modal: {
       kind: "mac",
       eyebrow: "Portable workspace",

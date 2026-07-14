@@ -8,7 +8,7 @@ type RoomObjectProps = {
   object: RoomObjectConfig;
   onSelect?: (object: RoomObjectConfig) => void;
   isFocused?: boolean;
-  showCue?: boolean;
+  showHighlight?: boolean;
   controlState?: "active" | "on" | "off";
 };
 
@@ -23,7 +23,7 @@ function RoomObject({
   object,
   onSelect,
   isFocused = false,
-  showCue = false,
+  showHighlight = false,
   controlState,
 }: RoomObjectProps) {
   const isInteractive = Boolean(
@@ -56,7 +56,7 @@ function RoomObject({
   const imageClasses = useMemo(
     () =>
       [
-        "pixel-art room-object-image block w-full select-none",
+        "pixel-art room-object-image relative z-[1] block w-full select-none",
         object.baseVisible ? "is-visible" : "",
       ]
         .filter(Boolean)
@@ -87,13 +87,21 @@ function RoomObject({
         data-object-id={object.id}
         data-focused={isFocused ? "true" : undefined}
         data-static={object.baseVisible ? "true" : undefined}
-        data-cue={object.cue ?? "top"}
+        data-highlight={object.highlight}
         data-control-state={controlState}
         whileHover={isInteractive ? objectVariants.hover : undefined}
         whileTap={isInteractive ? objectVariants.tap : undefined}
       >
-        {showCue && isInteractive && object.cue ? (
-          <span className="click-cue" aria-hidden="true" />
+        {showHighlight && isInteractive && object.highlight && object.image ? (
+          <img
+            src={object.image}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            loading="eager"
+            decoding="async"
+            className="pixel-art object-highlight-image pointer-events-none absolute inset-0 block w-full select-none"
+          />
         ) : null}
 
         {object.hotspotOnly ? (

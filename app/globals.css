@@ -274,67 +274,32 @@ a {
   line-height: 1.25;
 }
 
-.click-cue {
-  position: absolute;
-  z-index: 3;
-  width: clamp(0.8rem, 1.25vw, 1.3rem);
-  height: clamp(0.8rem, 1.25vw, 1.3rem);
-  pointer-events: none;
-  filter: drop-shadow(0 0 0.45rem rgba(111, 239, 255, 0.7));
-  animation: click-cue-pulse 1.45s ease-in-out infinite;
+.object-highlight-image {
+  z-index: 0;
+  --object-highlight-low: 0.34;
+  --object-highlight-high: 0.53;
+  opacity: var(--object-highlight-high);
+  filter: brightness(1.42) sepia(0.58) saturate(1.62)
+    drop-shadow(0 0 2px rgba(255, 224, 132, 1))
+    drop-shadow(0 0 6px rgba(255, 190, 61, 0.78))
+    drop-shadow(0 0 12px rgba(255, 164, 36, 0.4));
+  animation: object-highlight-breathe 1.3s ease-in-out infinite;
+  transition: opacity 180ms ease;
 }
 
-.click-cue::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #75f4ff;
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
+.room-object[data-highlight="subtle"] .object-highlight-image {
+  --object-highlight-low: 0.22;
+  --object-highlight-high: 0.64;
+  filter: brightness(1.24) sepia(0.42) saturate(1.38)
+    drop-shadow(0 0 2px rgba(255, 224, 132, 0.7))
+    drop-shadow(0 0 5px rgba(255, 190, 61, 0.4))
+    drop-shadow(0 0 9px rgba(255, 164, 36, 0.2));
 }
 
-.room-object[data-cue="top"] .click-cue {
-  left: 50%;
-  top: -1.35rem;
-  transform: translateX(-50%);
-}
-
-.room-object[data-cue="bottom"] .click-cue {
-  bottom: -1.35rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.room-object[data-cue="bottom"] .click-cue::before {
-  clip-path: polygon(50% 0, 0 100%, 100% 100%);
-}
-
-.room-object[data-cue="left"] .click-cue {
-  left: -1.35rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.room-object[data-object-id="books-shelf"][data-cue="left"] .click-cue {
-  top: 13%;
-}
-
-.room-object[data-cue="left"] .click-cue::before {
-  clip-path: polygon(100% 50%, 0 0, 0 100%);
-}
-
-.room-object[data-cue="right"] .click-cue {
-  right: -1.35rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.room-object[data-cue="right"] .click-cue::before {
-  clip-path: polygon(0 50%, 100% 0, 100% 100%);
-}
-
-.room-object:hover .click-cue,
-.room-object:focus-visible .click-cue {
-  opacity: 0;
+.room-object:hover .object-highlight-image,
+.room-object:focus-visible .object-highlight-image {
+  animation: none;
+  opacity: 0.08;
 }
 
 .room-object:focus-visible .object-label,
@@ -598,14 +563,15 @@ a {
   }
 }
 
-@keyframes click-cue-pulse {
+@keyframes object-highlight-breathe {
   0%,
   100% {
-    opacity: 0.58;
+    opacity: var(--object-highlight-low);
   }
 
+  42%,
   50% {
-    opacity: 1;
+    opacity: var(--object-highlight-high);
   }
 }
 
@@ -701,11 +667,6 @@ a {
       min-width: calc(100dvh * 2816 / 1536);
       height: 100dvh;
     }
-  }
-
-  .click-cue {
-    width: 0.85rem;
-    height: 0.85rem;
   }
 
   .object-label {

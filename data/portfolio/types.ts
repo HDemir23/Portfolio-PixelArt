@@ -57,7 +57,7 @@ export type RoomObjectConfig = {
   zoom?: RoomZoom;
   baseVisible?: boolean;
   hotspotOnly?: boolean;
-  cue?: "top" | "right" | "bottom" | "left";
+  highlight?: "default" | "subtle";
   shortcutGroup?: string;
   mobileLabel?: string;
   modal?: ObjectModalConfig;
