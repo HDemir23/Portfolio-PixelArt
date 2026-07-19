@@ -1,47 +1,26 @@
-.form {
-  display: grid;
+.requestActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
-  margin-top: 1.6rem;
-  border: 1px solid rgba(182, 167, 255, 0.2);
+  margin-block: 1.6rem;
+  border: 1px solid rgba(180, 190, 235, 0.24);
   border-radius: 1rem;
-  padding: clamp(1.15rem, 4vw, 1.6rem);
+  padding: clamp(1.1rem, 4vw, 1.5rem);
   background: rgba(13, 16, 31, 0.72);
 }
 
-.field {
-  display: grid;
-  gap: 0.5rem;
-  color: #f8f9ff;
+.requestActions > span {
+  flex: 1 1 15rem;
+  color: #9aa5c7;
   font-size: 0.84rem;
-  font-weight: 750;
 }
 
-.field input {
-  width: 100%;
-  border: 1px solid rgba(180, 190, 235, 0.24);
-  border-radius: 0.72rem;
-  padding: 0.85rem 0.95rem;
-  color: #f8f9ff;
-  background: #0d101f;
-  font: inherit;
-  font-size: 1rem;
-  font-weight: 500;
-  outline: none;
-  transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.field input::placeholder {
-  color: #7782a4;
-}
-
-.field input:focus {
-  border-color: #b6a7ff;
-  box-shadow: 0 0 0 3px rgba(182, 167, 255, 0.13);
-}
-
-.form button {
+.requestButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
   min-height: 3rem;
   border: 1px solid rgba(211, 201, 255, 0.38);
   border-radius: 0.72rem;
@@ -52,65 +31,32 @@
   font: inherit;
   font-size: 0.9rem;
   font-weight: 800;
-  cursor: pointer;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
   transition:
     filter 160ms ease,
     transform 160ms ease;
 }
 
-.form button:hover {
+.requestButton:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
 }
 
-.form button:focus-visible {
+.requestButton:focus-visible {
   outline: 2px solid #d3c9ff;
   outline-offset: 3px;
 }
 
-.honeypot {
-  position: fixed;
-  left: -100vw;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.formNote {
-  color: #9aa5c7;
-  font-size: 0.82rem;
-}
-
-.successMessage,
-.errorMessage {
+.requestSteps {
   display: grid;
-  gap: 0.3rem;
-  margin-top: 1.4rem;
-  border: 1px solid;
-  border-radius: 0.9rem;
-  padding: 1rem 1.1rem;
-}
-
-.successMessage {
-  border-color: rgba(98, 219, 155, 0.34);
-  color: #c9f7dd;
-  background: rgba(40, 130, 82, 0.13);
-}
-
-.errorMessage {
-  border-color: rgba(255, 135, 151, 0.36);
-  color: #ffd5dc;
-  background: rgba(160, 50, 70, 0.13);
-}
-
-.successMessage strong,
-.errorMessage strong {
-  color: inherit;
+  gap: 0.65rem;
+  padding-left: 1.4rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .field input,
-  .form button {
+  .requestButton {
     transition: none;
   }
 }

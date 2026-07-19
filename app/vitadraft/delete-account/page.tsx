@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../privacy/page.module.css";
-import formStyles from "./page.module.css";
+import accountStyles from "./page.module.css";
 
 const supportEmail = "a.hakandemir23@gmail.com";
+const deletionRequestSubject = "VitaDraft Account Deletion Request";
+const deletionRequestBody = [
+  "Hello,",
+  "",
+  "Please permanently delete my VitaDraft account and associated data.",
+  "",
+  "Account email: [enter the email used for VitaDraft]",
+  "Sign-in method: [Apple or Google]",
+  "",
+  "I understand that account deletion is permanent and does not cancel an App Store or Google Play subscription.",
+].join("\n");
+const deletionRequestMailto = `mailto:${supportEmail}?subject=${encodeURIComponent(
+  deletionRequestSubject,
+)}&body=${encodeURIComponent(deletionRequestBody)}`;
 
 const sections = [
   ["request", "Request account deletion"],
@@ -11,10 +25,6 @@ const sections = [
   ["subscriptions", "Store subscriptions"],
   ["other-options", "Other options"],
 ] as const;
-
-type DeleteAccountPageProps = {
-  searchParams: Promise<{ status?: string | string[] }>;
-};
 
 export const metadata: Metadata = {
   title: "Delete Your VitaDraft Account",
@@ -31,12 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function VitaDraftDeleteAccountPage({
-  searchParams,
-}: DeleteAccountPageProps) {
-  const { status: rawStatus } = await searchParams;
-  const status = Array.isArray(rawStatus) ? rawStatus[0] : rawStatus;
-
+export default function VitaDraftDeleteAccountPage() {
   return (
     <main className={styles.page}>
       <div className={styles.glow} aria-hidden="true" />
@@ -87,73 +92,39 @@ export default async function VitaDraftDeleteAccountPage({
             <p>
               You can permanently delete your VitaDraft account in the app from
               <strong> Profile → Delete account permanently</strong>. If you cannot
-              access the app, use the form below.
+              access the app, send us an account deletion request by email below.
             </p>
             <p>
-              We will send a one-time confirmation link to the email associated
-              with your account. The link expires after 30 minutes. Verified
-              requests are processed within seven days.
+              Send the request from the email address associated with your
+              VitaDraft account. We will reply to that address to confirm the
+              request before deletion. Confirmed requests are processed within
+              seven days.
             </p>
           </div>
 
           <section id="request">
             <h2>Request account deletion</h2>
             <p>
-              Enter the email address you used to sign in to VitaDraft. For your
-              privacy, the response will not confirm whether an account exists for
-              that address.
+              Use the button below to open a pre-filled email. Complete the account
+              email and sign-in method, then send it from the email address you use
+              for VitaDraft. If you signed in with Apple Hide My Email, include your
+              Apple private relay address if you know it.
             </p>
-
-            {status === "accepted" ? (
-              <div className={formStyles.successMessage} role="status">
-                <strong>Request received.</strong>
-                <span>
-                  If an account matches that email, a confirmation link will be
-                  sent shortly. Check your inbox and spam folder.
-                </span>
-              </div>
-            ) : null}
-
-            {status === "error" ? (
-              <div className={formStyles.errorMessage} role="alert">
-                <strong>We could not submit the request.</strong>
-                <span>
-                  Please try again shortly or email{" "}
-                  <a href={`mailto:${supportEmail}`}>{supportEmail}</a>.
-                </span>
-              </div>
-            ) : null}
-
-            <form
-              className={formStyles.form}
-              action="/vitadraft/delete-account/request"
-              method="post"
-            >
-              <label className={formStyles.field}>
-                <span>Email address</span>
-                <input
-                  name="email"
-                  type="email"
-                  inputMode="email"
-                  autoComplete="email"
-                  maxLength={320}
-                  placeholder="you@example.com"
-                  required
-                />
-              </label>
-
-              <label className={formStyles.honeypot} aria-hidden="true">
-                Website
-                <input name="website" type="text" tabIndex={-1} autoComplete="off" />
-              </label>
-
-              <button type="submit">Send confirmation link</button>
-            </form>
-
-            <p className={formStyles.formNote}>
-              Do not submit another person&apos;s email address. The confirmation step
-              is required before deletion begins.
-            </p>
+            <div className={accountStyles.requestActions}>
+              <a className={accountStyles.requestButton} href={deletionRequestMailto}>
+                Email account deletion request
+              </a>
+              <span>
+                Or email <a href={`mailto:${supportEmail}`}>{supportEmail}</a> with
+                the subject &quot;{deletionRequestSubject}.&quot;
+              </span>
+            </div>
+            <ol className={accountStyles.requestSteps}>
+              <li>Send the request from the email linked to your VitaDraft account.</li>
+              <li>Do not send your password, resume, identity document, or payment information.</li>
+              <li>Reply to our confirmation email to confirm permanent deletion.</li>
+              <li>We will complete the confirmed request within seven days.</li>
+            </ol>
           </section>
 
           <section id="deleted-data">
