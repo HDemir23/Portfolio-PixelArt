@@ -15,5 +15,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.6,
     },
+    {
+      url: `${siteConfig.url}/vitadraft/terms`,
+      lastModified: new Date("2026-07-19"),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
+    {
+      url: `${siteConfig.url}/vitadraft/delete-account`,
+      lastModified: new Date("2026-07-19"),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
   ];
 }
